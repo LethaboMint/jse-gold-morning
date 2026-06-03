@@ -175,6 +175,15 @@ tr:last-child td { border-bottom: none; }
 
 .forecast-cell { font-weight: 600; font-variant-numeric: tabular-nums; }
 
+.contrib { font-variant-numeric: tabular-nums; font-size: 0.85rem; }
+.contrib.up { color: var(--long); }
+.contrib.down { color: var(--short); }
+
+.filter-note { font-size: 0.78rem; color: var(--muted); max-width: 12rem; }
+
+.drivers-line { margin: 0; font-size: 0.9rem; }
+.drivers.panel { padding: 0.85rem 1.1rem; margin-bottom: 1rem; }
+
 .sig {
   display: inline-block;
   min-width: 4.2rem;

@@ -1,7 +1,7 @@
 {
-  "rules": "production",
+  "rules": "dashboard",
   "min_pred": 0.0,
   "skip_duplicate_same_day": true,
   "write_latest_snapshot": true,
-  "comment": "production = walk-forward rules (conservative). Alternatives: research, high_conviction, none"
+  "comment": "dashboard = GDX-up + |forecast|>=0.5% for HiConv. production = walk-forward (often FLAT when gold up)."
 }

@@ -1,0 +1,31 @@
+{
+  "miners": {
+    "HAR": {
+      "regime": "gdx_up",
+      "filter": { "kg": 0.0, "kx": 0.005, "kz": 0.0, "pred_abs_gte": 0.005 }
+    },
+    "GFI": {
+      "regime": "gdx_up",
+      "filter": { "kg": 0.0, "kx": 0.005, "kz": 0.0, "pred_abs_gte": 0.005 }
+    },
+    "ANG": {
+      "regime": "gdx_up",
+      "filter": { "kg": 0.0, "kx": 0.005, "kz": 0.0, "pred_abs_gte": 0.005 }
+    },
+    "DRD": {
+      "regime": "gdx_up",
+      "filter": { "kg": 0.0, "kx": 0.005, "kz": 0.0, "pred_abs_gte": 0.005 }
+    },
+    "PAN": {
+      "regime": "gdx_up",
+      "filter": { "kg": 0.0, "kx": 0.005, "kz": 0.0, "pred_abs_gte": 0.005 }
+    },
+    "SSW": {
+      "regime": "gdx_up",
+      "filter": { "kg": 0.0, "kx": 0.005, "kz": 0.0, "pred_abs_gte": 0.005 }
+    }
+  },
+  "meta": {
+    "note": "Aligned for US-close review: GDX up + |forecast| >= 0.5%. OLS coeffs still fit from history."
+  }
+}

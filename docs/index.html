@@ -30,9 +30,10 @@
     <section class="miners-quotes panel" id="miners-quotes"></section>
 
     <section class="section-head">
-      <h2>Model forecast — next session</h2>
-      <p class="hint">OLS on gold + GDX log returns. <strong>High conv.</strong> = passes production regime filters.</p>
+      <h2>Model forecast — next JSE session</h2>
+      <p class="hint" id="forecast-note">OLS uses <strong>US gold &amp; GDX</strong> today to predict each miner’s <strong>next</strong> log return. Gold→ / GDX→ show each driver’s contribution (β×return).</p>
     </section>
+    <section class="drivers panel" id="drivers"></section>
     <section class="summary" id="summary"></section>
 
     <section class="panel">
@@ -42,9 +43,11 @@
             <tr>
               <th>Miner</th>
               <th>Forecast</th>
-              <th>Base</th>
-              <th>High conv.</th>
-              <th>Regime</th>
+              <th>Gold→</th>
+              <th>GDX→</th>
+              <th>Signal</th>
+              <th>Hi conv.</th>
+              <th>Filter</th>
             </tr>
           </thead>
           <tbody id="forecast-body"></tbody>

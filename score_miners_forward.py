@@ -15,7 +15,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from regime_filters import regime_mask
+from regime_filters import explain_filter, regime_mask
 from yahoo_market import MINERS, YF_MINERS, build_history_panel, build_market_snapshot
 
 ROOT = Path(__file__).resolve().parent
@@ -28,6 +28,7 @@ LATEST_JSON = OUT_DIR / "latest_signals.json"
 LATEST_CSV = OUT_DIR / "latest_signals.csv"
 
 PROD_RULES_PATH = ROOT / "data" / "production_rules.json"
+DASHBOARD_RULES_PATH = ROOT / "data" / "dashboard_rules.json"
 HIGH_CONV_PATH = ROOT / "data" / "high_conviction_rules.json"
 RESEARCH_PATH = ROOT / "data" / "research_best_holdout_rules.json"
 
@@ -70,6 +71,20 @@ def predict_one(coeffs: dict, return_gold_t: float, return_gdx_t: float) -> floa
     return coeffs["alpha"] + coeffs["beta_gold"] * return_gold_t + coeffs["beta_gdx"] * return_gdx_t
 
 
+def decompose_forecast(
+    coeffs: dict, r_gold: float, r_gdx: float
+) -> dict[str, float]:
+    """OLS pieces for dashboard (log-return scale)."""
+    g = coeffs["beta_gold"] * r_gold
+    x = coeffs["beta_gdx"] * r_gdx
+    return {
+        "alpha": coeffs["alpha"],
+        "gold_contrib": g,
+        "gdx_contrib": x,
+        "total": coeffs["alpha"] + g + x,
+    }
+
+
 def load_rules(path: Path) -> dict | None:
     if not path.exists():
         return None
@@ -90,18 +105,17 @@ def high_conv_signal(
     r_gdx: float,
     r_zar: float,
     rule: dict,
-) -> tuple[str, bool]:
+) -> tuple[str, bool, str]:
     flt = rule.get("filter", {})
     regime = rule.get("regime", "any")
     kg = float(flt.get("kg", flt.get("gold_gt", 0.0)) or 0.0)
     kx = float(flt.get("kx", flt.get("gdx_gt", 0.0)) or 0.0)
     kz = float(flt.get("kz", 0.0) or 0.0)
     pmin = float(flt.get("pred_abs_gte", 0.0) or 0.0)
-    if not regime_mask(r_gold, r_gdx, r_zar, regime, kg, kx, kz):
-        return "FLAT", False
-    if abs(pred) < pmin:
-        return "FLAT", False
-    return direction_signal(pred, 0.0), True
+    ok, reason = explain_filter(pred, r_gold, r_gdx, r_zar, regime, kg, kx, kz, pmin)
+    if not ok:
+        return "FLAT", False, reason
+    return direction_signal(pred, 0.0), True, reason
 
 
 def append_log(rows: list[dict], skip_duplicate: bool = False) -> bool:
@@ -131,6 +145,8 @@ def write_latest_snapshot(rows: list[dict], meta: dict, market: dict) -> None:
         "rules_mode": meta.get("rules_mode"),
         "data_source": "yahoo_finance",
         "market": market,
+        "drivers": meta.get("drivers"),
+        "forecast_note": meta.get("forecast_note"),
         "return_gold_t": meta.get("return_gold_t"),
         "return_gdx_t": meta.get("return_gdx_t"),
         "return_zar_t": meta.get("return_zar_t"),
@@ -155,6 +171,7 @@ def run_generation(
 ) -> pd.DataFrame:
     rules_path = {
         "production": PROD_RULES_PATH,
+        "dashboard": DASHBOARD_RULES_PATH,
         "high_conviction": HIGH_CONV_PATH,
         "research": RESEARCH_PATH,
         "none": None,
@@ -208,8 +225,15 @@ def run_generation(
         print(f"Gold {g['ticker']}:  {g['close']} USD  ({g['pct_change']:+.2f}%)" if g.get("pct_change") is not None else f"Gold: {g.get('close')}")
         print(f"GDX  {x['ticker']}:  {x['close']} USD  ({x['pct_change']:+.2f}%)" if x.get("pct_change") is not None else f"GDX: {x.get('close')}")
         print()
-        print(f"{'Miner':<6} {'Price':>10} {'Chg%':>8} {'Pred t+1':>10} {'Base':>7} {'HiConv':>7}")
-        print("-" * 58)
+        print(f"{'Miner':<6} {'Price':>10} {'Chg%':>8} {'Fcst':>8} {'Gold':>7} {'GDX':>7} {'Sig':>6} {'HiC':>6}")
+        print("-" * 68)
+
+    drivers = {
+        "return_gold_t": r_gold,
+        "return_gdx_t": r_gdx,
+        "return_gold_pct": round(r_gold * 100, 2),
+        "return_gdx_pct": round(r_gdx * 100, 2),
+    }
 
     for m in MINERS:
         c = coeffs_all.get(m)
@@ -224,18 +248,23 @@ def run_generation(
             continue
 
         pred = predict_one(c, r_gold, r_gdx)
+        parts = decompose_forecast(c, r_gold, r_gdx)
         sig = direction_signal(pred, min_pred)
         miner_rule = (prod or {}).get("miners", {}).get(m) if prod else None
         if miner_rule:
-            sig_hi, regime_ok = high_conv_signal(pred, r_gold, r_gdx, r_zar, miner_rule)
-            regime_lbl = miner_rule.get("regime", "?") if regime_ok else "-"
+            sig_hi, regime_ok, filter_note = high_conv_signal(pred, r_gold, r_gdx, r_zar, miner_rule)
+            regime_lbl = miner_rule.get("regime", "?") if regime_ok else filter_note
         else:
-            sig_hi, regime_lbl = sig, "n/a"
+            sig_hi, regime_lbl, filter_note = sig, "n/a", "No rules"
 
         if not quiet:
             ps = f"{price:,.2f}" if price is not None else "—"
             cs = f"{chg:+.2f}%" if chg is not None else "—"
-            print(f"{m:<6} {ps:>10} {cs:>8} {pred*100:+9.3f}% {sig:>7} {sig_hi:>7}")
+            print(
+                f"{m:<6} {ps:>10} {cs:>8} {pred*100:+7.2f}% "
+                f"{parts['gold_contrib']*100:+6.2f}% {parts['gdx_contrib']*100:+6.2f}% "
+                f"{sig:>6} {sig_hi:>6}"
+            )
 
         flt = (miner_rule or {}).get("filter", {})
         log_rows.append(
@@ -251,9 +280,12 @@ def run_generation(
                 "return_gdx_t": r_gdx,
                 "return_zar_t": r_zar,
                 "pred_return_miner_t1": pred,
+                "gold_contrib": parts["gold_contrib"],
+                "gdx_contrib": parts["gdx_contrib"],
                 "signal": sig,
                 "signal_high_conv": sig_hi,
                 "regime_pass": regime_lbl,
+                "filter_note": filter_note,
                 "pred_abs_gte": flt.get("pred_abs_gte"),
                 "alpha": c["alpha"],
                 "beta_gold": c["beta_gold"],
@@ -265,6 +297,11 @@ def run_generation(
 
     wrote = append_log(log_rows, skip_duplicate=skip_duplicate)
     if write_latest:
+        meta["drivers"] = drivers
+        meta["forecast_note"] = (
+            "Forecast = next JSE session log-return from OLS(gold, GDX). "
+            "Gold/GDX columns are today's contributions (can be negative even when price rose)."
+        )
         write_latest_snapshot(log_rows, meta, market)
     if not quiet:
         if wrote:
@@ -282,8 +319,8 @@ def main() -> None:
     parser.add_argument("--min-pred", type=float, default=0.0)
     parser.add_argument(
         "--rules",
-        choices=("production", "high_conviction", "research", "none"),
-        default="production",
+        choices=("dashboard", "production", "high_conviction", "research", "none"),
+        default="dashboard",
     )
     parser.add_argument("--write-latest", action="store_true")
     parser.add_argument("--skip-duplicate", action="store_true")

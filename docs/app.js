@@ -81,6 +81,27 @@ function renderSummary(signals) {
   return actionable;
 }
 
+const fmtContrib = (x) => {
+  if (x == null || Number.isNaN(x)) return "—";
+  const v = Number(x) * 100;
+  return (v >= 0 ? "+" : "") + v.toFixed(2) + "%";
+};
+
+function renderDrivers(data) {
+  const el = document.getElementById("drivers");
+  const g = data.drivers || {};
+  const gold = g.return_gold_pct ?? (data.return_gold_t != null ? data.return_gold_t * 100 : null);
+  const gdx = g.return_gdx_pct ?? (data.return_gdx_t != null ? data.return_gdx_t * 100 : null);
+  el.innerHTML = `
+    <p class="drivers-line">US inputs on <strong>${data.signal_date}</strong>:
+      Gold <span class="${pctClass(gold)}">${fmtPct(gold)}</span>,
+      GDX <span class="${pctClass(gdx)}">${fmtPct(gdx)}</span>
+    </p>`;
+  if (data.forecast_note) {
+    document.getElementById("forecast-note").textContent = data.forecast_note;
+  }
+}
+
 function renderForecast(signals) {
   const order = ["HAR", "GFI", "ANG", "DRD", "PAN", "SSW"];
   const by = Object.fromEntries(signals.map((r) => [r.miner, r]));
@@ -88,13 +109,15 @@ function renderForecast(signals) {
     .map((m) => {
       const r = by[m];
       if (!r) return "";
-      const regime = r.regime_pass === "-" || !r.regime_pass ? "—" : r.regime_pass;
+      const note = r.filter_note || r.regime_pass || "—";
       return `<tr>
         <td><span class="miner-code">${m}</span></td>
         <td class="forecast-cell">${fmtPred(r.pred_return_miner_t1)}</td>
+        <td class="contrib ${pctClass(r.gold_contrib)}">${fmtContrib(r.gold_contrib)}</td>
+        <td class="contrib ${pctClass(r.gdx_contrib)}">${fmtContrib(r.gdx_contrib)}</td>
         <td>${sigBadge(r.signal)}</td>
         <td>${sigBadge(r.signal_high_conv)}</td>
-        <td>${regime}</td>
+        <td class="filter-note">${note}</td>
       </tr>`;
     })
     .join("");
@@ -164,6 +187,7 @@ async function main() {
     renderMeta(data);
     renderMacroUs(market);
     renderMinerQuotes(market);
+    renderDrivers(data);
     const actionable = renderSummary(signals);
     renderForecast(signals);
     renderActive(actionable);
