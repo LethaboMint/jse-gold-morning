@@ -1,0 +1,117 @@
+{
+  "miners": {
+    "HAR": {
+      "alpha": 0.00033706681988973023,
+      "beta_gold": -0.812867750641542,
+      "beta_gdx": 0.6890234091809694,
+      "regime": "gold_up_gdx_up",
+      "filter": {
+        "kg": 0.01,
+        "kx": 0.01,
+        "kz": 0.0,
+        "pred_abs_gte": 0.0
+      },
+      "walkforward_hit": 0.7525568181818182,
+      "walkforward_folds": 4,
+      "validation_hit": 0.6052631578947368,
+      "validation_n": 38,
+      "holdout_hit": 0.5975609756097561,
+      "holdout_n": 82
+    },
+    "GFI": {
+      "alpha": 0.0007321593251239754,
+      "beta_gold": -0.7989117723410893,
+      "beta_gdx": 0.6738116329408804,
+      "regime": "gold_down",
+      "filter": {
+        "kg": 0.01,
+        "kx": 0.0,
+        "kz": 0.0,
+        "pred_abs_gte": 0.005
+      },
+      "walkforward_hit": 0.7704545454545455,
+      "walkforward_folds": 3,
+      "validation_hit": 0.6111111111111112,
+      "validation_n": 36,
+      "holdout_hit": 0.6341463414634146,
+      "holdout_n": 41
+    },
+    "ANG": {
+      "alpha": 0.0003620853940262146,
+      "beta_gold": -0.7878012648046308,
+      "beta_gdx": 0.6223146449406166,
+      "regime": "gold_down",
+      "filter": {
+        "kg": 0.01,
+        "kx": 0.0,
+        "kz": 0.0,
+        "pred_abs_gte": 0.005
+      },
+      "walkforward_hit": 0.7596638655462185,
+      "walkforward_folds": 3,
+      "validation_hit": 0.5,
+      "validation_n": 36,
+      "holdout_hit": 0.6585365853658537,
+      "holdout_n": 41
+    },
+    "DRD": {
+      "alpha": 0.00030669471884048154,
+      "beta_gold": -0.6472879975529015,
+      "beta_gdx": 0.5774492905882195,
+      "regime": "gold_up_gdx_up",
+      "filter": {
+        "kg": 0.0,
+        "kx": 0.003,
+        "kz": 0.0,
+        "pred_abs_gte": 0.008
+      },
+      "walkforward_hit": 0.7210194709649315,
+      "walkforward_folds": 7,
+      "validation_hit": 0.6851851851851852,
+      "validation_n": 54,
+      "holdout_hit": 0.6376811594202898,
+      "holdout_n": 69
+    },
+    "PAN": {
+      "alpha": 0.00020347332226725384,
+      "beta_gold": -0.19296628515600073,
+      "beta_gdx": 0.298675501823256,
+      "regime": "gold_up_gdx_up",
+      "filter": {
+        "kg": 0.005,
+        "kx": 0.0,
+        "kz": 0.0,
+        "pred_abs_gte": 0.005
+      },
+      "walkforward_hit": 0.6822638146167558,
+      "walkforward_folds": 3,
+      "validation_hit": 0.5897435897435898,
+      "validation_n": 39,
+      "holdout_hit": 0.6567164179104478,
+      "holdout_n": 67
+    },
+    "SSW": {
+      "alpha": 0.0003869592255015405,
+      "beta_gold": -0.6453187068878132,
+      "beta_gdx": 0.5878654014408825,
+      "regime": "zar_weak",
+      "filter": {
+        "kg": 0.0,
+        "kx": 0.0,
+        "kz": 0.003,
+        "pred_abs_gte": 0.012
+      },
+      "walkforward_hit": 0.7592592592592592,
+      "walkforward_folds": 3,
+      "validation_hit": 0.5384615384615384,
+      "validation_n": 26,
+      "holdout_hit": 0.5862068965517241,
+      "holdout_n": 29
+    }
+  },
+  "meta": {
+    "holdout_start": "2024-03-04",
+    "model": "ols_gold_gdx_regime_wf_selected",
+    "note": "Rule chosen by walk-forward on pre-holdout; holdout is out-of-sample report."
+  }
+}
