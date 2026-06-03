@@ -6,7 +6,7 @@ import shutil
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "data" / "forward_model" / "latest_signals.json"
 DOCS = ROOT / "docs"
 DST = DOCS / "signals.json"

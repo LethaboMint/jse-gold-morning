@@ -3,52 +3,66 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>JSE Gold Miners — Morning Signals</title>
+  <title>JSE Gold Miners — After US Close</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="page">
     <header class="header">
       <div>
-        <p class="eyebrow">Quant research · daily briefing</p>
-        <h1>Morning signals</h1>
-        <p class="subtitle">Next-session direction from same-day gold + GDX (OLS + production filters)</p>
+        <p class="eyebrow">Yahoo Finance · after US close</p>
+        <h1>Gold miners briefing</h1>
+        <p class="subtitle">Today’s gold &amp; GDX prices, JSE miner closes, and the model’s forecast for the <strong>next</strong> miner session.</p>
       </div>
-      <div class="meta" id="meta">
-        <span class="meta-label">Loading…</span>
-      </div>
+      <div class="meta" id="meta"></div>
     </header>
 
-    <section class="macro" id="macro"></section>
+    <section class="section-head">
+      <h2>US drivers (signal inputs)</h2>
+      <p class="hint">These closes feed the model for tomorrow’s JSE miner direction.</p>
+    </section>
+    <section class="macro macro-hero" id="macro-us"></section>
 
+    <section class="section-head">
+      <h2>JSE miners — last close</h2>
+      <p class="hint">Prices from Yahoo (<code>*.JO</code>). % = vs previous trading day.</p>
+    </section>
+    <section class="miners-quotes panel" id="miners-quotes"></section>
+
+    <section class="section-head">
+      <h2>Model forecast — next session</h2>
+      <p class="hint">OLS on gold + GDX log returns. <strong>High conv.</strong> = passes production regime filters.</p>
+    </section>
     <section class="summary" id="summary"></section>
 
     <section class="panel">
-      <h2>Miners</h2>
       <div class="table-wrap">
         <table>
           <thead>
             <tr>
               <th>Miner</th>
-              <th>Pred (t+1)</th>
+              <th>Forecast</th>
               <th>Base</th>
               <th>High conv.</th>
               <th>Regime</th>
             </tr>
           </thead>
-          <tbody id="miners-body"></tbody>
+          <tbody id="forecast-body"></tbody>
         </table>
       </div>
     </section>
 
     <section class="active panel" id="active-panel" hidden>
-      <h2>Actionable today</h2>
+      <h2>High-conviction calls</h2>
       <ul id="active-list" class="active-list"></ul>
     </section>
 
     <footer class="footer">
-      <p>Features = log returns on <strong>signal date</strong>. Target = next JSE session. Not investment advice.</p>
-      <p class="muted">Updates via GitHub Actions · <a href="https://github.com/LethaboMint/quant-research-project">Repository</a></p>
+      <p>All prices: <strong>Yahoo Finance</strong>. Not investment advice.</p>
+      <p class="muted">
+        <a href="https://github.com/LethaboMint/jse-gold-morning">Site repo</a>
+        · Updated weekdays by GitHub Actions
+      </p>
     </footer>
   </div>
   <script src="app.js"></script>

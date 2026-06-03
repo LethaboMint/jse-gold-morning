@@ -1,31 +1,24 @@
 """
-Forward scorer: fit gold + GDX -> next-day miner return, then signal for latest close.
+Forward scorer: Yahoo gold + GDX -> next-day JSE miner direction.
 
 Usage:
-  python score_miners_forward.py              # fit on all history, score latest day
-  python score_miners_forward.py --as-of 2026-05-27   # score as if that was "today"
-
-Outputs:
-  data/forward_model/coefficients.json
-  data/forward_model/predictions_log.csv  (appends one row per run)
+  python score_miners_forward.py
+  python generate_daily_signals.py   # scheduled deploy entry point
 """
 from __future__ import annotations
 
 import argparse
 import json
-import os
 from datetime import datetime, timezone
 from pathlib import Path
 
-import duckdb
 import numpy as np
 import pandas as pd
-import yfinance as yf
 
 from regime_filters import regime_mask
+from yahoo_market import MINERS, YF_MINERS, build_history_panel, build_market_snapshot
 
 ROOT = Path(__file__).resolve().parent
-DUCKDB_PATH = ROOT / "data" / "market.duckdb"
 OUT_DIR = ROOT / "data" / "forward_model"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -34,128 +27,19 @@ LOG_PATH = OUT_DIR / "predictions_log.csv"
 LATEST_JSON = OUT_DIR / "latest_signals.json"
 LATEST_CSV = OUT_DIR / "latest_signals.csv"
 
-GOLD_SYMBOL = "XAUUSD"
-YF_GOLD = "GC=F"
-YF_GDX = "GDX"
-YF_ZAR = "ZAR=X"
-MINERS = ["HAR", "GFI", "ANG", "DRD", "PAN", "SSW"]
-YF_MINERS = {
-    "HAR": "HAR.JO",
-    "GFI": "GFI.JO",
-    "ANG": "ANG.JO",
-    "DRD": "DRD.JO",
-    "PAN": "PAN.JO",
-    "SSW": "SSW.JO",
-}
 PROD_RULES_PATH = ROOT / "data" / "production_rules.json"
 HIGH_CONV_PATH = ROOT / "data" / "high_conviction_rules.json"
 RESEARCH_PATH = ROOT / "data" / "research_best_holdout_rules.json"
 
-LOG_COLS = [
-    "run_ts_utc",
-    "signal_date",
-    "target_date_note",
-    "miner",
-    "return_gold_t",
-    "return_gdx_t",
-    "return_zar_t",
-    "pred_return_miner_t1",
-    "signal",
-    "signal_high_conv",
-    "regime_pass",
-    "pred_abs_gte",
-    "alpha",
-    "beta_gold",
-    "beta_gdx",
-    "n_train",
-    "train_end",
-]
-
 
 def ols_fit(X: np.ndarray, y: np.ndarray) -> np.ndarray:
-    """Returns [alpha, beta_1, ..., beta_k]."""
     Xc = np.column_stack([np.ones(len(X)), X])
     beta, _, _, _ = np.linalg.lstsq(Xc, y, rcond=None)
     return beta
 
 
-def download_log_return(ticker: str, start: str, end: str) -> pd.Series:
-    raw = yf.download(ticker, start=start, end=end, interval="1d", auto_adjust=False, progress=False)
-    if raw.empty:
-        raise RuntimeError(f"No Yahoo data for {ticker}")
-    close = raw["Close"].iloc[:, 0] if isinstance(raw.columns, pd.MultiIndex) else raw["Close"]
-    s = np.log(close).diff()
-    s.index = pd.to_datetime(s.index).normalize()
-    return s
-
-
-def load_history_yahoo() -> tuple[pd.DataFrame, pd.Timestamp]:
-    """Load panel from Yahoo only (GitHub Actions / no DuckDB)."""
-    start = "2012-05-01"
-    end = str((pd.Timestamp.today() + pd.Timedelta(days=5)).date())
-    yf_gold = download_log_return(YF_GOLD, start, end)
-    yf_gdx = download_log_return(YF_GDX, start, end)
-    yf_zar = download_log_return(YF_ZAR, start, end)
-
-    miner_ret = {}
-    for m, ticker in YF_MINERS.items():
-        miner_ret[m] = download_log_return(ticker, start, end)
-
-    idx = yf_gold.index.union(yf_gdx.index).union(yf_zar.index)
-    for s in miner_ret.values():
-        idx = idx.union(s.index)
-    idx = idx.sort_values()
-
-    panel = pd.DataFrame(
-        {
-            "return_gold_t": yf_gold.reindex(idx),
-            "return_gdx_t": yf_gdx.reindex(idx),
-            "return_zar_t": yf_zar.reindex(idx),
-        },
-        index=idx,
-    )
-    for m, s in miner_ret.items():
-        panel[f"return_miner_t1_{m}"] = s.reindex(idx).shift(-1)
-
-    panel = panel.dropna(subset=["return_gold_t", "return_gdx_t", "return_zar_t"])
-    return panel, panel.index.max()
-
-
 def load_history() -> tuple[pd.DataFrame, pd.Timestamp]:
-    use_yahoo = os.environ.get("USE_YAHOO_ONLY", "").lower() in ("1", "true", "yes")
-    if use_yahoo or not DUCKDB_PATH.exists():
-        return load_history_yahoo()
-
-    con = duckdb.connect(str(DUCKDB_PATH), read_only=True)
-    syms = ",".join(f"'{s}'" for s in [GOLD_SYMBOL] + MINERS)
-    px = con.execute(
-        f"SELECT symbol, ts, close FROM ohlcv WHERE symbol IN ({syms}) ORDER BY symbol, ts"
-    ).df()
-    con.close()
-
-    wide = px.pivot(index="ts", columns="symbol", values="close").sort_index()
-    wide.index = pd.to_datetime(wide.index).normalize()
-    ret = np.log(wide).diff()
-
-    start = str(wide.index.min().date())
-    end = str((wide.index.max() + pd.Timedelta(days=5)).date())
-
-    # Refresh gold/GDX from Yahoo through latest (DuckDB gold may lag)
-    yf_gold = download_log_return(YF_GOLD, start, end).rename("return_gold_t")
-    yf_gdx = download_log_return(YF_GDX, start, end).rename("return_gdx_t")
-    yf_zar = download_log_return(YF_ZAR, start, end).rename("return_zar_t")
-
-    gold_db = ret[GOLD_SYMBOL].rename("return_gold_t_db")
-    panel = pd.DataFrame({"return_gold_t": yf_gold.combine_first(gold_db)})
-
-    for m in MINERS:
-        panel[f"return_miner_t1_{m}"] = ret[m].shift(-1)
-
-    panel["return_gdx_t"] = yf_gdx
-    panel["return_zar_t"] = yf_zar
-    panel = panel.dropna(subset=["return_gold_t", "return_gdx_t", "return_zar_t"])
-    last_ts = panel.index.max()
-    return panel, last_ts
+    return build_history_panel()
 
 
 def fit_miner_models(panel: pd.DataFrame, train_end: pd.Timestamp) -> dict:
@@ -182,11 +66,7 @@ def fit_miner_models(panel: pd.DataFrame, train_end: pd.Timestamp) -> dict:
     return coeffs
 
 
-def predict_one(
-    coeffs: dict,
-    return_gold_t: float,
-    return_gdx_t: float,
-) -> float:
+def predict_one(coeffs: dict, return_gold_t: float, return_gdx_t: float) -> float:
     return coeffs["alpha"] + coeffs["beta_gold"] * return_gold_t + coeffs["beta_gdx"] * return_gdx_t
 
 
@@ -211,7 +91,6 @@ def high_conv_signal(
     r_zar: float,
     rule: dict,
 ) -> tuple[str, bool]:
-    """Production rule: regime filter + |pred| threshold; else FLAT."""
     flt = rule.get("filter", {})
     regime = rule.get("regime", "any")
     kg = float(flt.get("kg", flt.get("gold_gt", 0.0)) or 0.0)
@@ -226,7 +105,6 @@ def high_conv_signal(
 
 
 def append_log(rows: list[dict], skip_duplicate: bool = False) -> bool:
-    """Append rows to predictions_log. Returns False if skipped as duplicate."""
     if not rows:
         return True
     new = pd.DataFrame(rows)
@@ -246,11 +124,13 @@ def append_log(rows: list[dict], skip_duplicate: bool = False) -> bool:
     return True
 
 
-def write_latest_snapshot(rows: list[dict], meta: dict) -> None:
+def write_latest_snapshot(rows: list[dict], meta: dict, market: dict) -> None:
     payload = {
         "generated_at_utc": meta["fitted_at_utc"],
         "signal_date": meta["signal_date"],
         "rules_mode": meta.get("rules_mode"),
+        "data_source": "yahoo_finance",
+        "market": market,
         "return_gold_t": meta.get("return_gold_t"),
         "return_gdx_t": meta.get("return_gdx_t"),
         "return_zar_t": meta.get("return_zar_t"),
@@ -258,6 +138,10 @@ def write_latest_snapshot(rows: list[dict], meta: dict) -> None:
     }
     LATEST_JSON.write_text(json.dumps(payload, indent=2), encoding="utf-8")
     pd.DataFrame(rows).to_csv(LATEST_CSV, index=False)
+
+
+def _miner_quotes_by_symbol(market: dict) -> dict[str, dict]:
+    return {m["miner"]: m for m in market.get("miners", [])}
 
 
 def run_generation(
@@ -289,6 +173,7 @@ def run_generation(
     if pd.isna(train_end):
         train_end = signal_date
 
+    market = build_market_snapshot(signal_date)
     fit_panel = panel[panel.index <= train_end]
     coeffs_all = fit_miner_models(fit_panel, train_end)
 
@@ -297,6 +182,7 @@ def run_generation(
     r_gdx = float(row["return_gdx_t"])
     r_zar = float(row["return_zar_t"])
     prod = load_rules(rules_path) if rules_path else None
+    quotes = _miner_quotes_by_symbol(market)
 
     meta = {
         "fitted_at_utc": datetime.now(timezone.utc).isoformat(),
@@ -305,30 +191,38 @@ def run_generation(
         "return_gold_t": r_gold,
         "return_gdx_t": r_gdx,
         "return_zar_t": r_zar,
-        "interpretation": "Features are log returns on signal_date; prediction is for the next trading session.",
         "miners": coeffs_all,
     }
     COEF_PATH.write_text(json.dumps(meta, indent=2), encoding="utf-8")
 
     run_ts = datetime.now(timezone.utc).isoformat()
     log_rows = []
+
     if not quiet:
-        print(f"Signal date (features): {signal_date.date()}")
-        print(f"Train through:          {train_end.date()}")
-        print(f"Gold return (t):        {r_gold*100:+.3f}%")
-        print(f"GDX return (t):         {r_gdx*100:+.3f}%")
-        print(f"ZAR return (t):         {r_zar*100:+.3f}%")
-        print(f"Rules:                  {rules}")
+        g = market["gold"]
+        x = market["gdx"]
+        print(f"Signal date (US features): {signal_date.date()}")
+        print(f"Train through:             {train_end.date()}")
+        print(f"Data:                      Yahoo Finance")
         print()
-        print(f"{'Miner':<6} {'Pred t+1':>12} {'Base':>8} {'HiConv':>8}  regime")
-        print("-" * 72)
+        print(f"Gold {g['ticker']}:  {g['close']} USD  ({g['pct_change']:+.2f}%)" if g.get("pct_change") is not None else f"Gold: {g.get('close')}")
+        print(f"GDX  {x['ticker']}:  {x['close']} USD  ({x['pct_change']:+.2f}%)" if x.get("pct_change") is not None else f"GDX: {x.get('close')}")
+        print()
+        print(f"{'Miner':<6} {'Price':>10} {'Chg%':>8} {'Pred t+1':>10} {'Base':>7} {'HiConv':>7}")
+        print("-" * 58)
 
     for m in MINERS:
         c = coeffs_all.get(m)
+        q = quotes.get(m, {})
+        price = q.get("close")
+        chg = q.get("pct_change")
+        ticker = q.get("ticker", YF_MINERS.get(m, m))
+
         if c is None:
             if not quiet:
-                print(f"{m:<6} {'(no fit)':>12}")
+                print(f"{m:<6} {'—':>10} {'—':>8} {'(no fit)':>10}")
             continue
+
         pred = predict_one(c, r_gold, r_gdx)
         sig = direction_signal(pred, min_pred)
         miner_rule = (prod or {}).get("miners", {}).get(m) if prod else None
@@ -337,16 +231,22 @@ def run_generation(
             regime_lbl = miner_rule.get("regime", "?") if regime_ok else "-"
         else:
             sig_hi, regime_lbl = sig, "n/a"
+
         if not quiet:
-            print(f"{m:<6} {pred*100:+11.4f}% {sig:>8} {sig_hi:>8}  {regime_lbl}")
+            ps = f"{price:,.2f}" if price is not None else "—"
+            cs = f"{chg:+.2f}%" if chg is not None else "—"
+            print(f"{m:<6} {ps:>10} {cs:>8} {pred*100:+9.3f}% {sig:>7} {sig_hi:>7}")
+
         flt = (miner_rule or {}).get("filter", {})
         log_rows.append(
             {
                 "run_ts_utc": run_ts,
                 "signal_date": str(signal_date.date()),
                 "rules_mode": rules,
-                "target_date_note": "next_trading_day_after_signal_date",
                 "miner": m,
+                "yahoo_ticker": ticker,
+                "close": price,
+                "pct_change": chg,
                 "return_gold_t": r_gold,
                 "return_gdx_t": r_gdx,
                 "return_zar_t": r_zar,
@@ -365,47 +265,28 @@ def run_generation(
 
     wrote = append_log(log_rows, skip_duplicate=skip_duplicate)
     if write_latest:
-        write_latest_snapshot(log_rows, meta)
+        write_latest_snapshot(log_rows, meta, market)
     if not quiet:
         if wrote:
-            print(f"\nAppended to log: {LOG_PATH}")
+            print(f"\nLog: {LOG_PATH}")
         else:
-            print(f"\nSkipped log append (duplicate for {signal_date.date()} / {rules})")
+            print(f"\nSkipped duplicate log for {signal_date.date()}")
         if write_latest:
-            print(f"Latest snapshot:  {LATEST_JSON}")
+            print(f"Site data: {LATEST_JSON}")
     return pd.DataFrame(log_rows)
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Forward score: gold+GDX -> next-day miner direction")
-    parser.add_argument(
-        "--as-of",
-        type=str,
-        default=None,
-        help="Signal date YYYY-MM-DD (default: latest date in data)",
-    )
-    parser.add_argument(
-        "--min-pred",
-        type=float,
-        default=0.0,
-        help="Only call LONG if pred > min-pred; SHORT if pred < -min-pred else FLAT",
-    )
+    parser = argparse.ArgumentParser(description="Yahoo gold+GDX -> next-day miner signals")
+    parser.add_argument("--as-of", type=str, default=None)
+    parser.add_argument("--min-pred", type=float, default=0.0)
     parser.add_argument(
         "--rules",
         choices=("production", "high_conviction", "research", "none"),
         default="production",
-        help="Regime filters: production (WF, default for deploy), research, high_conviction, none",
     )
-    parser.add_argument(
-        "--write-latest",
-        action="store_true",
-        help="Write data/forward_model/latest_signals.json and .csv",
-    )
-    parser.add_argument(
-        "--skip-duplicate",
-        action="store_true",
-        help="Skip append if this signal_date + rules_mode already logged",
-    )
+    parser.add_argument("--write-latest", action="store_true")
+    parser.add_argument("--skip-duplicate", action="store_true")
     args = parser.parse_args()
     run_generation(
         as_of=args.as_of,
@@ -414,7 +295,6 @@ def main() -> None:
         skip_duplicate=args.skip_duplicate,
         write_latest=args.write_latest,
     )
-    print("\nNote: Run once per day after gold/GDX closes. Audit with: python audit_forward_log.py")
 
 
 if __name__ == "__main__":

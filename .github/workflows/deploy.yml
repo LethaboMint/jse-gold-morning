@@ -1,12 +1,13 @@
-name: Deploy morning signals site
+name: Morning signals & GitHub Pages
 
 on:
   schedule:
+    # 04:00 UTC ≈ 06:00 SAST — after US gold/GDX close
     - cron: "0 4 * * 1-5"
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -27,14 +28,22 @@ jobs:
         with:
           python-version: "3.11"
 
-      - run: pip install -r requirements-signals.txt
+      - name: Install dependencies
+        run: pip install -r requirements-signals.txt
 
-      - name: Generate signals
-        env:
-          USE_YAHOO_ONLY: "1"
+      - name: Generate signals (Yahoo)
         run: python generate_daily_signals.py
 
-      - run: python scripts/publish_pages_data.py
+      - name: Publish site data
+        run: python scripts/publish_pages_data.py
+
+      - name: Commit signal artifacts
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/signals.json data/forward_model/latest_signals.json data/forward_model/latest_signals.csv || true
+          git diff --staged --quiet || git commit -m "chore: update morning signals [skip ci]"
+          git push || true
 
       - uses: actions/configure-pages@v5
 
