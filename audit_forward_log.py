@@ -19,7 +19,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from yahoo_market import MINERS, download_miner_close
+from yahoo_market import MINERS, download_miner_close, download_miner_high, miner_currency, price_at_date
 
 ROOT = Path(__file__).resolve().parent
 LOG_PATH = ROOT / "data" / "forward_model" / "predictions_log.csv"
@@ -68,6 +68,16 @@ def miner_simple_returns() -> pd.DataFrame:
     return pd.concat(parts, axis=1).sort_index()
 
 
+def miner_highs_and_tickers() -> tuple[dict[str, pd.Series], dict[str, str]]:
+    highs: dict[str, pd.Series] = {}
+    tickers: dict[str, str] = {}
+    for m in MINERS:
+        h, t = download_miner_high(m)
+        highs[m] = h
+        tickers[m] = t
+    return highs, tickers
+
+
 def return_to_direction(r: float, eps: float = 1e-8) -> str | None:
     if not np.isfinite(r):
         return None
@@ -85,7 +95,13 @@ def realized_after(signal_date: pd.Timestamp, series: pd.Series) -> tuple[pd.Tim
     return d, float(series.loc[d])
 
 
-def audit_log(log: pd.DataFrame, ret_log: pd.DataFrame, ret_pct: pd.DataFrame) -> pd.DataFrame:
+def audit_log(
+    log: pd.DataFrame,
+    ret_log: pd.DataFrame,
+    ret_pct: pd.DataFrame,
+    miner_highs: dict[str, pd.Series],
+    miner_tickers: dict[str, str],
+) -> pd.DataFrame:
     rows = []
     for _, r in log.iterrows():
         d = pd.Timestamp(r["signal_date"]).normalize()
@@ -126,10 +142,19 @@ def audit_log(log: pd.DataFrame, ret_log: pd.DataFrame, ret_pct: pd.DataFrame) -
         else:
             hit_hi = np.nan
 
+        realized_day_high = None
+        price_currency = None
+        if pd.notna(realized_date) and m in miner_highs:
+            t = miner_tickers.get(m, "")
+            realized_day_high = price_at_date(miner_highs[m], realized_date, t)
+            price_currency = miner_currency(t)
+
         rows.append(
             {
                 **r.to_dict(),
                 "realized_date": str(realized_date.date()) if pd.notna(realized_date) else None,
+                "realized_day_high": realized_day_high,
+                "price_currency": price_currency,
                 "predicted_direction": pred_dir,
                 "predicted_direction_forecast": pred_dir_forecast,
                 "predicted_direction_hiconv": pred_dir_hiconv,
@@ -293,8 +318,9 @@ def main() -> None:
     print("Fetching Yahoo miner history for realized returns...")
     ret_log = miner_log_returns()
     ret_pct = miner_simple_returns()
+    miner_highs, miner_tickers = miner_highs_and_tickers()
 
-    out = audit_log(log, ret_log, ret_pct)
+    out = audit_log(log, ret_log, ret_pct, miner_highs, miner_tickers)
     out.to_csv(AUDITED_PATH, index=False)
 
     scored = out.dropna(subset=["realized_return_log"])
@@ -312,6 +338,8 @@ def main() -> None:
         "miner",
         "pred_return_pct",
         "realized_return_pct",
+        "realized_day_high",
+        "price_currency",
         "predicted_direction",
         "actual_direction",
         "predicted_direction_hiconv",

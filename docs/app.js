@@ -252,6 +252,12 @@ function renderPerformance(perf) {
   }
 }
 
+function fmtDayHigh(r) {
+  if (r.realized_day_high == null || Number.isNaN(r.realized_day_high)) return "—";
+  const prefix = r.price_currency === "USD" ? "$" : "R ";
+  return prefix + fmtPrice(r.realized_day_high, r.price_currency);
+}
+
 function normDirection(d) {
   const s = String(d || "FLAT").toUpperCase();
   return s === "NAN" || s === "NONE" ? "FLAT" : s;
@@ -284,6 +290,7 @@ function renderAudit(audit) {
       <td><span class="miner-code">${r.miner}</span></td>
       <td>${fmtPctPoints(r.pred_return_pct)}</td>
       <td>${fmtPctPoints(r.realized_return_pct)}</td>
+      <td>${fmtDayHigh(r)}</td>
       <td>${sigBadge(normDirection(r.predicted_direction))}</td>
       <td>${sigBadge(normDirection(r.actual_direction))}</td>
       <td>${matchIcon(r.direction_match)}</td>

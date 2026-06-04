@@ -32,7 +32,7 @@ def _end_date() -> str:
     return str((pd.Timestamp.today() + pd.Timedelta(days=5)).date())
 
 
-def download_close(ticker: str, start: str = HISTORY_START, end: str | None = None) -> pd.Series:
+def _download_field(ticker: str, field: str, start: str = HISTORY_START, end: str | None = None) -> pd.Series:
     import time
 
     end = end or _end_date()
@@ -45,22 +45,45 @@ def download_close(ticker: str, start: str = HISTORY_START, end: str | None = No
         time.sleep(1.5 * (attempt + 1))
     else:
         raise last_err or RuntimeError(f"No Yahoo data for {ticker}")
-    close = raw["Close"].iloc[:, 0] if isinstance(raw.columns, pd.MultiIndex) else raw["Close"]
-    close.index = pd.to_datetime(close.index).normalize()
-    return close.sort_index()
+    col = raw[field].iloc[:, 0] if isinstance(raw.columns, pd.MultiIndex) else raw[field]
+    col.index = pd.to_datetime(col.index).normalize()
+    return col.sort_index()
 
 
-def download_miner_close(miner: str, start: str = HISTORY_START, end: str | None = None) -> tuple[pd.Series, str]:
-    """Return close series and the Yahoo ticker that worked."""
+def download_close(ticker: str, start: str = HISTORY_START, end: str | None = None) -> pd.Series:
+    return _download_field(ticker, "Close", start, end)
+
+
+def download_high(ticker: str, start: str = HISTORY_START, end: str | None = None) -> pd.Series:
+    return _download_field(ticker, "High", start, end)
+
+
+def download_miner_series(
+    miner: str, field: str, start: str = HISTORY_START, end: str | None = None
+) -> tuple[pd.Series, str]:
+    """Return a daily OHLC field series and the Yahoo ticker that worked."""
+    fetch = download_close if field == "Close" else download_high
     primary = YF_MINERS[miner]
     for ticker in [primary, *YF_MINER_FALLBACKS.get(miner, [])]:
         try:
-            s = download_close(ticker, start, end)
+            s = fetch(ticker, start, end)
             if len(s.dropna()) > 252:
                 return s, ticker
         except RuntimeError:
             continue
     raise RuntimeError(f"No Yahoo data for miner {miner} ({primary})")
+
+
+def download_miner_close(miner: str, start: str = HISTORY_START, end: str | None = None) -> tuple[pd.Series, str]:
+    return download_miner_series(miner, "Close", start, end)
+
+
+def download_miner_high(miner: str, start: str = HISTORY_START, end: str | None = None) -> tuple[pd.Series, str]:
+    return download_miner_series(miner, "High", start, end)
+
+
+def miner_currency(ticker: str) -> str:
+    return "ZAR" if ticker.endswith(".JO") else "USD"
 
 
 def display_close(close: float | None, ticker: str) -> float | None:
@@ -70,6 +93,20 @@ def display_close(close: float | None, ticker: str) -> float | None:
     if ticker.endswith(".JO") and close > 500:
         return round(close / 100.0, 2)
     return round(close, 4)
+
+
+def price_at_date(series: pd.Series, date: pd.Timestamp, ticker: str = "") -> float | None:
+    """Scalar price on a trading date (uses last available on/before date if missing)."""
+    date = pd.Timestamp(date).normalize()
+    hist = series.dropna()
+    if hist.empty:
+        return None
+    if date not in hist.index:
+        hist = hist.loc[:date]
+        if hist.empty:
+            return None
+        date = hist.index[-1]
+    return display_close(float(hist.loc[date]), ticker)
 
 
 def quote_at_date(close: pd.Series, date: pd.Timestamp, ticker: str = "") -> dict:
