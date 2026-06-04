@@ -1,5 +1,5 @@
 {
-  "audited_at_utc": "2026-06-04T09:39:48.599016+00:00",
+  "audited_at_utc": "2026-06-04T09:47:03.942098+00:00",
   "daily": [
     {
       "signal_date": "2026-06-01",
@@ -35,9 +35,9 @@
       "signal_date": "2026-06-03",
       "n": 5,
       "hits": 3.0,
-      "mae_pct": 1.0571469570554413,
+      "mae_pct": 1.0672876215711224,
       "avg_pred_pct": -1.1724652776042759,
-      "avg_real_pct": -0.8209450868708036,
+      "avg_real_pct": -0.9687359726536027,
       "hit_rate": 0.6,
       "hiconv_n": null,
       "hiconv_hits": null,
@@ -64,35 +64,35 @@
       "n": 3,
       "hits": 1.0,
       "hit_rate": 0.3333,
-      "mae_pct": 1.2493
+      "mae_pct": 1.1935
     },
     {
       "miner": "GFI",
       "n": 3,
       "hits": 1.0,
       "hit_rate": 0.3333,
-      "mae_pct": 1.6928
+      "mae_pct": 1.6587
     },
     {
       "miner": "HAR",
       "n": 3,
       "hits": 0.0,
       "hit_rate": 0.0,
-      "mae_pct": 2.4297
+      "mae_pct": 2.4049
     },
     {
       "miner": "PAN",
       "n": 3,
       "hits": 2.0,
       "hit_rate": 0.6667,
-      "mae_pct": 0.795
+      "mae_pct": 0.8622
     },
     {
       "miner": "SSW",
       "n": 3,
       "hits": 1.0,
       "hit_rate": 0.3333,
-      "mae_pct": 3.1457
+      "mae_pct": 3.2101
     }
   ]
 }

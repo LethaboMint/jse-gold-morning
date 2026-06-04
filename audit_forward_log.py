@@ -285,7 +285,10 @@ def main() -> None:
     log = dedupe_log(log)
     if len(log) < raw_n:
         print(f"Deduped log: {raw_n} -> {len(log)} rows")
-        log.to_csv(LOG_PATH, index=False)
+    # Persist trimmed/deduped log so CI and the site cannot resurrect old rows.
+    out_log = log.copy()
+    out_log["signal_date"] = out_log["signal_date"].dt.strftime("%Y-%m-%d")
+    out_log.to_csv(LOG_PATH, index=False)
 
     print("Fetching Yahoo miner history for realized returns...")
     ret_log = miner_log_returns()

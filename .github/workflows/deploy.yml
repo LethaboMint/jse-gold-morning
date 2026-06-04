@@ -29,6 +29,9 @@ jobs:
 
       - run: pip install -r requirements-signals.txt
 
+      - name: Prune log before min signal date
+        run: python scripts/prune_forward_log.py
+
       - name: Generate signals
         run: python generate_daily_signals.py
 
