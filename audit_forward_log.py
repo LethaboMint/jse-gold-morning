@@ -41,11 +41,35 @@ def _load_config() -> dict:
     return json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
 
 
-def log_min_signal_date() -> pd.Timestamp | None:
-    raw = _load_config().get("log_min_signal_date")
-    if not raw:
+def resolve_log_min_date(
+    panel: pd.DataFrame | None = None, panel_last: pd.Timestamp | None = None
+) -> pd.Timestamp | None:
+    """Earliest US signal date kept on the dashboard (fixed date or rolling trading days)."""
+    cfg = _load_config()
+    raw = cfg.get("log_min_signal_date")
+    if raw:
+        return pd.Timestamp(raw).normalize()
+
+    days = cfg.get("log_history_trading_days")
+    if not days:
         return None
-    return pd.Timestamp(raw).normalize()
+
+    if panel is None:
+        from score_miners_forward import load_history
+
+        panel, panel_last = load_history()
+
+    idx = panel.index.sort_values()
+    if panel_last is not None:
+        idx = idx[idx <= panel_last.normalize()]
+    n = int(days)
+    if len(idx) == 0:
+        return None
+    return pd.Timestamp(idx[max(0, len(idx) - n)]).normalize()
+
+
+def log_min_signal_date() -> pd.Timestamp | None:
+    return resolve_log_min_date()
 
 
 def log_exclude_miners() -> list[str]:
@@ -276,6 +300,7 @@ def build_performance_over_time(scored: pd.DataFrame) -> dict:
     )
 
     last = daily.iloc[-1]
+    min_d = resolve_log_min_date()
     return {
         "daily": _json_rows(daily),
         "cumulative": {
@@ -283,6 +308,9 @@ def build_performance_over_time(scored: pd.DataFrame) -> dict:
             "hit_rate": float(last["cumulative_hit_rate"]),
         },
         "by_miner": _json_rows(by_miner),
+        "history_trading_days": _load_config().get("log_history_trading_days"),
+        "history_from": str(min_d.date()) if min_d is not None else None,
+        "excluded_miners": log_exclude_miners(),
     }
 
 

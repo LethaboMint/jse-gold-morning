@@ -1,24 +1,25 @@
-"""Drop predictions_log rows before signal_config.log_min_signal_date."""
+"""Drop predictions_log rows before the configured history window."""
 from __future__ import annotations
 
-import json
 import sys
 from pathlib import Path
 
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT))
+
+from audit_forward_log import resolve_log_min_date
+
 LOG = ROOT / "data" / "forward_model" / "predictions_log.csv"
-CONFIG = ROOT / "signal_config.json"
 
 
 def main() -> int:
-    if not CONFIG.exists() or not LOG.exists():
+    if not LOG.exists():
         return 0
-    min_raw = json.loads(CONFIG.read_text(encoding="utf-8")).get("log_min_signal_date")
-    if not min_raw:
+    min_d = resolve_log_min_date()
+    if min_d is None:
         return 0
-    min_d = pd.Timestamp(min_raw).normalize()
     df = pd.read_csv(LOG)
     df["signal_date"] = pd.to_datetime(df["signal_date"]).dt.normalize()
     before = len(df)
@@ -28,7 +29,7 @@ def main() -> int:
     df = df.drop_duplicates(subset=["signal_date", "miner"], keep="last")
     df["signal_date"] = df["signal_date"].dt.strftime("%Y-%m-%d")
     df.to_csv(LOG, index=False)
-    print(f"Pruned log to >= {min_d.date()}: {before} -> {len(df)} rows")
+    print(f"Pruned log to >= {min_d.date()} ({before} -> {len(df)} rows)")
     return 0
 
 

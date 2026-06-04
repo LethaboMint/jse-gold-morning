@@ -211,7 +211,11 @@ function renderPerformance(perf) {
   dailyWrap.hidden = false;
 
   if (perf.cumulative?.n) {
-    cum.textContent = `Cumulative direction hit rate: ${fmtRate(perf.cumulative.hit_rate)} over ${perf.cumulative.n} miner-days`;
+    const window =
+      perf.history_trading_days && perf.history_from
+        ? ` (~${perf.history_trading_days} US sessions from ${perf.history_from})`
+        : "";
+    cum.textContent = `Cumulative direction hit rate: ${fmtRate(perf.cumulative.hit_rate)} over ${perf.cumulative.n} miner-days${window}`;
     cum.hidden = false;
   }
 

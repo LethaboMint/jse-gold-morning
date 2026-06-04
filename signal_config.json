@@ -3,7 +3,7 @@
   "min_pred": 0.0,
   "skip_duplicate_same_day": true,
   "write_latest_snapshot": true,
-  "log_min_signal_date": "2026-06-01",
+  "log_history_trading_days": 22,
   "log_exclude_miners": ["ANG"],
-  "comment": "dashboard = GDX-up + |forecast|>=0.5% for HiConv. production = walk-forward (often FLAT when gold up)."
+  "comment": "log_history_trading_days ~1 month of US sessions for the audit/performance tables. dashboard = GDX-up + |forecast|>=0.5% for HiConv."
 }

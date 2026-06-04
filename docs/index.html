@@ -62,7 +62,7 @@
 
     <section class="section-head">
       <h2>Model performance over time</h2>
-      <p class="hint">Hit rate by US signal date (JSE miners only; ANG excluded). Gold % / GDX % = US close moves on that signal day.</p>
+      <p class="hint">~22 US sessions (~1 month hold horizon). JSE miners only; ANG excluded. Gold % / GDX % = US close on signal day.</p>
     </section>
     <section class="panel" id="perf-panel">
       <p class="muted" id="perf-empty">Building history — need more scored signal dates.</p>
@@ -110,7 +110,7 @@
 
     <section class="section-head">
       <h2>Log — prediction vs actual (t+1)</h2>
-      <p class="hint">Row-level history (JSE miners only; ANG excluded). Day high / High % = Yahoo High on the realized session; High % vs prior close.</p>
+      <p class="hint">~22 scored sessions (~1 month). JSE miners only; ANG excluded. Day high / High % on the JSE realized session.</p>
     </section>
     <section class="panel" id="audit-panel">
       <p class="muted" id="audit-empty">No scored days yet — check back after a few sessions.</p>
@@ -143,6 +143,6 @@
       </p>
     </footer>
   </div>
-  <script src="app.js?v=20260604-drivers"></script>
+  <script src="app.js?v=20260604-month"></script>
 </body>
 </html>
