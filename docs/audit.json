@@ -1,5 +1,5 @@
 {
-  "audited_at_utc": "2026-06-04T08:32:20.873302+00:00",
+  "audited_at_utc": "2026-06-04T08:38:15.406909+00:00",
   "overall_hit_rate": 0.1388888888888889,
   "rows": [
     {
@@ -10,7 +10,7 @@
       "realized_return_pct": -5.437168619769683,
       "predicted_direction": "LONG",
       "actual_direction": "SHORT",
-      "predicted_direction_hiconv": "NAN",
+      "predicted_direction_hiconv": "FLAT",
       "direction_match": 0.0,
       "hit_high_conv": null
     },
@@ -22,7 +22,7 @@
       "realized_return_pct": -5.5731367016384254,
       "predicted_direction": "LONG",
       "actual_direction": "SHORT",
-      "predicted_direction_hiconv": "NAN",
+      "predicted_direction_hiconv": "FLAT",
       "direction_match": 0.0,
       "hit_high_conv": null
     },
@@ -34,7 +34,7 @@
       "realized_return_pct": -4.915318759645071,
       "predicted_direction": "LONG",
       "actual_direction": "SHORT",
-      "predicted_direction_hiconv": "NAN",
+      "predicted_direction_hiconv": "FLAT",
       "direction_match": 0.0,
       "hit_high_conv": null
     },
@@ -46,7 +46,7 @@
       "realized_return_pct": -4.303797468354431,
       "predicted_direction": "LONG",
       "actual_direction": "SHORT",
-      "predicted_direction_hiconv": "NAN",
+      "predicted_direction_hiconv": "FLAT",
       "direction_match": 0.0,
       "hit_high_conv": null
     },
@@ -58,7 +58,7 @@
       "realized_return_pct": -16.130114017437958,
       "predicted_direction": "LONG",
       "actual_direction": "SHORT",
-      "predicted_direction_hiconv": "NAN",
+      "predicted_direction_hiconv": "FLAT",
       "direction_match": 0.0,
       "hit_high_conv": null
     },
@@ -70,7 +70,7 @@
       "realized_return_pct": -4.303278688524593,
       "predicted_direction": "LONG",
       "actual_direction": "SHORT",
-      "predicted_direction_hiconv": "NAN",
+      "predicted_direction_hiconv": "FLAT",
       "direction_match": 0.0,
       "hit_high_conv": null
     },

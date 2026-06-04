@@ -31,6 +31,12 @@ const fmtPred = (x) => {
 
 const sigBadge = (s) => `<span class="sig ${s}">${s}</span>`;
 
+async function loadSiteBundle() {
+  const res = await fetch(`site_data.json?t=${Date.now()}`);
+  if (!res.ok) throw new Error(`Could not load site_data.json (${res.status})`);
+  return res.json();
+}
+
 async function loadSignals() {
   const res = await fetch(`signals.json?t=${Date.now()}`);
   if (!res.ok) throw new Error(`Could not load signals.json (${res.status})`);
@@ -246,14 +252,9 @@ function renderPerformance(perf) {
   }
 }
 
-async function loadAudit() {
-  try {
-    const res = await fetch(`audit.json?t=${Date.now()}`);
-    if (!res.ok) return null;
-    return res.json();
-  } catch {
-    return null;
-  }
+function normDirection(d) {
+  const s = String(d || "FLAT").toUpperCase();
+  return s === "NAN" || s === "NONE" ? "FLAT" : s;
 }
 
 function renderAudit(audit) {
@@ -261,15 +262,17 @@ function renderAudit(audit) {
   const wrap = document.getElementById("audit-table-wrap");
   const body = document.getElementById("audit-body");
   if (!audit?.rows?.length) {
+    empty.textContent = "No audit rows yet. Run audit_forward_log.py after the next JSE close.";
     empty.hidden = false;
     wrap.hidden = true;
     return;
   }
-  empty.hidden = true;
   wrap.hidden = false;
   if (audit.overall_hit_rate != null) {
-    empty.textContent = `Overall direction match: ${(audit.overall_hit_rate * 100).toFixed(1)}% (recent scored days)`;
+    empty.textContent = `Overall direction match: ${(audit.overall_hit_rate * 100).toFixed(1)}% (${audit.rows.length} logged rows)`;
     empty.hidden = false;
+  } else {
+    empty.hidden = true;
   }
   body.innerHTML = [...audit.rows]
     .reverse()
@@ -281,8 +284,8 @@ function renderAudit(audit) {
       <td><span class="miner-code">${r.miner}</span></td>
       <td>${fmtPctPoints(r.pred_return_pct)}</td>
       <td>${fmtPctPoints(r.realized_return_pct)}</td>
-      <td>${sigBadge(r.predicted_direction || "FLAT")}</td>
-      <td>${sigBadge(r.actual_direction || "FLAT")}</td>
+      <td>${sigBadge(normDirection(r.predicted_direction))}</td>
+      <td>${sigBadge(normDirection(r.actual_direction))}</td>
       <td>${matchIcon(r.direction_match)}</td>
     </tr>`
     )
@@ -291,7 +294,11 @@ function renderAudit(audit) {
 
 async function main() {
   try {
-    const data = await loadSignals();
+    const bundle = await loadSiteBundle();
+    const data = bundle.signals || (await loadSignals());
+    const audit = bundle.audit || null;
+    const perf = bundle.performance || null;
+
     const signals = data.signals || [];
     const market = data.market || {
       gold: {
@@ -323,7 +330,6 @@ async function main() {
     const actionable = renderSummary(signals);
     renderForecast(signals);
     renderActive(actionable);
-    const [audit, perf] = await Promise.all([loadAudit(), loadPerformance()]);
     renderPerformance(perf);
     renderAudit(audit);
   } catch (e) {
