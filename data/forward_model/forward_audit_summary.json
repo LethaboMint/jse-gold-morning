@@ -20,41 +20,41 @@
       "miner": "DRD",
       "n": 3,
       "hit_rate": 0.3333,
-      "mae_pct": 1.2174,
+      "mae_pct": 1.369,
       "mean_pred_pct": -0.3512,
-      "mean_real_pct": -0.1237
+      "mean_real_pct": 0.0278
     },
     {
       "miner": "GFI",
       "n": 3,
       "hit_rate": 0.3333,
-      "mae_pct": 1.8052,
+      "mae_pct": 1.9054,
       "mean_pred_pct": -0.3631,
-      "mean_real_pct": 1.2646
+      "mean_real_pct": 1.3648
     },
     {
       "miner": "HAR",
       "n": 3,
       "hit_rate": 0.0,
-      "mae_pct": 2.5099,
+      "mae_pct": 2.6302,
       "mean_pred_pct": -0.4201,
-      "mean_real_pct": 0.4491
+      "mean_real_pct": 0.5695
     },
     {
       "miner": "PAN",
       "n": 3,
       "hit_rate": 0.6667,
-      "mae_pct": 0.795,
+      "mae_pct": 0.6337,
       "mean_pred_pct": -0.2107,
-      "mean_real_pct": -0.9794
+      "mean_real_pct": -0.8181
     },
     {
       "miner": "SSW",
       "n": 3,
       "hit_rate": 0.3333,
-      "mae_pct": 3.0517,
+      "mae_pct": 3.2521,
       "mean_pred_pct": -0.3986,
-      "mean_real_pct": -0.4218
+      "mean_real_pct": -0.2214
     }
   ],
   "recent_by_signal_date": [
@@ -110,9 +110,9 @@
         "signal_date": "2026-06-03",
         "n": 5,
         "hits": 3.0,
-        "mae_pct": 1.0971795667169357,
+        "mae_pct": 1.343862344560477,
         "avg_pred_pct": -1.1724652776042759,
-        "avg_real_pct": -0.642922464333584,
+        "avg_real_pct": -0.20269129939326724,
         "hit_rate": 0.6,
         "hiconv_n": null,
         "hiconv_hits": null,
@@ -139,39 +139,39 @@
         "n": 3,
         "hits": 1.0,
         "hit_rate": 0.3333,
-        "mae_pct": 1.2174
+        "mae_pct": 1.369
       },
       {
         "miner": "GFI",
         "n": 3,
         "hits": 1.0,
         "hit_rate": 0.3333,
-        "mae_pct": 1.8052
+        "mae_pct": 1.9054
       },
       {
         "miner": "HAR",
         "n": 3,
         "hits": 0.0,
         "hit_rate": 0.0,
-        "mae_pct": 2.5099
+        "mae_pct": 2.6302
       },
       {
         "miner": "PAN",
         "n": 3,
         "hits": 2.0,
         "hit_rate": 0.6667,
-        "mae_pct": 0.795
+        "mae_pct": 0.6337
       },
       {
         "miner": "SSW",
         "n": 3,
         "hits": 1.0,
         "hit_rate": 0.3333,
-        "mae_pct": 3.0517
+        "mae_pct": 3.2521
       }
     ]
   },
-  "audited_at_utc": "2026-06-04T09:56:28.953809+00:00",
+  "audited_at_utc": "2026-06-04T10:08:20.709617+00:00",
   "log_rows": 18,
   "scored_rows": 17
 }
