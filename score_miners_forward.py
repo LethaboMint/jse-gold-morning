@@ -1,5 +1,7 @@
 """
-Forward scorer: Yahoo gold + GDX -> next-day JSE miner direction.
+Forward scorer: Yahoo gold + GDX -> multi-session JSE miner direction.
+
+Target = cumulative log return over forward_horizon_days (default 22 ~ 1 month).
 
 Usage:
   python score_miners_forward.py
@@ -15,6 +17,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from forward_config import forward_horizon_days, horizon_label, miner_target_col, pred_field
 from regime_filters import explain_filter, regime_mask
 from yahoo_market import MINERS, YF_MINERS, build_history_panel, build_market_snapshot
 
@@ -40,7 +43,7 @@ def ols_fit(X: np.ndarray, y: np.ndarray) -> np.ndarray:
 
 
 def load_history() -> tuple[pd.DataFrame, pd.Timestamp]:
-    return build_history_panel()
+    return build_history_panel(forward_horizon_days())
 
 
 def fit_miner_models(panel: pd.DataFrame, train_end: pd.Timestamp) -> dict:
@@ -49,7 +52,10 @@ def fit_miner_models(panel: pd.DataFrame, train_end: pd.Timestamp) -> dict:
     xcols = ["return_gold_t", "return_gdx_t"]
 
     for m in MINERS:
-        ycol = f"return_miner_t1_{m}"
+        ycol = miner_target_col(m)
+        if ycol not in train.columns:
+            coeffs[m] = None
+            continue
         d = train[[ycol] + xcols].dropna()
         if len(d) < 252:
             coeffs[m] = None
@@ -207,9 +213,12 @@ def run_generation(
     prod = load_rules(rules_path) if rules_path else None
     quotes = _miner_quotes_by_symbol(market)
 
+    horizon = forward_horizon_days()
     meta = {
         "fitted_at_utc": datetime.now(timezone.utc).isoformat(),
         "signal_date": str(signal_date.date()),
+        "forward_horizon_days": horizon,
+        "forward_horizon_label": horizon_label(horizon),
         "rules_mode": rules,
         "return_gold_t": r_gold,
         "return_gdx_t": r_gdx,
@@ -225,6 +234,7 @@ def run_generation(
         g = market["gold"]
         x = market["gdx"]
         print(f"Signal date (US features): {signal_date.date()}")
+        print(f"Hold horizon:              {horizon} JSE sessions ({horizon_label(horizon)})")
         print(f"Train through:             {train_end.date()}")
         print(f"Data:                      Yahoo Finance")
         print()
@@ -236,6 +246,7 @@ def run_generation(
         print("-" * 68)
     elif not quiet:
         print(f"Signal date (US features): {signal_date.date()}")
+        print(f"Hold horizon:              {horizon} JSE sessions")
         print(f"Train through:             {train_end.date()}")
         print()
 
@@ -278,40 +289,40 @@ def run_generation(
             )
 
         flt = (miner_rule or {}).get("filter", {})
-        log_rows.append(
-            {
-                "run_ts_utc": run_ts,
-                "signal_date": str(signal_date.date()),
-                "rules_mode": rules,
-                "miner": m,
-                "yahoo_ticker": ticker,
-                "close": price,
-                "pct_change": chg,
-                "return_gold_t": r_gold,
-                "return_gdx_t": r_gdx,
-                "return_zar_t": r_zar,
-                "pred_return_miner_t1": pred,
-                "gold_contrib": parts["gold_contrib"],
-                "gdx_contrib": parts["gdx_contrib"],
-                "signal": sig,
-                "signal_high_conv": sig_hi,
-                "regime_pass": regime_lbl,
-                "filter_note": filter_note,
-                "pred_abs_gte": flt.get("pred_abs_gte"),
-                "alpha": c["alpha"],
-                "beta_gold": c["beta_gold"],
-                "beta_gdx": c["beta_gdx"],
-                "n_train": c["n_train"],
-                "train_end": c["train_end"],
-            }
-        )
+        row = {
+            "run_ts_utc": run_ts,
+            "signal_date": str(signal_date.date()),
+            "rules_mode": rules,
+            "miner": m,
+            "yahoo_ticker": ticker,
+            "close": price,
+            "pct_change": chg,
+            "return_gold_t": r_gold,
+            "return_gdx_t": r_gdx,
+            "return_zar_t": r_zar,
+            "forward_horizon_days": horizon,
+            "gold_contrib": parts["gold_contrib"],
+            "gdx_contrib": parts["gdx_contrib"],
+            "signal": sig,
+            "signal_high_conv": sig_hi,
+            "regime_pass": regime_lbl,
+            "filter_note": filter_note,
+            "pred_abs_gte": flt.get("pred_abs_gte"),
+            "alpha": c["alpha"],
+            "beta_gold": c["beta_gold"],
+            "beta_gdx": c["beta_gdx"],
+            "n_train": c["n_train"],
+            "train_end": c["train_end"],
+        }
+        row[pred_field()] = pred
+        log_rows.append(row)
 
     wrote = append_log(log_rows, skip_duplicate=skip_duplicate)
     if write_latest:
         meta["drivers"] = drivers
         meta["forecast_note"] = (
-            "Forecast = next JSE session log-return from OLS(gold, GDX). "
-            "Gold/GDX columns are today's contributions (can be negative even when price rose)."
+            f"Forecast = cumulative return over the next {horizon} JSE sessions (~1 month hold) "
+            f"from OLS(gold, GDX on US signal day). Gold/GDX columns are that day's contributions."
         )
         write_latest_snapshot(log_rows, meta, market)
     if not quiet:
@@ -325,7 +336,7 @@ def run_generation(
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Yahoo gold+GDX -> next-day miner signals")
+    parser = argparse.ArgumentParser(description="Yahoo gold+GDX -> multi-session miner signals")
     parser.add_argument("--as-of", type=str, default=None)
     parser.add_argument("--min-pred", type=float, default=0.0)
     parser.add_argument(

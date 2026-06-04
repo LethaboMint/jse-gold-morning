@@ -1,5 +1,5 @@
 """
-Join forward prediction log to realized t+1 miner returns (Yahoo).
+Join forward prediction log to realized multi-session miner returns (Yahoo).
 
 Usage:
   python audit_forward_log.py              # score all log rows
@@ -19,13 +19,16 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from forward_config import forward_horizon_days, pred_field
 from yahoo_market import (
     MINERS,
     day_high_pct_vs_prev_close,
     download_miner_close,
     download_miner_high,
     miner_currency,
+    miner_forward_log_return,
     price_at_date,
+    resolve_trading_date,
 )
 
 ROOT = Path(__file__).resolve().parent
@@ -98,21 +101,24 @@ def write_json(path: Path, payload: dict) -> None:
     path.write_text(json.dumps(payload, indent=2, default=_json_default), encoding="utf-8")
 
 
-def miner_log_returns() -> pd.DataFrame:
-    parts = []
+def miner_forward_returns(horizon: int) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Forward log returns and simple % over `horizon` sessions per miner."""
+    log_parts, pct_parts = [], []
     for m in MINERS:
         c, _ = download_miner_close(m)
-        parts.append(np.log(c).diff().rename(m))
-    return pd.concat(parts, axis=1).sort_index()
+        fwd = miner_forward_log_return(c, horizon)
+        log_parts.append(fwd.rename(m))
+        pct_parts.append((np.exp(fwd) - 1.0).rename(m))
+    return pd.concat(log_parts, axis=1).sort_index(), pd.concat(pct_parts, axis=1).sort_index()
 
 
-def miner_simple_returns() -> pd.DataFrame:
-    """Daily % change from closes (for display)."""
-    parts = []
-    for m in MINERS:
-        c, _ = download_miner_close(m)
-        parts.append(c.pct_change().rename(m))
-    return pd.concat(parts, axis=1).sort_index()
+def _pred_value(row: pd.Series) -> float:
+    pf = pred_field()
+    if pf in row and pd.notna(row[pf]):
+        return float(row[pf])
+    if "pred_return_miner_t1" in row and pd.notna(row["pred_return_miner_t1"]):
+        return float(row["pred_return_miner_t1"])
+    raise KeyError("no prediction column in log row")
 
 
 def miner_ohlc_and_tickers() -> tuple[dict[str, pd.Series], dict[str, pd.Series], dict[str, str]]:
@@ -136,13 +142,23 @@ def return_to_direction(r: float, eps: float = 1e-8) -> str | None:
     return "LONG" if r > 0 else "SHORT"
 
 
-def realized_after(signal_date: pd.Timestamp, series: pd.Series) -> tuple[pd.Timestamp | pd.NaT, float]:
-    """First trading row strictly after signal_date."""
-    future_idx = series.index[series.index > signal_date]
-    if len(future_idx) == 0:
-        return pd.NaT, np.nan
-    d = future_idx[0]
-    return d, float(series.loc[d])
+def realized_forward(
+    signal_date: pd.Timestamp, close: pd.Series, horizon: int
+) -> tuple[pd.Timestamp | pd.NaT, float, float]:
+    """Exit date and log/simple return over `horizon` miner sessions after signal_date."""
+    start = resolve_trading_date(close, signal_date)
+    if start is None:
+        return pd.NaT, np.nan, np.nan
+    future = close.index[close.index > start]
+    if len(future) < horizon:
+        return pd.NaT, np.nan, np.nan
+    end = future[horizon - 1]
+    p0, p1 = float(close.loc[start]), float(close.loc[end])
+    if p0 <= 0:
+        return end, np.nan, np.nan
+    log_r = float(np.log(p1 / p0))
+    pct = (p1 / p0 - 1.0) * 100.0
+    return end, log_r, pct
 
 
 def audit_log(
@@ -152,6 +168,7 @@ def audit_log(
     miner_highs: dict[str, pd.Series],
     miner_closes: dict[str, pd.Series],
     miner_tickers: dict[str, str],
+    horizon: int,
 ) -> pd.DataFrame:
     rows = []
     for _, r in log.iterrows():
@@ -160,10 +177,16 @@ def audit_log(
         if m not in ret_log.columns:
             continue
 
-        realized_date, realized_log = realized_after(d, ret_log[m])
-        _, realized_pct_s = realized_after(d, ret_pct[m])
+        row_horizon = int(r.get("forward_horizon_days", horizon) or horizon)
+        if m in miner_closes:
+            realized_date, realized_log, realized_pct_s = realized_forward(
+                d, miner_closes[m], row_horizon
+            )
+        else:
+            realized_date, realized_log = pd.NaT, np.nan
+            realized_pct_s = np.nan
 
-        pred = float(r["pred_return_miner_t1"])
+        pred = _pred_value(r)
         pred_pct = pred * 100.0  # approx for small moves
 
         pred_dir_forecast = return_to_direction(pred)
@@ -176,7 +199,7 @@ def audit_log(
         if np.isfinite(realized_log):
             hit = float(np.sign(pred) == np.sign(realized_log))
             err_log = realized_log - pred
-            err_pct = (realized_pct_s * 100.0 if np.isfinite(realized_pct_s) else np.nan) - pred_pct
+            err_pct = (realized_pct_s if np.isfinite(realized_pct_s) else np.nan) - pred_pct
             dir_match = (
                 float(pred_dir == actual_dir)
                 if pred_dir in ("LONG", "SHORT") and actual_dir in ("LONG", "SHORT")
@@ -208,7 +231,9 @@ def audit_log(
         rows.append(
             {
                 **r.to_dict(),
+                "forward_horizon_days": row_horizon,
                 "realized_date": str(realized_date.date()) if pd.notna(realized_date) else None,
+                "hold_exit_date": str(realized_date.date()) if pd.notna(realized_date) else None,
                 "realized_day_high": realized_day_high,
                 "realized_day_high_pct": realized_day_high_pct,
                 "price_currency": price_currency,
@@ -218,7 +243,7 @@ def audit_log(
                 "actual_direction": actual_dir,
                 "direction_match": dir_match,
                 "realized_return_log": realized_log,
-                "realized_return_pct": realized_pct_s * 100.0 if np.isfinite(realized_pct_s) else np.nan,
+                "realized_return_pct": realized_pct_s if np.isfinite(realized_pct_s) else np.nan,
                 "pred_return_pct": pred_pct,
                 "error_log": err_log,
                 "error_pct": err_pct,
@@ -278,6 +303,8 @@ def build_performance_over_time(scored: pd.DataFrame) -> dict:
         else pd.DataFrame(columns=["signal_date", "hiconv_n", "hiconv_hits"])
     )
     daily = daily.merge(hi_daily, on="signal_date", how="left")
+    daily["hiconv_n"] = pd.to_numeric(daily["hiconv_n"], errors="coerce")
+    daily["hiconv_hits"] = pd.to_numeric(daily["hiconv_hits"], errors="coerce")
     daily["hiconv_hit_rate"] = np.where(
         daily["hiconv_n"] > 0, (daily["hiconv_hits"] / daily["hiconv_n"]).round(4), np.nan
     )
@@ -300,7 +327,9 @@ def build_performance_over_time(scored: pd.DataFrame) -> dict:
     )
 
     last = daily.iloc[-1]
-    min_d = resolve_log_min_date()
+    hist_from = None
+    if "signal_date" in d.columns and len(d):
+        hist_from = str(pd.to_datetime(d["signal_date"]).min().date())
     return {
         "daily": _json_rows(daily),
         "cumulative": {
@@ -308,8 +337,9 @@ def build_performance_over_time(scored: pd.DataFrame) -> dict:
             "hit_rate": float(last["cumulative_hit_rate"]),
         },
         "by_miner": _json_rows(by_miner),
+        "forward_horizon_days": forward_horizon_days(),
         "history_trading_days": _load_config().get("log_history_trading_days"),
-        "history_from": str(min_d.date()) if min_d is not None else None,
+        "history_from": hist_from,
         "excluded_miners": log_exclude_miners(),
     }
 
@@ -365,7 +395,7 @@ def dedupe_log(log: pd.DataFrame) -> pd.DataFrame:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Audit predictions vs realized t+1")
+    parser = argparse.ArgumentParser(description="Audit predictions vs realized forward hold")
     parser.add_argument("--summary", action="store_true", help="Print summary only")
     args = parser.parse_args()
 
@@ -391,12 +421,12 @@ def main() -> None:
     out_log["signal_date"] = out_log["signal_date"].dt.strftime("%Y-%m-%d")
     out_log.to_csv(LOG_PATH, index=False)
 
-    print("Fetching Yahoo miner history for realized returns...")
-    ret_log = miner_log_returns()
-    ret_pct = miner_simple_returns()
+    horizon = forward_horizon_days()
+    print(f"Fetching Yahoo miner history (hold horizon = {horizon} sessions)...")
+    ret_log, ret_pct = miner_forward_returns(horizon)
     miner_highs, miner_closes, miner_tickers = miner_ohlc_and_tickers()
 
-    out = audit_log(log, ret_log, ret_pct, miner_highs, miner_closes, miner_tickers)
+    out = audit_log(log, ret_log, ret_pct, miner_highs, miner_closes, miner_tickers, horizon)
     out.to_csv(AUDITED_PATH, index=False)
 
     scored = out.dropna(subset=["realized_return_log"])
@@ -449,9 +479,9 @@ def main() -> None:
         print("No scored rows yet — wait until t+1 JSE data exists for logged signal dates.")
         return
 
-    print(f"Log rows: {len(log)} | Scored (have t+1 realized): {len(scored)}")
+    print(f"Log rows: {len(log)} | Scored (full {horizon}-session hold realized): {len(scored)}")
     if len(scored) == 0:
-        print("Nothing to score yet. Each signal_date needs a later JSE trading day in Yahoo data.")
+        print(f"Nothing to score yet. Each signal needs {horizon} future JSE sessions in Yahoo data.")
         print(f"Saved empty audit: {AUDITED_PATH}")
         return
 

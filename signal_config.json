@@ -3,7 +3,8 @@
   "min_pred": 0.0,
   "skip_duplicate_same_day": true,
   "write_latest_snapshot": true,
-  "log_history_trading_days": 22,
+  "forward_horizon_days": 22,
+  "log_history_trading_days": 44,
   "log_exclude_miners": ["ANG"],
-  "comment": "log_history_trading_days ~1 month of US sessions for the audit/performance tables. dashboard = GDX-up + |forecast|>=0.5% for HiConv."
+  "comment": "forward_horizon_days = hold length modeled and audited. log_history_trading_days should be ~2x forward_horizon so ~1 month of completed holds appear on the dashboard."
 }

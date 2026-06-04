@@ -162,8 +162,25 @@ def quote_at_date(close: pd.Series, date: pd.Timestamp, ticker: str = "") -> dic
     }
 
 
-def build_history_panel() -> tuple[pd.DataFrame, pd.Timestamp]:
-    """Panel of log returns for modeling."""
+def miner_forward_log_return(close: pd.Series, horizon: int) -> pd.Series:
+    """Cumulative log return over the next `horizon` miner trading sessions after each date."""
+    if horizon < 1:
+        raise ValueError("horizon must be >= 1")
+    c = close.dropna().sort_index()
+    if c.empty:
+        return pd.Series(dtype=float)
+    log_p = np.log(c)
+    out = pd.Series(index=c.index, dtype=float)
+    for d in c.index:
+        future = c.index[c.index > d]
+        if len(future) >= horizon:
+            end = future[horizon - 1]
+            out.loc[d] = float(log_p.loc[end] - log_p.loc[d])
+    return out
+
+
+def build_history_panel(forward_horizon: int = 22) -> tuple[pd.DataFrame, pd.Timestamp]:
+    """Panel: US gold/GDX/ZAR on day t -> miner forward return over `forward_horizon` JSE sessions."""
     end = _end_date()
     gold_c = download_close(YF_GOLD, HISTORY_START, end)
     gdx_c = download_close(YF_GDX, HISTORY_START, end)
@@ -186,9 +203,11 @@ def build_history_panel() -> tuple[pd.DataFrame, pd.Timestamp]:
     )
 
     for m, mc in miner_closes.items():
-        panel[f"return_miner_t1_{m}"] = np.log(mc).diff().reindex(idx).shift(-1)
+        fwd = miner_forward_log_return(mc, forward_horizon)
+        panel[f"return_miner_fwd_{m}"] = fwd.reindex(idx)
 
     panel = panel.dropna(subset=["return_gold_t", "return_gdx_t", "return_zar_t"])
+    panel.attrs["forward_horizon_days"] = forward_horizon
     return panel, panel.index.max()
 
 

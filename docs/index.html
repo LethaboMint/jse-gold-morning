@@ -12,14 +12,14 @@
       <div>
         <p class="eyebrow">Yahoo Finance · after US close</p>
         <h1>Gold miners briefing</h1>
-        <p class="subtitle">Today’s gold &amp; GDX prices, JSE miner closes, and the model’s forecast for the <strong>next</strong> miner session.</p>
+        <p class="subtitle">Today’s gold &amp; GDX prices, JSE miner closes, and the model’s forecast over a <strong>~1 month</strong> hold (22 JSE sessions).</p>
       </div>
       <div class="meta" id="meta"></div>
     </header>
 
     <section class="section-head">
       <h2>US drivers (signal inputs)</h2>
-      <p class="hint">These closes feed the model for tomorrow’s JSE miner direction.</p>
+      <p class="hint">These US closes are the model inputs on signal day (start of the hold).</p>
     </section>
     <section class="macro macro-hero" id="macro-us"></section>
 
@@ -30,8 +30,8 @@
     <section class="miners-quotes panel" id="miners-quotes"></section>
 
     <section class="section-head">
-      <h2>Model forecast — next JSE session</h2>
-      <p class="hint" id="forecast-note">OLS uses <strong>US gold &amp; GDX</strong> today to predict each miner’s <strong>next</strong> log return. Gold→ / GDX→ show each driver’s contribution (β×return).</p>
+      <h2>Model forecast — ~1 month hold</h2>
+      <p class="hint" id="forecast-note">OLS uses <strong>US gold &amp; GDX</strong> on signal day to predict each miner’s return over the <strong>next 22 JSE sessions</strong>. Gold→ / GDX→ show each driver’s contribution (β×return).</p>
     </section>
     <section class="drivers panel" id="drivers"></section>
     <section class="summary" id="summary"></section>
@@ -109,8 +109,8 @@
     </section>
 
     <section class="section-head">
-      <h2>Log — prediction vs actual (t+1)</h2>
-      <p class="hint">~22 scored sessions (~1 month). JSE miners only; ANG excluded. Day high / High % on the JSE realized session.</p>
+      <h2>Log — prediction vs actual hold</h2>
+      <p class="hint">22-session hold (~1 month). JSE miners only; ANG excluded. Hold exit = price after 22 JSE sessions from US signal day.</p>
     </section>
     <section class="panel" id="audit-panel">
       <p class="muted" id="audit-empty">No scored days yet — check back after a few sessions.</p>
@@ -119,7 +119,7 @@
           <thead>
             <tr>
               <th>US signal</th>
-              <th>JSE realized</th>
+              <th>Hold exit</th>
               <th>Miner</th>
               <th>Pred %</th>
               <th>Actual %</th>
@@ -143,6 +143,6 @@
       </p>
     </footer>
   </div>
-  <script src="app.js?v=20260604-month"></script>
+  <script src="app.js?v=20260604-hold22"></script>
 </body>
 </html>

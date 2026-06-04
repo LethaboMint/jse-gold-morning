@@ -2,30 +2,30 @@
   "miners": {
     "HAR": {
       "regime": "gdx_up",
-      "filter": { "kg": 0.0, "kx": 0.005, "kz": 0.0, "pred_abs_gte": 0.005 }
+      "filter": { "kg": 0.0, "kx": 0.005, "kz": 0.0, "pred_abs_gte": 0.015 }
     },
     "GFI": {
       "regime": "gdx_up",
-      "filter": { "kg": 0.0, "kx": 0.005, "kz": 0.0, "pred_abs_gte": 0.005 }
+      "filter": { "kg": 0.0, "kx": 0.005, "kz": 0.0, "pred_abs_gte": 0.015 }
     },
     "ANG": {
       "regime": "gdx_up",
-      "filter": { "kg": 0.0, "kx": 0.005, "kz": 0.0, "pred_abs_gte": 0.005 }
+      "filter": { "kg": 0.0, "kx": 0.005, "kz": 0.0, "pred_abs_gte": 0.015 }
     },
     "DRD": {
       "regime": "gdx_up",
-      "filter": { "kg": 0.0, "kx": 0.005, "kz": 0.0, "pred_abs_gte": 0.005 }
+      "filter": { "kg": 0.0, "kx": 0.005, "kz": 0.0, "pred_abs_gte": 0.015 }
     },
     "PAN": {
       "regime": "gdx_up",
-      "filter": { "kg": 0.0, "kx": 0.005, "kz": 0.0, "pred_abs_gte": 0.005 }
+      "filter": { "kg": 0.0, "kx": 0.005, "kz": 0.0, "pred_abs_gte": 0.015 }
     },
     "SSW": {
       "regime": "gdx_up",
-      "filter": { "kg": 0.0, "kx": 0.005, "kz": 0.0, "pred_abs_gte": 0.005 }
+      "filter": { "kg": 0.0, "kx": 0.005, "kz": 0.0, "pred_abs_gte": 0.015 }
     }
   },
   "meta": {
-    "note": "Aligned for US-close review: GDX up + |forecast| >= 0.5%. OLS coeffs still fit from history."
+    "note": "Multi-week hold (22 sessions): GDX up + |forecast| >= 1.5% on forward OLS target."
   }
 }

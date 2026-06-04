@@ -29,6 +29,8 @@ const fmtPred = (x) => {
   return (v >= 0 ? "+" : "") + v.toFixed(2) + "%";
 };
 
+const predReturn = (r) => r?.pred_return_fwd ?? r?.pred_return_miner_t1;
+
 const sigBadge = (s) => `<span class="sig ${s}">${s}</span>`;
 
 async function loadSiteBundle() {
@@ -125,7 +127,7 @@ function renderForecast(signals) {
       const note = r.filter_note || r.regime_pass || "—";
       return `<tr>
         <td><span class="miner-code">${m}</span></td>
-        <td class="forecast-cell">${fmtPred(r.pred_return_miner_t1)}</td>
+        <td class="forecast-cell">${fmtPred(predReturn(r))}</td>
         <td class="contrib ${pctClass(r.gold_contrib)}">${fmtContrib(r.gold_contrib)}</td>
         <td class="contrib ${pctClass(r.gdx_contrib)}">${fmtContrib(r.gdx_contrib)}</td>
         <td>${sigBadge(r.signal)}</td>
@@ -150,7 +152,7 @@ function renderActive(actionable) {
     <li>
       ${sigBadge(r.signal_high_conv)}
       <span class="miner-code">${r.miner}</span>
-      <span>Forecast ${fmtPred(r.pred_return_miner_t1)}</span>
+      <span>Forecast ${fmtPred(predReturn(r))}</span>
       <span class="muted">Last R ${fmtPrice(r.close, "ZAR")} (${fmtPct(r.pct_change)})</span>
     </li>`
     )
@@ -164,6 +166,7 @@ function renderMeta(data) {
   document.getElementById("meta").innerHTML = `
     <span class="meta-label">US signal date</span>
     <strong>${data.signal_date || "—"}</strong>
+    ${data.forward_horizon_days ? `<span class="meta-label" style="margin-top:0.5rem">Hold</span><strong>${data.forward_horizon_label || data.forward_horizon_days + " sessions"}</strong>` : ""}
     <span class="meta-label" style="margin-top:0.75rem">Updated</span>
     <strong>${gen}</strong>
     <span class="meta-label" style="margin-top:0.5rem">${data.data_source || "yahoo_finance"}</span>
@@ -274,7 +277,7 @@ function renderAudit(audit) {
   const wrap = document.getElementById("audit-table-wrap");
   const body = document.getElementById("audit-body");
   if (!audit?.rows?.length) {
-    empty.textContent = "No audit rows yet. Run audit_forward_log.py after the next JSE close.";
+    empty.textContent = "No audit rows yet — wait until full hold period is realized.";
     empty.hidden = false;
     wrap.hidden = true;
     return;
