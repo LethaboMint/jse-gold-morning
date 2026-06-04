@@ -1,5 +1,5 @@
 {
-  "audited_at_utc": "2026-06-04T12:45:43.369337+00:00",
+  "audited_at_utc": "2026-06-04T12:47:26.351125+00:00",
   "overall_hit_rate": 0.41818181818181815,
   "excluded_miners": [
     "ANG"
@@ -1600,7 +1600,7 @@
       "realized_date": "2026-06-04",
       "miner": "GFI",
       "pred_return_pct": -1.33720778583029,
-      "realized_return_pct": 0.11987149775440908,
+      "realized_return_pct": 0.012786293093802747,
       "realized_day_high": 630.88,
       "realized_day_high_pct": 0.83,
       "price_currency": "ZAR",
@@ -1615,7 +1615,7 @@
       "realized_date": "2026-06-04",
       "miner": "HAR",
       "pred_return_pct": -1.42964865029876,
-      "realized_return_pct": 1.1680588984850582,
+      "realized_return_pct": 1.2034546226815879,
       "realized_day_high": 288.35,
       "realized_day_high_pct": 2.06,
       "price_currency": "ZAR",
@@ -1630,7 +1630,7 @@
       "realized_date": "2026-06-04",
       "miner": "PAN",
       "pred_return_pct": -0.67768230993278,
-      "realized_return_pct": -1.1290322580645107,
+      "realized_return_pct": -1.0887096774193528,
       "realized_day_high": 24.79,
       "realized_day_high_pct": -0.04,
       "price_currency": "ZAR",
@@ -1645,7 +1645,7 @@
       "realized_date": "2026-06-04",
       "miner": "SSW",
       "pred_return_pct": -1.222221189365,
-      "realized_return_pct": -0.49377415199656216,
+      "realized_return_pct": -0.6011163589523361,
       "realized_day_high": 46.7,
       "realized_day_high_pct": 0.26,
       "price_currency": "ZAR",
