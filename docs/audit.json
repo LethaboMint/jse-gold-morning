@@ -1,6 +1,6 @@
 {
-  "audited_at_utc": "2026-06-04T09:09:31.740307+00:00",
-  "overall_hit_rate": 0.4628099173553719,
+  "audited_at_utc": "2026-06-04T09:11:06.701086+00:00",
+  "overall_hit_rate": 0.47368421052631576,
   "rows": [
     {
       "signal_date": "2026-04-01",
@@ -2905,6 +2905,66 @@
       "predicted_direction_hiconv": "LONG",
       "direction_match": 0.0,
       "hit_high_conv": 0.0
+    },
+    {
+      "signal_date": "2026-06-03",
+      "realized_date": "2026-06-04",
+      "miner": "DRD",
+      "pred_return_pct": -1.19556645259455,
+      "realized_return_pct": -0.8135917683656402,
+      "predicted_direction": "SHORT",
+      "actual_direction": "SHORT",
+      "predicted_direction_hiconv": "FLAT",
+      "direction_match": 1.0,
+      "hit_high_conv": null
+    },
+    {
+      "signal_date": "2026-06-03",
+      "realized_date": "2026-06-04",
+      "miner": "GFI",
+      "pred_return_pct": -1.33720778583029,
+      "realized_return_pct": -0.09270062493007547,
+      "predicted_direction": "SHORT",
+      "actual_direction": "SHORT",
+      "predicted_direction_hiconv": "FLAT",
+      "direction_match": 1.0,
+      "hit_high_conv": null
+    },
+    {
+      "signal_date": "2026-06-03",
+      "realized_date": "2026-06-04",
+      "miner": "HAR",
+      "pred_return_pct": -1.42964865029876,
+      "realized_return_pct": -0.31856151776865627,
+      "predicted_direction": "SHORT",
+      "actual_direction": "SHORT",
+      "predicted_direction_hiconv": "FLAT",
+      "direction_match": 1.0,
+      "hit_high_conv": null
+    },
+    {
+      "signal_date": "2026-06-03",
+      "realized_date": "2026-06-04",
+      "miner": "PAN",
+      "pred_return_pct": -0.67768230993278,
+      "realized_return_pct": -2.3387096774193594,
+      "predicted_direction": "SHORT",
+      "actual_direction": "SHORT",
+      "predicted_direction_hiconv": "FLAT",
+      "direction_match": 1.0,
+      "hit_high_conv": null
+    },
+    {
+      "signal_date": "2026-06-03",
+      "realized_date": "2026-06-04",
+      "miner": "SSW",
+      "pred_return_pct": -1.222221189365,
+      "realized_return_pct": -1.6960068699012454,
+      "predicted_direction": "SHORT",
+      "actual_direction": "SHORT",
+      "predicted_direction_hiconv": "FLAT",
+      "direction_match": 1.0,
+      "hit_high_conv": null
     }
   ]
 }
