@@ -1,11 +1,11 @@
 {
-  "generated_at_utc": "2026-06-04T08:24:32.697694+00:00",
+  "generated_at_utc": "2026-06-04T08:39:28.478858+00:00",
   "signal_date": "2026-06-03",
   "rules_mode": "dashboard",
   "data_source": "yahoo_finance",
   "market": {
     "data_source": "yahoo_finance",
-    "fetched_at_utc": "2026-06-04T08:24:31.343513+00:00",
+    "fetched_at_utc": "2026-06-04T08:39:26.899336+00:00",
     "signal_date": "2026-06-03",
     "gold": {
       "ticker": "GC=F",
@@ -92,7 +92,7 @@
   "return_zar_t": -0.0024321850711799264,
   "signals": [
     {
-      "run_ts_utc": "2026-06-04T08:24:32.697970+00:00",
+      "run_ts_utc": "2026-06-04T08:39:28.479092+00:00",
       "signal_date": "2026-06-03",
       "rules_mode": "dashboard",
       "miner": "HAR",
@@ -117,7 +117,7 @@
       "train_end": "2026-06-02"
     },
     {
-      "run_ts_utc": "2026-06-04T08:24:32.697970+00:00",
+      "run_ts_utc": "2026-06-04T08:39:28.479092+00:00",
       "signal_date": "2026-06-03",
       "rules_mode": "dashboard",
       "miner": "GFI",
@@ -142,7 +142,7 @@
       "train_end": "2026-06-02"
     },
     {
-      "run_ts_utc": "2026-06-04T08:24:32.697970+00:00",
+      "run_ts_utc": "2026-06-04T08:39:28.479092+00:00",
       "signal_date": "2026-06-03",
       "rules_mode": "dashboard",
       "miner": "ANG",
@@ -167,7 +167,7 @@
       "train_end": "2026-06-02"
     },
     {
-      "run_ts_utc": "2026-06-04T08:24:32.697970+00:00",
+      "run_ts_utc": "2026-06-04T08:39:28.479092+00:00",
       "signal_date": "2026-06-03",
       "rules_mode": "dashboard",
       "miner": "DRD",
@@ -192,7 +192,7 @@
       "train_end": "2026-06-02"
     },
     {
-      "run_ts_utc": "2026-06-04T08:24:32.697970+00:00",
+      "run_ts_utc": "2026-06-04T08:39:28.479092+00:00",
       "signal_date": "2026-06-03",
       "rules_mode": "dashboard",
       "miner": "PAN",
@@ -217,7 +217,7 @@
       "train_end": "2026-06-02"
     },
     {
-      "run_ts_utc": "2026-06-04T08:24:32.697970+00:00",
+      "run_ts_utc": "2026-06-04T08:39:28.479092+00:00",
       "signal_date": "2026-06-03",
       "rules_mode": "dashboard",
       "miner": "SSW",

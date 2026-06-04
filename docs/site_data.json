@@ -1,12 +1,12 @@
 {
   "signals": {
-    "generated_at_utc": "2026-06-04T08:24:32.697694+00:00",
+    "generated_at_utc": "2026-06-04T08:39:28.478858+00:00",
     "signal_date": "2026-06-03",
     "rules_mode": "dashboard",
     "data_source": "yahoo_finance",
     "market": {
       "data_source": "yahoo_finance",
-      "fetched_at_utc": "2026-06-04T08:24:31.343513+00:00",
+      "fetched_at_utc": "2026-06-04T08:39:26.899336+00:00",
       "signal_date": "2026-06-03",
       "gold": {
         "ticker": "GC=F",
@@ -93,7 +93,7 @@
     "return_zar_t": -0.0024321850711799264,
     "signals": [
       {
-        "run_ts_utc": "2026-06-04T08:24:32.697970+00:00",
+        "run_ts_utc": "2026-06-04T08:39:28.479092+00:00",
         "signal_date": "2026-06-03",
         "rules_mode": "dashboard",
         "miner": "HAR",
@@ -118,7 +118,7 @@
         "train_end": "2026-06-02"
       },
       {
-        "run_ts_utc": "2026-06-04T08:24:32.697970+00:00",
+        "run_ts_utc": "2026-06-04T08:39:28.479092+00:00",
         "signal_date": "2026-06-03",
         "rules_mode": "dashboard",
         "miner": "GFI",
@@ -143,7 +143,7 @@
         "train_end": "2026-06-02"
       },
       {
-        "run_ts_utc": "2026-06-04T08:24:32.697970+00:00",
+        "run_ts_utc": "2026-06-04T08:39:28.479092+00:00",
         "signal_date": "2026-06-03",
         "rules_mode": "dashboard",
         "miner": "ANG",
@@ -168,7 +168,7 @@
         "train_end": "2026-06-02"
       },
       {
-        "run_ts_utc": "2026-06-04T08:24:32.697970+00:00",
+        "run_ts_utc": "2026-06-04T08:39:28.479092+00:00",
         "signal_date": "2026-06-03",
         "rules_mode": "dashboard",
         "miner": "DRD",
@@ -193,7 +193,7 @@
         "train_end": "2026-06-02"
       },
       {
-        "run_ts_utc": "2026-06-04T08:24:32.697970+00:00",
+        "run_ts_utc": "2026-06-04T08:39:28.479092+00:00",
         "signal_date": "2026-06-03",
         "rules_mode": "dashboard",
         "miner": "PAN",
@@ -218,7 +218,7 @@
         "train_end": "2026-06-02"
       },
       {
-        "run_ts_utc": "2026-06-04T08:24:32.697970+00:00",
+        "run_ts_utc": "2026-06-04T08:39:28.479092+00:00",
         "signal_date": "2026-06-03",
         "rules_mode": "dashboard",
         "miner": "SSW",
@@ -245,8 +245,8 @@
     ]
   },
   "audit": {
-    "audited_at_utc": "2026-06-04T08:38:15.406909+00:00",
-    "overall_hit_rate": 0.1388888888888889,
+    "audited_at_utc": "2026-06-04T08:39:32.714121+00:00",
+    "overall_hit_rate": 0.21951219512195122,
     "rows": [
       {
         "signal_date": "2026-05-29",
@@ -256,7 +256,7 @@
         "realized_return_pct": -5.437168619769683,
         "predicted_direction": "LONG",
         "actual_direction": "SHORT",
-        "predicted_direction_hiconv": "FLAT",
+        "predicted_direction_hiconv": "NAN",
         "direction_match": 0.0,
         "hit_high_conv": null
       },
@@ -268,7 +268,7 @@
         "realized_return_pct": -5.5731367016384254,
         "predicted_direction": "LONG",
         "actual_direction": "SHORT",
-        "predicted_direction_hiconv": "FLAT",
+        "predicted_direction_hiconv": "NAN",
         "direction_match": 0.0,
         "hit_high_conv": null
       },
@@ -280,7 +280,7 @@
         "realized_return_pct": -4.915318759645071,
         "predicted_direction": "LONG",
         "actual_direction": "SHORT",
-        "predicted_direction_hiconv": "FLAT",
+        "predicted_direction_hiconv": "NAN",
         "direction_match": 0.0,
         "hit_high_conv": null
       },
@@ -292,7 +292,7 @@
         "realized_return_pct": -4.303797468354431,
         "predicted_direction": "LONG",
         "actual_direction": "SHORT",
-        "predicted_direction_hiconv": "FLAT",
+        "predicted_direction_hiconv": "NAN",
         "direction_match": 0.0,
         "hit_high_conv": null
       },
@@ -304,7 +304,7 @@
         "realized_return_pct": -16.130114017437958,
         "predicted_direction": "LONG",
         "actual_direction": "SHORT",
-        "predicted_direction_hiconv": "FLAT",
+        "predicted_direction_hiconv": "NAN",
         "direction_match": 0.0,
         "hit_high_conv": null
       },
@@ -316,7 +316,7 @@
         "realized_return_pct": -4.303278688524593,
         "predicted_direction": "LONG",
         "actual_direction": "SHORT",
-        "predicted_direction_hiconv": "FLAT",
+        "predicted_direction_hiconv": "NAN",
         "direction_match": 0.0,
         "hit_high_conv": null
       },
@@ -636,7 +636,7 @@
         "signal_date": "2026-06-02",
         "realized_date": "2026-06-03",
         "miner": "ANG",
-        "pred_return_pct": -0.0026133452430771855,
+        "pred_return_pct": -0.002613345243077185,
         "realized_return_pct": -2.177463291481163,
         "predicted_direction": "SHORT",
         "actual_direction": "SHORT",
@@ -679,17 +679,77 @@
         "predicted_direction_hiconv": "LONG",
         "direction_match": 0.0,
         "hit_high_conv": 0.0
+      },
+      {
+        "signal_date": "2026-06-03",
+        "realized_date": "2026-06-04",
+        "miner": "HAR",
+        "pred_return_pct": -1.42964865029876,
+        "realized_return_pct": 0.06725187597338422,
+        "predicted_direction": "SHORT",
+        "actual_direction": "LONG",
+        "predicted_direction_hiconv": "FLAT",
+        "direction_match": 0.0,
+        "hit_high_conv": null
+      },
+      {
+        "signal_date": "2026-06-03",
+        "realized_date": "2026-06-04",
+        "miner": "GFI",
+        "pred_return_pct": -1.33720778583029,
+        "realized_return_pct": -0.07192289865264323,
+        "predicted_direction": "SHORT",
+        "actual_direction": "SHORT",
+        "predicted_direction_hiconv": "FLAT",
+        "direction_match": 1.0,
+        "hit_high_conv": null
+      },
+      {
+        "signal_date": "2026-06-03",
+        "realized_date": "2026-06-04",
+        "miner": "DRD",
+        "pred_return_pct": -1.19556645259455,
+        "realized_return_pct": -0.8853792773390712,
+        "predicted_direction": "SHORT",
+        "actual_direction": "SHORT",
+        "predicted_direction_hiconv": "FLAT",
+        "direction_match": 1.0,
+        "hit_high_conv": null
+      },
+      {
+        "signal_date": "2026-06-03",
+        "realized_date": "2026-06-04",
+        "miner": "PAN",
+        "pred_return_pct": -0.67768230993278,
+        "realized_return_pct": -1.4919354838709653,
+        "predicted_direction": "SHORT",
+        "actual_direction": "SHORT",
+        "predicted_direction_hiconv": "FLAT",
+        "direction_match": 1.0,
+        "hit_high_conv": null
+      },
+      {
+        "signal_date": "2026-06-03",
+        "realized_date": "2026-06-04",
+        "miner": "SSW",
+        "pred_return_pct": -1.222221189365,
+        "realized_return_pct": -1.9321597252039524,
+        "predicted_direction": "SHORT",
+        "actual_direction": "SHORT",
+        "predicted_direction_hiconv": "FLAT",
+        "direction_match": 1.0,
+        "hit_high_conv": null
       }
     ]
   },
   "performance": {
-    "audited_at_utc": "2026-06-04T08:38:15.406909+00:00",
+    "audited_at_utc": "2026-06-04T08:39:32.714121+00:00",
     "daily": [
       {
         "signal_date": "2026-05-29",
         "n": 6,
         "hits": 0.0,
-        "mae_pct": 7.5262004849816995,
+        "mae_pct": 7.5262004849817,
         "avg_pred_pct": 0.74906477575334,
         "avg_real_pct": -6.777135709228361,
         "hit_rate": 0.0,
@@ -729,11 +789,26 @@
         "cumulative_n": 18,
         "cumulative_hits": 4.0,
         "cumulative_hit_rate": 0.2222
+      },
+      {
+        "signal_date": "2026-06-03",
+        "n": 5,
+        "hits": 4.0,
+        "mae_pct": 0.9193128596964815,
+        "avg_pred_pct": -1.1724652776042759,
+        "avg_real_pct": -0.8628291018186495,
+        "hit_rate": 0.8,
+        "hiconv_n": null,
+        "hiconv_hits": null,
+        "hiconv_hit_rate": null,
+        "cumulative_n": 23,
+        "cumulative_hits": 8.0,
+        "cumulative_hit_rate": 0.3478
       }
     ],
     "cumulative": {
-      "n": 18,
-      "hit_rate": 0.2222
+      "n": 23,
+      "hit_rate": 0.3478
     },
     "by_miner": [
       {
@@ -745,38 +820,38 @@
       },
       {
         "miner": "DRD",
-        "n": 3,
-        "hits": 0.0,
-        "hit_rate": 0.0,
-        "mae_pct": 2.9275
+        "n": 4,
+        "hits": 1.0,
+        "hit_rate": 0.25,
+        "mae_pct": 2.2732
       },
       {
         "miner": "GFI",
-        "n": 3,
-        "hits": 1.0,
-        "hit_rate": 0.3333,
-        "mae_pct": 3.3498
+        "n": 4,
+        "hits": 2.0,
+        "hit_rate": 0.5,
+        "mae_pct": 2.8287
       },
       {
         "miner": "HAR",
-        "n": 3,
+        "n": 4,
         "hits": 0.0,
         "hit_rate": 0.0,
-        "mae_pct": 4.0291
+        "mae_pct": 3.396
       },
       {
         "miner": "PAN",
-        "n": 3,
-        "hits": 1.0,
-        "hit_rate": 0.3333,
-        "mae_pct": 5.8912
+        "n": 4,
+        "hits": 2.0,
+        "hit_rate": 0.5,
+        "mae_pct": 4.6219
       },
       {
         "miner": "SSW",
-        "n": 3,
-        "hits": 0.0,
-        "hit_rate": 0.0,
-        "mae_pct": 4.7273
+        "n": 4,
+        "hits": 1.0,
+        "hit_rate": 0.25,
+        "mae_pct": 3.7229
       }
     ]
   }

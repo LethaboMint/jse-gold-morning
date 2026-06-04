@@ -1,11 +1,11 @@
 {
-  "audited_at_utc": "2026-06-04T08:38:15.406909+00:00",
+  "audited_at_utc": "2026-06-04T08:39:32.714121+00:00",
   "daily": [
     {
       "signal_date": "2026-05-29",
       "n": 6,
       "hits": 0.0,
-      "mae_pct": 7.5262004849816995,
+      "mae_pct": 7.5262004849817,
       "avg_pred_pct": 0.74906477575334,
       "avg_real_pct": -6.777135709228361,
       "hit_rate": 0.0,
@@ -45,11 +45,26 @@
       "cumulative_n": 18,
       "cumulative_hits": 4.0,
       "cumulative_hit_rate": 0.2222
+    },
+    {
+      "signal_date": "2026-06-03",
+      "n": 5,
+      "hits": 4.0,
+      "mae_pct": 0.9193128596964815,
+      "avg_pred_pct": -1.1724652776042759,
+      "avg_real_pct": -0.8628291018186495,
+      "hit_rate": 0.8,
+      "hiconv_n": null,
+      "hiconv_hits": null,
+      "hiconv_hit_rate": null,
+      "cumulative_n": 23,
+      "cumulative_hits": 8.0,
+      "cumulative_hit_rate": 0.3478
     }
   ],
   "cumulative": {
-    "n": 18,
-    "hit_rate": 0.2222
+    "n": 23,
+    "hit_rate": 0.3478
   },
   "by_miner": [
     {
@@ -61,38 +76,38 @@
     },
     {
       "miner": "DRD",
-      "n": 3,
-      "hits": 0.0,
-      "hit_rate": 0.0,
-      "mae_pct": 2.9275
+      "n": 4,
+      "hits": 1.0,
+      "hit_rate": 0.25,
+      "mae_pct": 2.2732
     },
     {
       "miner": "GFI",
-      "n": 3,
-      "hits": 1.0,
-      "hit_rate": 0.3333,
-      "mae_pct": 3.3498
+      "n": 4,
+      "hits": 2.0,
+      "hit_rate": 0.5,
+      "mae_pct": 2.8287
     },
     {
       "miner": "HAR",
-      "n": 3,
+      "n": 4,
       "hits": 0.0,
       "hit_rate": 0.0,
-      "mae_pct": 4.0291
+      "mae_pct": 3.396
     },
     {
       "miner": "PAN",
-      "n": 3,
-      "hits": 1.0,
-      "hit_rate": 0.3333,
-      "mae_pct": 5.8912
+      "n": 4,
+      "hits": 2.0,
+      "hit_rate": 0.5,
+      "mae_pct": 4.6219
     },
     {
       "miner": "SSW",
-      "n": 3,
-      "hits": 0.0,
-      "hit_rate": 0.0,
-      "mae_pct": 4.7273
+      "n": 4,
+      "hits": 1.0,
+      "hit_rate": 0.25,
+      "mae_pct": 3.7229
     }
   ]
 }
