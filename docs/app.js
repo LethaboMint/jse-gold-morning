@@ -221,6 +221,8 @@ function renderPerformance(perf) {
       (r) => `
     <tr>
       <td>${r.signal_date}</td>
+      <td class="${pctClass(r.gold_pct)}">${fmtPctPoints(r.gold_pct)}</td>
+      <td class="${pctClass(r.gdx_pct)}">${fmtPctPoints(r.gdx_pct)}</td>
       <td>${r.n}</td>
       <td class="${pctClass(r.hit_rate * 100 - 50)}">${fmtRate(r.hit_rate)}</td>
       <td>${r.hiconv_n > 0 ? fmtRate(r.hiconv_hit_rate) : "—"}</td>

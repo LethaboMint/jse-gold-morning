@@ -217,7 +217,10 @@ def build_performance_over_time(scored: pd.DataFrame) -> dict:
     if scored.empty:
         return {"daily": [], "cumulative": None, "by_miner": []}
 
-    d = scored.copy()
+    d = filter_log_table(scored.copy())
+    if d.empty:
+        return {"daily": [], "cumulative": None, "by_miner": []}
+
     if "run_ts_utc" in d.columns:
         d = d.sort_values("run_ts_utc").drop_duplicates(subset=["signal_date", "miner"], keep="last")
 
@@ -231,6 +234,18 @@ def build_performance_over_time(scored: pd.DataFrame) -> dict:
         avg_real_pct=("realized_return_pct", "mean"),
     )
     daily["hit_rate"] = (daily["hits"] / daily["n"]).round(4)
+
+    if "return_gold_t" in d.columns and "return_gdx_t" in d.columns:
+        drivers = (
+            d.groupby("signal_date", as_index=False)
+            .agg(return_gold_t=("return_gold_t", "first"), return_gdx_t=("return_gdx_t", "first"))
+            .assign(
+                gold_pct=lambda x: (x["return_gold_t"] * 100).round(2),
+                gdx_pct=lambda x: (x["return_gdx_t"] * 100).round(2),
+            )
+            .drop(columns=["return_gold_t", "return_gdx_t"])
+        )
+        daily = daily.merge(drivers, on="signal_date", how="left")
 
     hi_daily = (
         hi.groupby("signal_date", as_index=False)
@@ -397,7 +412,8 @@ def main() -> None:
     perf_path = ROOT / "docs" / "performance.json"
     perf = {
         "audited_at_utc": summary["audited_at_utc"],
-        **summary.get("over_time", build_performance_over_time(scored)),
+        "excluded_miners": log_exclude_miners(),
+        **build_performance_over_time(scored),
     }
     write_json(perf_path, perf)
 
