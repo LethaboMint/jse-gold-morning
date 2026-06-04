@@ -1,0 +1,80 @@
+{
+  "overall": {
+    "n": 36,
+    "hit_rate": 0.1388888888888889
+  },
+  "high_conviction": {
+    "n": 9,
+    "hit_rate": 0.2222222222222222
+  },
+  "by_miner": [
+    {
+      "miner": "ANG",
+      "n": 6,
+      "hit_rate": 0.3333,
+      "mae_pct": 3.673,
+      "mean_pred_pct": 0.3607,
+      "mean_real_pct": -3.2251
+    },
+    {
+      "miner": "DRD",
+      "n": 6,
+      "hit_rate": 0.0,
+      "mae_pct": 3.4286,
+      "mean_pred_pct": 0.525,
+      "mean_real_pct": -2.1889
+    },
+    {
+      "miner": "GFI",
+      "n": 6,
+      "hit_rate": 0.3333,
+      "mae_pct": 3.8456,
+      "mean_pred_pct": 0.5699,
+      "mean_real_pct": -2.1411
+    },
+    {
+      "miner": "HAR",
+      "n": 6,
+      "hit_rate": 0.0,
+      "mae_pct": 4.5157,
+      "mean_pred_pct": 0.5697,
+      "mean_real_pct": -2.8283
+    },
+    {
+      "miner": "PAN",
+      "n": 6,
+      "hit_rate": 0.1667,
+      "mae_pct": 8.6771,
+      "mean_pred_pct": 0.4183,
+      "mean_real_pct": -8.2589
+    },
+    {
+      "miner": "SSW",
+      "n": 6,
+      "hit_rate": 0.0,
+      "mae_pct": 4.8232,
+      "mean_pred_pct": 0.4977,
+      "mean_real_pct": -2.8258
+    }
+  ],
+  "recent_by_signal_date": [
+    {
+      "signal_date": "2026-05-29",
+      "n": 18,
+      "hit_rate": 0.0
+    },
+    {
+      "signal_date": "2026-06-01",
+      "n": 6,
+      "hit_rate": 0.3333
+    },
+    {
+      "signal_date": "2026-06-02",
+      "n": 12,
+      "hit_rate": 0.25
+    }
+  ],
+  "audited_at_utc": "2026-06-04T07:57:01.127587+00:00",
+  "log_rows": 36,
+  "scored_rows": 36
+}
