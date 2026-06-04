@@ -1,12 +1,12 @@
 {
   "signals": {
-    "generated_at_utc": "2026-06-04T09:54:40.661618+00:00",
+    "generated_at_utc": "2026-06-04T09:55:17.637179+00:00",
     "signal_date": "2026-06-03",
     "rules_mode": "dashboard",
     "data_source": "yahoo_finance",
     "market": {
       "data_source": "yahoo_finance",
-      "fetched_at_utc": "2026-06-04T09:54:39.180663+00:00",
+      "fetched_at_utc": "2026-06-04T09:55:16.746320+00:00",
       "signal_date": "2026-06-03",
       "gold": {
         "ticker": "GC=F",
@@ -93,7 +93,7 @@
     "return_zar_t": -0.0024321850711799264,
     "signals": [
       {
-        "run_ts_utc": "2026-06-04T09:54:40.661814+00:00",
+        "run_ts_utc": "2026-06-04T09:55:17.637382+00:00",
         "signal_date": "2026-06-03",
         "rules_mode": "dashboard",
         "miner": "HAR",
@@ -118,7 +118,7 @@
         "train_end": "2026-06-02"
       },
       {
-        "run_ts_utc": "2026-06-04T09:54:40.661814+00:00",
+        "run_ts_utc": "2026-06-04T09:55:17.637382+00:00",
         "signal_date": "2026-06-03",
         "rules_mode": "dashboard",
         "miner": "GFI",
@@ -143,7 +143,7 @@
         "train_end": "2026-06-02"
       },
       {
-        "run_ts_utc": "2026-06-04T09:54:40.661814+00:00",
+        "run_ts_utc": "2026-06-04T09:55:17.637382+00:00",
         "signal_date": "2026-06-03",
         "rules_mode": "dashboard",
         "miner": "ANG",
@@ -168,7 +168,7 @@
         "train_end": "2026-06-02"
       },
       {
-        "run_ts_utc": "2026-06-04T09:54:40.661814+00:00",
+        "run_ts_utc": "2026-06-04T09:55:17.637382+00:00",
         "signal_date": "2026-06-03",
         "rules_mode": "dashboard",
         "miner": "DRD",
@@ -193,7 +193,7 @@
         "train_end": "2026-06-02"
       },
       {
-        "run_ts_utc": "2026-06-04T09:54:40.661814+00:00",
+        "run_ts_utc": "2026-06-04T09:55:17.637382+00:00",
         "signal_date": "2026-06-03",
         "rules_mode": "dashboard",
         "miner": "PAN",
@@ -218,7 +218,7 @@
         "train_end": "2026-06-02"
       },
       {
-        "run_ts_utc": "2026-06-04T09:54:40.661814+00:00",
+        "run_ts_utc": "2026-06-04T09:55:17.637382+00:00",
         "signal_date": "2026-06-03",
         "rules_mode": "dashboard",
         "miner": "SSW",
@@ -245,7 +245,7 @@
     ]
   },
   "audit": {
-    "audited_at_utc": "2026-06-04T09:54:43.340826+00:00",
+    "audited_at_utc": "2026-06-04T09:55:20.107777+00:00",
     "overall_hit_rate": 0.35294117647058826,
     "rows": [
       {
@@ -421,7 +421,7 @@
         "realized_date": "2026-06-04",
         "miner": "HAR",
         "pred_return_pct": -1.42964865029876,
-        "realized_return_pct": 0.5238567181084619,
+        "realized_return_pct": 0.44952569729577174,
         "predicted_direction": "SHORT",
         "actual_direction": "LONG",
         "predicted_direction_hiconv": "FLAT",
@@ -445,7 +445,7 @@
         "realized_date": "2026-06-04",
         "miner": "SSW",
         "pred_return_pct": -1.222221189365,
-        "realized_return_pct": -1.2451696006869906,
+        "realized_return_pct": -1.1592958351223648,
         "predicted_direction": "SHORT",
         "actual_direction": "SHORT",
         "predicted_direction_hiconv": "FLAT",
@@ -455,7 +455,7 @@
     ]
   },
   "performance": {
-    "audited_at_utc": "2026-06-04T09:54:43.340826+00:00",
+    "audited_at_utc": "2026-06-04T09:55:20.107777+00:00",
     "daily": [
       {
         "signal_date": "2026-06-01",
@@ -491,9 +491,9 @@
         "signal_date": "2026-06-03",
         "n": 5,
         "hits": 3.0,
-        "mae_pct": 1.1501241130710802,
+        "mae_pct": 1.1432532974926712,
         "avg_pred_pct": -1.1724652776042759,
-        "avg_real_pct": -0.5991572825082359,
+        "avg_real_pct": -0.5968487335578487,
         "hit_rate": 0.6,
         "hiconv_n": null,
         "hiconv_hits": null,
@@ -534,7 +534,7 @@
         "n": 3,
         "hits": 0.0,
         "hit_rate": 0.0,
-        "mae_pct": 2.5476
+        "mae_pct": 2.5229
       },
       {
         "miner": "PAN",
@@ -548,7 +548,7 @@
         "n": 3,
         "hits": 1.0,
         "hit_rate": 0.3333,
-        "mae_pct": 3.0384
+        "mae_pct": 3.0517
       }
     ]
   }

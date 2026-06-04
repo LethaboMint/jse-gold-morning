@@ -36,9 +36,9 @@
       "miner": "HAR",
       "n": 3,
       "hit_rate": 0.0,
-      "mae_pct": 2.5476,
+      "mae_pct": 2.5229,
       "mean_pred_pct": -0.4201,
-      "mean_real_pct": 0.4869
+      "mean_real_pct": 0.4621
     },
     {
       "miner": "PAN",
@@ -52,9 +52,9 @@
       "miner": "SSW",
       "n": 3,
       "hit_rate": 0.3333,
-      "mae_pct": 3.0384,
+      "mae_pct": 3.0517,
       "mean_pred_pct": -0.3986,
-      "mean_real_pct": -0.4504
+      "mean_real_pct": -0.4218
     }
   ],
   "recent_by_signal_date": [
@@ -110,9 +110,9 @@
         "signal_date": "2026-06-03",
         "n": 5,
         "hits": 3.0,
-        "mae_pct": 1.1501241130710802,
+        "mae_pct": 1.1432532974926712,
         "avg_pred_pct": -1.1724652776042759,
-        "avg_real_pct": -0.5991572825082359,
+        "avg_real_pct": -0.5968487335578487,
         "hit_rate": 0.6,
         "hiconv_n": null,
         "hiconv_hits": null,
@@ -153,7 +153,7 @@
         "n": 3,
         "hits": 0.0,
         "hit_rate": 0.0,
-        "mae_pct": 2.5476
+        "mae_pct": 2.5229
       },
       {
         "miner": "PAN",
@@ -167,11 +167,11 @@
         "n": 3,
         "hits": 1.0,
         "hit_rate": 0.3333,
-        "mae_pct": 3.0384
+        "mae_pct": 3.0517
       }
     ]
   },
-  "audited_at_utc": "2026-06-04T09:54:43.340826+00:00",
+  "audited_at_utc": "2026-06-04T09:55:20.107777+00:00",
   "log_rows": 18,
   "scored_rows": 17
 }
