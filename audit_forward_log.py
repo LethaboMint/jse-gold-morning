@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import argparse
 import json
+from datetime import date, datetime
 from pathlib import Path
 
 import numpy as np
@@ -24,6 +25,19 @@ ROOT = Path(__file__).resolve().parent
 LOG_PATH = ROOT / "data" / "forward_model" / "predictions_log.csv"
 AUDITED_PATH = ROOT / "data" / "forward_model" / "predictions_audited.csv"
 SUMMARY_PATH = ROOT / "data" / "forward_model" / "forward_audit_summary.json"
+
+
+def _json_default(obj: object) -> object:
+    if isinstance(obj, (date, datetime, pd.Timestamp)):
+        return str(obj)[:10]
+    if isinstance(obj, (np.floating, np.integer)):
+        v = float(obj)
+        return v if np.isfinite(v) else None
+    raise TypeError(f"Not JSON serializable: {type(obj)}")
+
+
+def write_json(path: Path, payload: dict) -> None:
+    path.write_text(json.dumps(payload, indent=2, default=_json_default), encoding="utf-8")
 
 
 def miner_log_returns() -> pd.DataFrame:
@@ -102,7 +116,7 @@ def audit_log(log: pd.DataFrame, ret_log: pd.DataFrame, ret_pct: pd.DataFrame) -
         rows.append(
             {
                 **r.to_dict(),
-                "realized_date": realized_date.date() if pd.notna(realized_date) else None,
+                "realized_date": str(realized_date.date()) if pd.notna(realized_date) else None,
                 "predicted_direction": pred_dir,
                 "predicted_direction_forecast": pred_dir_forecast,
                 "predicted_direction_hiconv": pred_dir_hiconv,
@@ -120,12 +134,78 @@ def audit_log(log: pd.DataFrame, ret_log: pd.DataFrame, ret_pct: pd.DataFrame) -
     return pd.DataFrame(rows)
 
 
+def _json_rows(df: pd.DataFrame) -> list[dict]:
+    clean = df.replace({np.nan: None})
+    for col in clean.select_dtypes(include=["datetime64[ns]", "datetime64[ns, UTC]"]).columns:
+        clean[col] = clean[col].astype(str)
+    return clean.to_dict(orient="records")
+
+
+def build_performance_over_time(scored: pd.DataFrame) -> dict:
+    """Daily and cumulative model performance for the dashboard."""
+    if scored.empty:
+        return {"daily": [], "cumulative": None, "by_miner": []}
+
+    d = scored.copy()
+    if "run_ts_utc" in d.columns:
+        d = d.sort_values("run_ts_utc").drop_duplicates(subset=["signal_date", "miner"], keep="last")
+
+    hi = d[d["signal_high_conv"].isin(["LONG", "SHORT"])]
+
+    daily = d.groupby("signal_date", as_index=False).agg(
+        n=("direction_match", "count"),
+        hits=("direction_match", lambda s: float(s.sum())),
+        mae_pct=("error_pct", lambda s: float(np.nanmean(np.abs(s)))),
+        avg_pred_pct=("pred_return_pct", "mean"),
+        avg_real_pct=("realized_return_pct", "mean"),
+    )
+    daily["hit_rate"] = (daily["hits"] / daily["n"]).round(4)
+
+    hi_daily = (
+        hi.groupby("signal_date", as_index=False)
+        .agg(hiconv_n=("hit_high_conv", "count"), hiconv_hits=("hit_high_conv", "sum"))
+        if len(hi)
+        else pd.DataFrame(columns=["signal_date", "hiconv_n", "hiconv_hits"])
+    )
+    daily = daily.merge(hi_daily, on="signal_date", how="left")
+    daily["hiconv_hit_rate"] = np.where(
+        daily["hiconv_n"] > 0, (daily["hiconv_hits"] / daily["hiconv_n"]).round(4), np.nan
+    )
+
+    daily = daily.sort_values("signal_date")
+    daily["cumulative_n"] = daily["n"].cumsum()
+    daily["cumulative_hits"] = daily["hits"].cumsum()
+    daily["cumulative_hit_rate"] = (daily["cumulative_hits"] / daily["cumulative_n"]).round(4)
+    daily["signal_date"] = daily["signal_date"].astype(str).str[:10]
+
+    by_miner = (
+        d.groupby("miner", as_index=False)
+        .agg(
+            n=("direction_match", "count"),
+            hits=("direction_match", "sum"),
+            hit_rate=("direction_match", "mean"),
+            mae_pct=("error_pct", lambda s: float(np.nanmean(np.abs(s)))),
+        )
+        .round(4)
+    )
+
+    last = daily.iloc[-1]
+    return {
+        "daily": _json_rows(daily),
+        "cumulative": {
+            "n": int(last["cumulative_n"]),
+            "hit_rate": float(last["cumulative_hit_rate"]),
+        },
+        "by_miner": _json_rows(by_miner),
+    }
+
+
 def build_summary(scored: pd.DataFrame) -> dict:
     overall = {
         "n": int(len(scored)),
         "hit_rate": float(scored["hit_direction"].mean()) if len(scored) else None,
     }
-    by_miner = (
+    by_miner_df = (
         scored.groupby("miner")
         .agg(
             n=("hit_direction", "count"),
@@ -136,8 +216,8 @@ def build_summary(scored: pd.DataFrame) -> dict:
         )
         .round(4)
         .reset_index()
-        .to_dict(orient="records")
     )
+    by_miner = _json_rows(by_miner_df)
 
     hi = scored[scored["signal_high_conv"].isin(["LONG", "SHORT"])]
     hi_summary = None
@@ -150,14 +230,15 @@ def build_summary(scored: pd.DataFrame) -> dict:
     recent = scored.groupby("signal_date", as_index=False).agg(
         n=("hit_direction", "count"), hit_rate=("hit_direction", "mean")
     )
-    recent["signal_date"] = recent["signal_date"].astype(str)
-    by_signal_date = recent.tail(20).round(4).to_dict(orient="records")
+    recent["signal_date"] = recent["signal_date"].astype(str).str[:10]
+    by_signal_date = _json_rows(recent.tail(20).round(4))
 
     return {
         "overall": overall,
         "high_conviction": hi_summary,
         "by_miner": by_miner,
         "recent_by_signal_date": by_signal_date,
+        "over_time": build_performance_over_time(scored),
     }
 
 
@@ -186,7 +267,7 @@ def main() -> None:
     summary["audited_at_utc"] = pd.Timestamp.utcnow().isoformat()
     summary["log_rows"] = int(len(log))
     summary["scored_rows"] = int(len(scored))
-    SUMMARY_PATH.write_text(json.dumps(summary, indent=2), encoding="utf-8")
+    write_json(SUMMARY_PATH, summary)
 
     # Publish recent rows for the website
     audit_doc = ROOT / "docs" / "audit.json"
@@ -203,16 +284,20 @@ def main() -> None:
         "hit_high_conv",
     ]
     recent = out.dropna(subset=["realized_return_log"]).tail(60)
+    recent = recent[[c for c in recent_cols if c in recent.columns]].replace({np.nan: None})
     payload = {
         "audited_at_utc": summary["audited_at_utc"],
         "overall_hit_rate": summary["overall"].get("hit_rate"),
-        "rows": recent[[c for c in recent_cols if c in recent.columns]].to_dict(orient="records"),
+        "rows": _json_rows(recent),
     }
-    for row in payload["rows"]:
-        for k in ("signal_date", "realized_date"):
-            if k in row and row[k] is not None:
-                row[k] = str(row[k])[:10]
-    audit_doc.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+    write_json(audit_doc, payload)
+
+    perf_path = ROOT / "docs" / "performance.json"
+    perf = {
+        "audited_at_utc": summary["audited_at_utc"],
+        **summary.get("over_time", build_performance_over_time(scored)),
+    }
+    write_json(perf_path, perf)
 
     if args.summary and len(scored) == 0:
         print("No scored rows yet — wait until t+1 JSE data exists for logged signal dates.")
@@ -244,6 +329,7 @@ def main() -> None:
     print(f"\nSaved: {AUDITED_PATH}")
     print(f"Saved: {SUMMARY_PATH}")
     print(f"Saved: {ROOT / 'docs' / 'audit.json'}")
+    print(f"Saved: {ROOT / 'docs' / 'performance.json'}")
 
 
 if __name__ == "__main__":

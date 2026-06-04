@@ -61,8 +61,54 @@
     </section>
 
     <section class="section-head">
-      <h2>Track record — prediction vs actual (t+1)</h2>
-      <p class="hint">After each JSE session, we compare forecast direction to what happened.</p>
+      <h2>Model performance over time</h2>
+      <p class="hint">Hit rate by US signal date and running cumulative accuracy (all miners, scored days only).</p>
+    </section>
+    <section class="panel" id="perf-panel">
+      <p class="muted" id="perf-empty">Building history — need more scored signal dates.</p>
+      <p class="perf-cumulative" id="perf-cumulative" hidden></p>
+      <div class="table-wrap" id="perf-daily-wrap" hidden>
+        <table>
+          <thead>
+            <tr>
+              <th>Signal date</th>
+              <th>N</th>
+              <th>Hit rate</th>
+              <th>Hi conv. hit</th>
+              <th>Cumulative</th>
+              <th>MAE %</th>
+              <th>Avg pred</th>
+              <th>Avg actual</th>
+            </tr>
+          </thead>
+          <tbody id="perf-daily-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section-head">
+      <h2>Performance by miner (all time)</h2>
+    </section>
+    <section class="panel">
+      <div class="table-wrap" id="perf-miner-wrap" hidden>
+        <table>
+          <thead>
+            <tr>
+              <th>Miner</th>
+              <th>N</th>
+              <th>Hit rate</th>
+              <th>MAE %</th>
+            </tr>
+          </thead>
+          <tbody id="perf-miner-body"></tbody>
+        </table>
+      </div>
+      <p class="muted" id="perf-miner-empty">No miner stats yet.</p>
+    </section>
+
+    <section class="section-head">
+      <h2>Log — prediction vs actual (t+1)</h2>
+      <p class="hint">Row-level history: predicted vs actual direction each session.</p>
     </section>
     <section class="panel" id="audit-panel">
       <p class="muted" id="audit-empty">No scored days yet — check back after a few sessions.</p>

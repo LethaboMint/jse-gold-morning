@@ -170,6 +170,82 @@ function matchIcon(v) {
   return "—";
 }
 
+async function loadPerformance() {
+  try {
+    const res = await fetch(`performance.json?t=${Date.now()}`);
+    if (!res.ok) return null;
+    return res.json();
+  } catch {
+    return null;
+  }
+}
+
+function fmtRate(v) {
+  if (v == null || Number.isNaN(v)) return "—";
+  return (Number(v) * 100).toFixed(1) + "%";
+}
+
+function renderPerformance(perf) {
+  const empty = document.getElementById("perf-empty");
+  const dailyWrap = document.getElementById("perf-daily-wrap");
+  const dailyBody = document.getElementById("perf-daily-body");
+  const cum = document.getElementById("perf-cumulative");
+  const minerWrap = document.getElementById("perf-miner-wrap");
+  const minerBody = document.getElementById("perf-miner-body");
+  const minerEmpty = document.getElementById("perf-miner-empty");
+
+  if (!perf?.daily?.length) {
+    empty.hidden = false;
+    dailyWrap.hidden = true;
+    cum.hidden = true;
+    return;
+  }
+
+  empty.hidden = true;
+  dailyWrap.hidden = false;
+
+  if (perf.cumulative?.n) {
+    cum.textContent = `Cumulative direction hit rate: ${fmtRate(perf.cumulative.hit_rate)} over ${perf.cumulative.n} miner-days`;
+    cum.hidden = false;
+  }
+
+  dailyBody.innerHTML = [...perf.daily]
+    .reverse()
+    .map(
+      (r) => `
+    <tr>
+      <td>${r.signal_date}</td>
+      <td>${r.n}</td>
+      <td class="${pctClass(r.hit_rate * 100 - 50)}">${fmtRate(r.hit_rate)}</td>
+      <td>${r.hiconv_n > 0 ? fmtRate(r.hiconv_hit_rate) : "—"}</td>
+      <td><strong>${fmtRate(r.cumulative_hit_rate)}</strong></td>
+      <td>${fmtPctPoints(r.mae_pct)}</td>
+      <td>${fmtPctPoints(r.avg_pred_pct)}</td>
+      <td>${fmtPctPoints(r.avg_real_pct)}</td>
+    </tr>`
+    )
+    .join("");
+
+  if (perf.by_miner?.length) {
+    minerEmpty.hidden = true;
+    minerWrap.hidden = false;
+    minerBody.innerHTML = perf.by_miner
+      .map(
+        (r) => `
+      <tr>
+        <td><span class="miner-code">${r.miner}</span></td>
+        <td>${r.n}</td>
+        <td>${fmtRate(r.hit_rate)}</td>
+        <td>${fmtPctPoints(r.mae_pct)}</td>
+      </tr>`
+      )
+      .join("");
+  } else {
+    minerEmpty.hidden = false;
+    minerWrap.hidden = true;
+  }
+}
+
 async function loadAudit() {
   try {
     const res = await fetch(`audit.json?t=${Date.now()}`);
@@ -247,7 +323,8 @@ async function main() {
     const actionable = renderSummary(signals);
     renderForecast(signals);
     renderActive(actionable);
-    const audit = await loadAudit();
+    const [audit, perf] = await Promise.all([loadAudit(), loadPerformance()]);
+    renderPerformance(perf);
     renderAudit(audit);
   } catch (e) {
     document.querySelector(".page").insertAdjacentHTML(

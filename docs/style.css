@@ -189,6 +189,15 @@ tr:last-child td { border-bottom: none; }
 
 #audit-empty { margin: 0 0 0.75rem; }
 
+.perf-cumulative {
+  margin: 0 0 1rem;
+  font-size: 0.95rem;
+  color: var(--gold);
+  font-weight: 600;
+}
+
+#perf-empty { margin: 0; }
+
 .sig {
   display: inline-block;
   min-width: 4.2rem;
