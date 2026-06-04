@@ -25,6 +25,17 @@ ROOT = Path(__file__).resolve().parent
 LOG_PATH = ROOT / "data" / "forward_model" / "predictions_log.csv"
 AUDITED_PATH = ROOT / "data" / "forward_model" / "predictions_audited.csv"
 SUMMARY_PATH = ROOT / "data" / "forward_model" / "forward_audit_summary.json"
+CONFIG_PATH = ROOT / "signal_config.json"
+
+
+def log_min_signal_date() -> pd.Timestamp | None:
+    if not CONFIG_PATH.exists():
+        return None
+    cfg = json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
+    raw = cfg.get("log_min_signal_date")
+    if not raw:
+        return None
+    return pd.Timestamp(raw).normalize()
 
 
 def _json_default(obj: object) -> object:
@@ -264,6 +275,12 @@ def main() -> None:
 
     log = pd.read_csv(LOG_PATH)
     log["signal_date"] = pd.to_datetime(log["signal_date"]).dt.normalize()
+    min_d = log_min_signal_date()
+    if min_d is not None:
+        before = len(log)
+        log = log[log["signal_date"] >= min_d]
+        if len(log) < before:
+            print(f"Filtered log to signal_date >= {min_d.date()} ({before} -> {len(log)} rows)")
     raw_n = len(log)
     log = dedupe_log(log)
     if len(log) < raw_n:

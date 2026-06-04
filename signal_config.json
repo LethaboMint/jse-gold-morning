@@ -3,5 +3,6 @@
   "min_pred": 0.0,
   "skip_duplicate_same_day": true,
   "write_latest_snapshot": true,
+  "log_min_signal_date": "2026-06-01",
   "comment": "dashboard = GDX-up + |forecast|>=0.5% for HiConv. production = walk-forward (often FLAT when gold up)."
 }
