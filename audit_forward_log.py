@@ -91,6 +91,8 @@ def audit_log(log: pd.DataFrame, ret_log: pd.DataFrame, ret_pct: pd.DataFrame) -
         pred_dir_forecast = return_to_direction(pred)
         pred_dir = str(r.get("signal", pred_dir_forecast or "")).upper() or pred_dir_forecast
         pred_dir_hiconv = str(r.get("signal_high_conv", "")).upper() or None
+        if pred_dir_hiconv in ("NAN", "NONE", ""):
+            pred_dir_hiconv = "FLAT"
         actual_dir = return_to_direction(realized_log) if np.isfinite(realized_log) else None
 
         if np.isfinite(realized_log):
@@ -242,6 +244,14 @@ def build_summary(scored: pd.DataFrame) -> dict:
     }
 
 
+def dedupe_log(log: pd.DataFrame) -> pd.DataFrame:
+    """One row per signal_date + miner (latest run wins)."""
+    d = log.copy()
+    if "run_ts_utc" in d.columns:
+        d = d.sort_values("run_ts_utc")
+    return d.drop_duplicates(subset=["signal_date", "miner"], keep="last")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Audit predictions vs realized t+1")
     parser.add_argument("--summary", action="store_true", help="Print summary only")
@@ -254,6 +264,11 @@ def main() -> None:
 
     log = pd.read_csv(LOG_PATH)
     log["signal_date"] = pd.to_datetime(log["signal_date"]).dt.normalize()
+    raw_n = len(log)
+    log = dedupe_log(log)
+    if len(log) < raw_n:
+        print(f"Deduped log: {raw_n} -> {len(log)} rows")
+        log.to_csv(LOG_PATH, index=False)
 
     print("Fetching Yahoo miner history for realized returns...")
     ret_log = miner_log_returns()
@@ -283,7 +298,9 @@ def main() -> None:
         "direction_match",
         "hit_high_conv",
     ]
-    recent = out.dropna(subset=["realized_return_log"]).tail(60)
+    scored_all = out.dropna(subset=["realized_return_log"])
+    scored_all = dedupe_log(scored_all)
+    recent = scored_all.sort_values(["signal_date", "miner"])
     recent = recent[[c for c in recent_cols if c in recent.columns]].replace({np.nan: None})
     payload = {
         "audited_at_utc": summary["audited_at_utc"],

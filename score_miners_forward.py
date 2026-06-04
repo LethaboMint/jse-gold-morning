@@ -168,6 +168,9 @@ def run_generation(
     skip_duplicate: bool = False,
     write_latest: bool = False,
     quiet: bool = False,
+    with_quotes: bool = True,
+    panel: pd.DataFrame | None = None,
+    panel_last: pd.Timestamp | None = None,
 ) -> pd.DataFrame:
     rules_path = {
         "production": PROD_RULES_PATH,
@@ -177,7 +180,10 @@ def run_generation(
         "none": None,
     }[rules]
 
-    panel, last_ts = load_history()
+    if panel is None:
+        panel, last_ts = load_history()
+    else:
+        last_ts = panel_last if panel_last is not None else panel.index.max()
 
     if as_of:
         signal_date = pd.Timestamp(as_of).normalize()
@@ -190,7 +196,7 @@ def run_generation(
     if pd.isna(train_end):
         train_end = signal_date
 
-    market = build_market_snapshot(signal_date)
+    market = build_market_snapshot(signal_date) if with_quotes else {"miners": []}
     fit_panel = panel[panel.index <= train_end]
     coeffs_all = fit_miner_models(fit_panel, train_end)
 
@@ -215,18 +221,23 @@ def run_generation(
     run_ts = datetime.now(timezone.utc).isoformat()
     log_rows = []
 
-    if not quiet:
+    if not quiet and with_quotes:
         g = market["gold"]
         x = market["gdx"]
         print(f"Signal date (US features): {signal_date.date()}")
         print(f"Train through:             {train_end.date()}")
         print(f"Data:                      Yahoo Finance")
         print()
-        print(f"Gold {g['ticker']}:  {g['close']} USD  ({g['pct_change']:+.2f}%)" if g.get("pct_change") is not None else f"Gold: {g.get('close')}")
-        print(f"GDX  {x['ticker']}:  {x['close']} USD  ({x['pct_change']:+.2f}%)" if x.get("pct_change") is not None else f"GDX: {x.get('close')}")
+        if g and x:
+            print(f"Gold {g['ticker']}:  {g['close']} USD  ({g['pct_change']:+.2f}%)" if g.get("pct_change") is not None else f"Gold: {g.get('close')}")
+            print(f"GDX  {x['ticker']}:  {x['close']} USD  ({x['pct_change']:+.2f}%)" if x.get("pct_change") is not None else f"GDX: {x.get('close')}")
         print()
         print(f"{'Miner':<6} {'Price':>10} {'Chg%':>8} {'Fcst':>8} {'Gold':>7} {'GDX':>7} {'Sig':>6} {'HiC':>6}")
         print("-" * 68)
+    elif not quiet:
+        print(f"Signal date (US features): {signal_date.date()}")
+        print(f"Train through:             {train_end.date()}")
+        print()
 
     drivers = {
         "return_gold_t": r_gold,
