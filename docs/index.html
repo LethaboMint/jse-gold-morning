@@ -60,6 +60,31 @@
       <ul id="active-list" class="active-list"></ul>
     </section>
 
+    <section class="section-head">
+      <h2>Track record — prediction vs actual (t+1)</h2>
+      <p class="hint">After each JSE session, we compare forecast direction to what happened.</p>
+    </section>
+    <section class="panel" id="audit-panel">
+      <p class="muted" id="audit-empty">No scored days yet — check back after a few sessions.</p>
+      <div class="table-wrap" id="audit-table-wrap" hidden>
+        <table>
+          <thead>
+            <tr>
+              <th>Signal</th>
+              <th>Realized</th>
+              <th>Miner</th>
+              <th>Pred %</th>
+              <th>Actual %</th>
+              <th>Predicted</th>
+              <th>Actual</th>
+              <th>Match</th>
+            </tr>
+          </thead>
+          <tbody id="audit-body"></tbody>
+        </table>
+      </div>
+    </section>
+
     <footer class="footer">
       <p>All prices: <strong>Yahoo Finance</strong>. Not investment advice.</p>
       <p class="muted">

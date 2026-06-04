@@ -11,6 +11,13 @@ const fmtPct = (v) => {
   return (n >= 0 ? "+" : "") + n.toFixed(2) + "%";
 };
 
+/** Values already stored as percent points (e.g. 0.87 means +0.87%). */
+const fmtPctPoints = (v) => {
+  if (v == null || Number.isNaN(v)) return "—";
+  const n = Number(v);
+  return (n >= 0 ? "+" : "") + n.toFixed(2) + "%";
+};
+
 const pctClass = (v) => {
   if (v == null || Number.isNaN(v) || Math.abs(v) < 0.001) return "flat";
   return v > 0 ? "up" : "down";
@@ -157,6 +164,55 @@ function renderMeta(data) {
   `;
 }
 
+function matchIcon(v) {
+  if (v === 1 || v === true) return '<span class="match-yes">✓</span>';
+  if (v === 0 || v === false) return '<span class="match-no">✗</span>';
+  return "—";
+}
+
+async function loadAudit() {
+  try {
+    const res = await fetch(`audit.json?t=${Date.now()}`);
+    if (!res.ok) return null;
+    return res.json();
+  } catch {
+    return null;
+  }
+}
+
+function renderAudit(audit) {
+  const empty = document.getElementById("audit-empty");
+  const wrap = document.getElementById("audit-table-wrap");
+  const body = document.getElementById("audit-body");
+  if (!audit?.rows?.length) {
+    empty.hidden = false;
+    wrap.hidden = true;
+    return;
+  }
+  empty.hidden = true;
+  wrap.hidden = false;
+  if (audit.overall_hit_rate != null) {
+    empty.textContent = `Overall direction match: ${(audit.overall_hit_rate * 100).toFixed(1)}% (recent scored days)`;
+    empty.hidden = false;
+  }
+  body.innerHTML = [...audit.rows]
+    .reverse()
+    .map(
+      (r) => `
+    <tr>
+      <td>${r.signal_date || "—"}</td>
+      <td>${r.realized_date || "—"}</td>
+      <td><span class="miner-code">${r.miner}</span></td>
+      <td>${fmtPctPoints(r.pred_return_pct)}</td>
+      <td>${fmtPctPoints(r.realized_return_pct)}</td>
+      <td>${sigBadge(r.predicted_direction || "FLAT")}</td>
+      <td>${sigBadge(r.actual_direction || "FLAT")}</td>
+      <td>${matchIcon(r.direction_match)}</td>
+    </tr>`
+    )
+    .join("");
+}
+
 async function main() {
   try {
     const data = await loadSignals();
@@ -191,6 +247,8 @@ async function main() {
     const actionable = renderSummary(signals);
     renderForecast(signals);
     renderActive(actionable);
+    const audit = await loadAudit();
+    renderAudit(audit);
   } catch (e) {
     document.querySelector(".page").insertAdjacentHTML(
       "afterbegin",

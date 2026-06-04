@@ -43,6 +43,14 @@ def miner_simple_returns() -> pd.DataFrame:
     return pd.concat(parts, axis=1).sort_index()
 
 
+def return_to_direction(r: float, eps: float = 1e-8) -> str | None:
+    if not np.isfinite(r):
+        return None
+    if abs(r) < eps:
+        return "FLAT"
+    return "LONG" if r > 0 else "SHORT"
+
+
 def realized_after(signal_date: pd.Timestamp, series: pd.Series) -> tuple[pd.Timestamp | pd.NaT, float]:
     """First trading row strictly after signal_date."""
     future_idx = series.index[series.index > signal_date]
@@ -66,20 +74,28 @@ def audit_log(log: pd.DataFrame, ret_log: pd.DataFrame, ret_pct: pd.DataFrame) -
         pred = float(r["pred_return_miner_t1"])
         pred_pct = pred * 100.0  # approx for small moves
 
+        pred_dir_forecast = return_to_direction(pred)
+        pred_dir = str(r.get("signal", pred_dir_forecast or "")).upper() or pred_dir_forecast
+        pred_dir_hiconv = str(r.get("signal_high_conv", "")).upper() or None
+        actual_dir = return_to_direction(realized_log) if np.isfinite(realized_log) else None
+
         if np.isfinite(realized_log):
             hit = float(np.sign(pred) == np.sign(realized_log))
             err_log = realized_log - pred
             err_pct = (realized_pct_s * 100.0 if np.isfinite(realized_pct_s) else np.nan) - pred_pct
+            dir_match = (
+                float(pred_dir == actual_dir)
+                if pred_dir in ("LONG", "SHORT") and actual_dir in ("LONG", "SHORT")
+                else np.nan
+            )
         else:
             hit = np.nan
             err_log = np.nan
             err_pct = np.nan
+            dir_match = np.nan
 
-        sig_hi = r.get("signal_high_conv", "")
-        if sig_hi in ("LONG", "SHORT") and np.isfinite(realized_log):
-            hit_hi = float(
-                (sig_hi == "LONG" and realized_log > 0) or (sig_hi == "SHORT" and realized_log < 0)
-            )
+        if pred_dir_hiconv in ("LONG", "SHORT") and actual_dir in ("LONG", "SHORT"):
+            hit_hi = float(pred_dir_hiconv == actual_dir)
         else:
             hit_hi = np.nan
 
@@ -87,6 +103,11 @@ def audit_log(log: pd.DataFrame, ret_log: pd.DataFrame, ret_pct: pd.DataFrame) -
             {
                 **r.to_dict(),
                 "realized_date": realized_date.date() if pd.notna(realized_date) else None,
+                "predicted_direction": pred_dir,
+                "predicted_direction_forecast": pred_dir_forecast,
+                "predicted_direction_hiconv": pred_dir_hiconv,
+                "actual_direction": actual_dir,
+                "direction_match": dir_match,
                 "realized_return_log": realized_log,
                 "realized_return_pct": realized_pct_s * 100.0 if np.isfinite(realized_pct_s) else np.nan,
                 "pred_return_pct": pred_pct,
@@ -167,6 +188,32 @@ def main() -> None:
     summary["scored_rows"] = int(len(scored))
     SUMMARY_PATH.write_text(json.dumps(summary, indent=2), encoding="utf-8")
 
+    # Publish recent rows for the website
+    audit_doc = ROOT / "docs" / "audit.json"
+    recent_cols = [
+        "signal_date",
+        "realized_date",
+        "miner",
+        "pred_return_pct",
+        "realized_return_pct",
+        "predicted_direction",
+        "actual_direction",
+        "predicted_direction_hiconv",
+        "direction_match",
+        "hit_high_conv",
+    ]
+    recent = out.dropna(subset=["realized_return_log"]).tail(60)
+    payload = {
+        "audited_at_utc": summary["audited_at_utc"],
+        "overall_hit_rate": summary["overall"].get("hit_rate"),
+        "rows": recent[[c for c in recent_cols if c in recent.columns]].to_dict(orient="records"),
+    }
+    for row in payload["rows"]:
+        for k in ("signal_date", "realized_date"):
+            if k in row and row[k] is not None:
+                row[k] = str(row[k])[:10]
+    audit_doc.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+
     if args.summary and len(scored) == 0:
         print("No scored rows yet — wait until t+1 JSE data exists for logged signal dates.")
         return
@@ -196,6 +243,7 @@ def main() -> None:
 
     print(f"\nSaved: {AUDITED_PATH}")
     print(f"Saved: {SUMMARY_PATH}")
+    print(f"Saved: {ROOT / 'docs' / 'audit.json'}")
 
 
 if __name__ == "__main__":

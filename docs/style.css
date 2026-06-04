@@ -184,6 +184,11 @@ tr:last-child td { border-bottom: none; }
 .drivers-line { margin: 0; font-size: 0.9rem; }
 .drivers.panel { padding: 0.85rem 1.1rem; margin-bottom: 1rem; }
 
+.match-yes { color: var(--long); font-weight: 700; }
+.match-no { color: var(--short); font-weight: 700; }
+
+#audit-empty { margin: 0 0 0.75rem; }
+
 .sig {
   display: inline-block;
   min-width: 4.2rem;
