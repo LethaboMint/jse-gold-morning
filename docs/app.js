@@ -291,6 +291,7 @@ function renderAudit(audit) {
       <td>${fmtPctPoints(r.pred_return_pct)}</td>
       <td>${fmtPctPoints(r.realized_return_pct)}</td>
       <td>${fmtDayHigh(r)}</td>
+      <td class="${pctClass(r.realized_day_high_pct)}">${fmtPctPoints(r.realized_day_high_pct)}</td>
       <td>${sigBadge(normDirection(r.predicted_direction))}</td>
       <td>${sigBadge(normDirection(r.actual_direction))}</td>
       <td>${matchIcon(r.direction_match)}</td>

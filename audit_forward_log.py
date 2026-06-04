@@ -19,7 +19,14 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from yahoo_market import MINERS, download_miner_close, download_miner_high, miner_currency, price_at_date
+from yahoo_market import (
+    MINERS,
+    day_high_pct_vs_prev_close,
+    download_miner_close,
+    download_miner_high,
+    miner_currency,
+    price_at_date,
+)
 
 ROOT = Path(__file__).resolve().parent
 LOG_PATH = ROOT / "data" / "forward_model" / "predictions_log.csv"
@@ -28,14 +35,30 @@ SUMMARY_PATH = ROOT / "data" / "forward_model" / "forward_audit_summary.json"
 CONFIG_PATH = ROOT / "signal_config.json"
 
 
-def log_min_signal_date() -> pd.Timestamp | None:
+def _load_config() -> dict:
     if not CONFIG_PATH.exists():
-        return None
-    cfg = json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
-    raw = cfg.get("log_min_signal_date")
+        return {}
+    return json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
+
+
+def log_min_signal_date() -> pd.Timestamp | None:
+    raw = _load_config().get("log_min_signal_date")
     if not raw:
         return None
     return pd.Timestamp(raw).normalize()
+
+
+def log_exclude_miners() -> list[str]:
+    """Miners omitted from the website log table (e.g. ANG dual-listing)."""
+    ex = _load_config().get("log_exclude_miners", ["ANG"])
+    return [str(m).upper() for m in ex] if ex else []
+
+
+def filter_log_table(df: pd.DataFrame) -> pd.DataFrame:
+    ex = log_exclude_miners()
+    if not ex or "miner" not in df.columns:
+        return df
+    return df[~df["miner"].astype(str).str.upper().isin(ex)].copy()
 
 
 def _json_default(obj: object) -> object:
@@ -68,14 +91,17 @@ def miner_simple_returns() -> pd.DataFrame:
     return pd.concat(parts, axis=1).sort_index()
 
 
-def miner_highs_and_tickers() -> tuple[dict[str, pd.Series], dict[str, str]]:
+def miner_ohlc_and_tickers() -> tuple[dict[str, pd.Series], dict[str, pd.Series], dict[str, str]]:
     highs: dict[str, pd.Series] = {}
+    closes: dict[str, pd.Series] = {}
     tickers: dict[str, str] = {}
     for m in MINERS:
-        h, t = download_miner_high(m)
+        c, t = download_miner_close(m)
+        h, _ = download_miner_high(m)
+        closes[m] = c
         highs[m] = h
         tickers[m] = t
-    return highs, tickers
+    return highs, closes, tickers
 
 
 def return_to_direction(r: float, eps: float = 1e-8) -> str | None:
@@ -100,6 +126,7 @@ def audit_log(
     ret_log: pd.DataFrame,
     ret_pct: pd.DataFrame,
     miner_highs: dict[str, pd.Series],
+    miner_closes: dict[str, pd.Series],
     miner_tickers: dict[str, str],
 ) -> pd.DataFrame:
     rows = []
@@ -143,17 +170,23 @@ def audit_log(
             hit_hi = np.nan
 
         realized_day_high = None
+        realized_day_high_pct = None
         price_currency = None
         if pd.notna(realized_date) and m in miner_highs:
             t = miner_tickers.get(m, "")
             realized_day_high = price_at_date(miner_highs[m], realized_date, t)
             price_currency = miner_currency(t)
+            if m in miner_closes:
+                realized_day_high_pct = day_high_pct_vs_prev_close(
+                    miner_highs[m], miner_closes[m], realized_date
+                )
 
         rows.append(
             {
                 **r.to_dict(),
                 "realized_date": str(realized_date.date()) if pd.notna(realized_date) else None,
                 "realized_day_high": realized_day_high,
+                "realized_day_high_pct": realized_day_high_pct,
                 "price_currency": price_currency,
                 "predicted_direction": pred_dir,
                 "predicted_direction_forecast": pred_dir_forecast,
@@ -318,9 +351,9 @@ def main() -> None:
     print("Fetching Yahoo miner history for realized returns...")
     ret_log = miner_log_returns()
     ret_pct = miner_simple_returns()
-    miner_highs, miner_tickers = miner_highs_and_tickers()
+    miner_highs, miner_closes, miner_tickers = miner_ohlc_and_tickers()
 
-    out = audit_log(log, ret_log, ret_pct, miner_highs, miner_tickers)
+    out = audit_log(log, ret_log, ret_pct, miner_highs, miner_closes, miner_tickers)
     out.to_csv(AUDITED_PATH, index=False)
 
     scored = out.dropna(subset=["realized_return_log"])
@@ -339,6 +372,7 @@ def main() -> None:
         "pred_return_pct",
         "realized_return_pct",
         "realized_day_high",
+        "realized_day_high_pct",
         "price_currency",
         "predicted_direction",
         "actual_direction",
@@ -348,12 +382,15 @@ def main() -> None:
     ]
     scored_all = out.dropna(subset=["realized_return_log"])
     scored_all = dedupe_log(scored_all)
-    recent = scored_all.sort_values(["signal_date", "miner"])
-    recent = recent[[c for c in recent_cols if c in recent.columns]].replace({np.nan: None})
+    table = filter_log_table(scored_all).sort_values(["signal_date", "miner"])
+    table = table[[c for c in recent_cols if c in table.columns]].replace({np.nan: None})
+    dm = table["direction_match"].dropna() if "direction_match" in table.columns else pd.Series(dtype=float)
+    table_hit = float(dm.mean()) if len(dm) else None
     payload = {
         "audited_at_utc": summary["audited_at_utc"],
-        "overall_hit_rate": summary["overall"].get("hit_rate"),
-        "rows": _json_rows(recent),
+        "overall_hit_rate": table_hit,
+        "excluded_miners": log_exclude_miners(),
+        "rows": _json_rows(table),
     }
     write_json(audit_doc, payload)
 

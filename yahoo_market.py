@@ -95,8 +95,8 @@ def display_close(close: float | None, ticker: str) -> float | None:
     return round(close, 4)
 
 
-def price_at_date(series: pd.Series, date: pd.Timestamp, ticker: str = "") -> float | None:
-    """Scalar price on a trading date (uses last available on/before date if missing)."""
+def resolve_trading_date(series: pd.Series, date: pd.Timestamp) -> pd.Timestamp | None:
+    """Last available index in series on or before date."""
     date = pd.Timestamp(date).normalize()
     hist = series.dropna()
     if hist.empty:
@@ -105,8 +105,31 @@ def price_at_date(series: pd.Series, date: pd.Timestamp, ticker: str = "") -> fl
         hist = hist.loc[:date]
         if hist.empty:
             return None
-        date = hist.index[-1]
-    return display_close(float(hist.loc[date]), ticker)
+        return pd.Timestamp(hist.index[-1]).normalize()
+    return date
+
+
+def price_at_date(series: pd.Series, date: pd.Timestamp, ticker: str = "") -> float | None:
+    """Scalar price on a trading date (uses last available on/before date if missing)."""
+    d = resolve_trading_date(series, date)
+    if d is None:
+        return None
+    return display_close(float(series.loc[d]), ticker)
+
+
+def day_high_pct_vs_prev_close(high: pd.Series, close: pd.Series, date: pd.Timestamp) -> float | None:
+    """Intraday high vs prior session close, in percent points (same basis as close-to-close Actual %)."""
+    d = resolve_trading_date(high, date)
+    if d is None:
+        return None
+    prior = close.index[close.index < d]
+    if len(prior) == 0:
+        return None
+    h = float(high.loc[d])
+    prev_close = float(close.loc[prior[-1]])
+    if prev_close == 0:
+        return None
+    return round((h / prev_close - 1.0) * 100.0, 2)
 
 
 def quote_at_date(close: pd.Series, date: pd.Timestamp, ticker: str = "") -> dict:
