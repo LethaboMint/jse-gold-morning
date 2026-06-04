@@ -1,7 +1,7 @@
 {
   "overall": {
-    "n": 36,
-    "hit_rate": 0.1388888888888889
+    "n": 41,
+    "hit_rate": 0.1951219512195122
   },
   "high_conviction": {
     "n": 9,
@@ -18,43 +18,43 @@
     },
     {
       "miner": "DRD",
-      "n": 6,
-      "hit_rate": 0.0,
-      "mae_pct": 3.4286,
-      "mean_pred_pct": 0.525,
-      "mean_real_pct": -2.1889
+      "n": 7,
+      "hit_rate": 0.1429,
+      "mae_pct": 3.0788,
+      "mean_pred_pct": 0.2792,
+      "mean_real_pct": -1.907
     },
     {
       "miner": "GFI",
-      "n": 6,
-      "hit_rate": 0.3333,
-      "mae_pct": 3.8456,
-      "mean_pred_pct": 0.5699,
-      "mean_real_pct": -2.1411
+      "n": 7,
+      "hit_rate": 0.2857,
+      "mae_pct": 3.5318,
+      "mean_pred_pct": 0.2974,
+      "mean_real_pct": -1.7907
     },
     {
       "miner": "HAR",
-      "n": 6,
+      "n": 7,
       "hit_rate": 0.0,
-      "mae_pct": 4.5157,
-      "mean_pred_pct": 0.5697,
-      "mean_real_pct": -2.8283
+      "mae_pct": 4.2017,
+      "mean_pred_pct": 0.2841,
+      "mean_real_pct": -2.2974
     },
     {
       "miner": "PAN",
-      "n": 6,
-      "hit_rate": 0.1667,
-      "mae_pct": 8.6771,
-      "mean_pred_pct": 0.4183,
-      "mean_real_pct": -8.2589
+      "n": 7,
+      "hit_rate": 0.2857,
+      "mae_pct": 7.502,
+      "mean_pred_pct": 0.2617,
+      "mean_real_pct": -7.2403
     },
     {
       "miner": "SSW",
-      "n": 6,
-      "hit_rate": 0.0,
-      "mae_pct": 4.8232,
-      "mean_pred_pct": 0.4977,
-      "mean_real_pct": -2.8258
+      "n": 7,
+      "hit_rate": 0.1429,
+      "mae_pct": 4.1616,
+      "mean_pred_pct": 0.252,
+      "mean_real_pct": -2.5693
     }
   ],
   "recent_by_signal_date": [
@@ -72,9 +72,14 @@
       "signal_date": "2026-06-02",
       "n": 12,
       "hit_rate": 0.25
+    },
+    {
+      "signal_date": "2026-06-03",
+      "n": 5,
+      "hit_rate": 0.6
     }
   ],
-  "audited_at_utc": "2026-06-04T07:57:01.127587+00:00",
-  "log_rows": 36,
-  "scored_rows": 36
+  "audited_at_utc": "2026-06-04T08:21:31.482616+00:00",
+  "log_rows": 42,
+  "scored_rows": 41
 }
