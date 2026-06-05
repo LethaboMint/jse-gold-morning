@@ -1,68 +1,63 @@
 {
   "overall": {
     "n": 142,
-    "hit_rate": 0.23943661971830985
+    "hit_rate": 0.21830985915492956
   },
   "high_conviction": {
-    "n": 23,
-    "hit_rate": 0.30434782608695654
+    "n": 27,
+    "hit_rate": 0.2222222222222222
   },
   "by_miner": [
     {
       "miner": "ANG",
       "n": 22,
       "hit_rate": 0.2273,
-      "mae_pct": 6.3947,
-      "mean_pred_pct": 0.6851,
-      "mean_real_pct": -5.4902
+      "mae_pct": 5.8594,
+      "mean_pred_pct": 0.7579,
+      "mean_real_pct": -4.8527
     },
     {
       "miner": "DRD",
       "n": 24,
       "hit_rate": 0.0833,
-      "mae_pct": 10.6162,
-      "mean_pred_pct": 1.2181,
-      "mean_real_pct": -9.3981
+      "mae_pct": 11.1514,
+      "mean_pred_pct": 1.2985,
+      "mean_real_pct": -9.8529
     },
     {
       "miner": "GFI",
       "n": 24,
       "hit_rate": 0.0,
-      "mae_pct": 13.4599,
-      "mean_pred_pct": 1.1705,
-      "mean_real_pct": -12.2894
+      "mae_pct": 14.0815,
+      "mean_pred_pct": 1.2444,
+      "mean_real_pct": -12.8372
     },
     {
       "miner": "HAR",
       "n": 24,
-      "hit_rate": 0.5417,
-      "mae_pct": 6.5093,
-      "mean_pred_pct": 0.6206,
-      "mean_real_pct": 4.4376
+      "hit_rate": 0.5,
+      "mae_pct": 6.3838,
+      "mean_pred_pct": 0.7129,
+      "mean_real_pct": 3.8226
     },
     {
       "miner": "PAN",
       "n": 24,
-      "hit_rate": 0.2083,
-      "mae_pct": 11.9029,
-      "mean_pred_pct": 1.7189,
-      "mean_real_pct": -9.9532
+      "hit_rate": 0.1667,
+      "mae_pct": 13.0893,
+      "mean_pred_pct": 1.7462,
+      "mean_real_pct": -11.1122
     },
     {
       "miner": "SSW",
       "n": 24,
-      "hit_rate": 0.375,
-      "mae_pct": 6.9699,
-      "mean_pred_pct": 0.8074,
-      "mean_real_pct": -3.8482
+      "hit_rate": 0.3333,
+      "mae_pct": 7.6056,
+      "mean_pred_pct": 0.8734,
+      "mean_real_pct": -4.9814
     }
   ],
   "recent_by_signal_date": [
-    {
-      "signal_date": "2026-04-08",
-      "n": 6,
-      "hit_rate": 0.6667
-    },
     {
       "signal_date": "2026-04-09",
       "n": 6,
@@ -150,34 +145,22 @@
     },
     {
       "signal_date": "2026-05-04",
-      "n": 5,
-      "hit_rate": 0.2
+      "n": 6,
+      "hit_rate": 0.3333
     },
     {
       "signal_date": "2026-05-05",
       "n": 5,
       "hit_rate": 0.2
+    },
+    {
+      "signal_date": "2026-05-06",
+      "n": 5,
+      "hit_rate": 0.0
     }
   ],
   "over_time": {
     "daily": [
-      {
-        "signal_date": "2026-04-01",
-        "n": 5,
-        "hits": 3.0,
-        "mae_pct": 5.938268507838475,
-        "avg_pred_pct": 1.286758937880064,
-        "avg_real_pct": 1.235863530395955,
-        "hit_rate": 0.6,
-        "gold_pct": 2.88,
-        "gdx_pct": 4.52,
-        "hiconv_n": 1.0,
-        "hiconv_hits": 1.0,
-        "hiconv_hit_rate": 1.0,
-        "cumulative_n": 5,
-        "cumulative_hits": 3.0,
-        "cumulative_hit_rate": 0.6
-      },
       {
         "signal_date": "2026-04-02",
         "n": 5,
@@ -191,8 +174,8 @@
         "hiconv_n": null,
         "hiconv_hits": null,
         "hiconv_hit_rate": null,
-        "cumulative_n": 10,
-        "cumulative_hits": 6.0,
+        "cumulative_n": 5,
+        "cumulative_hits": 3.0,
         "cumulative_hit_rate": 0.6
       },
       {
@@ -208,8 +191,8 @@
         "hiconv_n": null,
         "hiconv_hits": null,
         "hiconv_hit_rate": null,
-        "cumulative_n": 15,
-        "cumulative_hits": 9.0,
+        "cumulative_n": 10,
+        "cumulative_hits": 6.0,
         "cumulative_hit_rate": 0.6
       },
       {
@@ -225,8 +208,8 @@
         "hiconv_n": 4.0,
         "hiconv_hits": 2.0,
         "hiconv_hit_rate": 0.5,
-        "cumulative_n": 20,
-        "cumulative_hits": 12.0,
+        "cumulative_n": 15,
+        "cumulative_hits": 9.0,
         "cumulative_hit_rate": 0.6
       },
       {
@@ -242,15 +225,15 @@
         "hiconv_n": 2.0,
         "hiconv_hits": 1.0,
         "hiconv_hit_rate": 0.5,
-        "cumulative_n": 25,
-        "cumulative_hits": 15.0,
+        "cumulative_n": 20,
+        "cumulative_hits": 12.0,
         "cumulative_hit_rate": 0.6
       },
       {
         "signal_date": "2026-04-09",
         "n": 5,
         "hits": 1.0,
-        "mae_pct": 5.815037545289552,
+        "mae_pct": 5.8150375452895515,
         "avg_pred_pct": 0.585051935374496,
         "avg_real_pct": -1.45418996315817,
         "hit_rate": 0.2,
@@ -259,26 +242,26 @@
         "hiconv_n": null,
         "hiconv_hits": null,
         "hiconv_hit_rate": null,
-        "cumulative_n": 30,
-        "cumulative_hits": 16.0,
-        "cumulative_hit_rate": 0.5333
+        "cumulative_n": 25,
+        "cumulative_hits": 13.0,
+        "cumulative_hit_rate": 0.52
       },
       {
         "signal_date": "2026-04-10",
         "n": 5,
         "hits": 2.0,
-        "mae_pct": 6.716239108266256,
+        "mae_pct": 6.716239108266255,
         "avg_pred_pct": 2.27632335152916,
-        "avg_real_pct": -3.4143320388407483,
+        "avg_real_pct": -3.4143320388407488,
         "hit_rate": 0.4,
         "gold_pct": -0.63,
         "gdx_pct": 1.05,
         "hiconv_n": 5.0,
         "hiconv_hits": 2.0,
         "hiconv_hit_rate": 0.4,
-        "cumulative_n": 35,
-        "cumulative_hits": 18.0,
-        "cumulative_hit_rate": 0.5143
+        "cumulative_n": 30,
+        "cumulative_hits": 15.0,
+        "cumulative_hit_rate": 0.5
       },
       {
         "signal_date": "2026-04-13",
@@ -293,9 +276,9 @@
         "hiconv_n": null,
         "hiconv_hits": null,
         "hiconv_hit_rate": null,
-        "cumulative_n": 40,
-        "cumulative_hits": 18.0,
-        "cumulative_hit_rate": 0.45
+        "cumulative_n": 35,
+        "cumulative_hits": 15.0,
+        "cumulative_hit_rate": 0.4286
       },
       {
         "signal_date": "2026-04-14",
@@ -310,26 +293,26 @@
         "hiconv_n": 1.0,
         "hiconv_hits": 0.0,
         "hiconv_hit_rate": 0.0,
-        "cumulative_n": 45,
-        "cumulative_hits": 18.0,
-        "cumulative_hit_rate": 0.4
+        "cumulative_n": 40,
+        "cumulative_hits": 15.0,
+        "cumulative_hit_rate": 0.375
       },
       {
         "signal_date": "2026-04-15",
         "n": 5,
         "hits": 3.0,
-        "mae_pct": 13.167988369092892,
-        "avg_pred_pct": 0.033931976853498,
-        "avg_real_pct": -13.134056392239398,
+        "mae_pct": 13.167988369092896,
+        "avg_pred_pct": 0.033931976853498004,
+        "avg_real_pct": -13.134056392239396,
         "hit_rate": 0.6,
         "gold_pct": -0.52,
         "gdx_pct": -3.0,
         "hiconv_n": null,
         "hiconv_hits": null,
         "hiconv_hit_rate": null,
-        "cumulative_n": 50,
-        "cumulative_hits": 21.0,
-        "cumulative_hit_rate": 0.42
+        "cumulative_n": 45,
+        "cumulative_hits": 18.0,
+        "cumulative_hit_rate": 0.4
       },
       {
         "signal_date": "2026-04-16",
@@ -344,15 +327,15 @@
         "hiconv_n": null,
         "hiconv_hits": null,
         "hiconv_hit_rate": null,
-        "cumulative_n": 55,
-        "cumulative_hits": 21.0,
-        "cumulative_hit_rate": 0.3818
+        "cumulative_n": 50,
+        "cumulative_hits": 18.0,
+        "cumulative_hit_rate": 0.36
       },
       {
         "signal_date": "2026-04-17",
         "n": 5,
         "hits": 0.0,
-        "mae_pct": 17.9756972553635,
+        "mae_pct": 17.975697255363496,
         "avg_pred_pct": 1.422168891828684,
         "avg_real_pct": -16.553528363534813,
         "hit_rate": 0.0,
@@ -361,9 +344,9 @@
         "hiconv_n": 2.0,
         "hiconv_hits": 0.0,
         "hiconv_hit_rate": 0.0,
-        "cumulative_n": 60,
-        "cumulative_hits": 21.0,
-        "cumulative_hit_rate": 0.35
+        "cumulative_n": 55,
+        "cumulative_hits": 18.0,
+        "cumulative_hit_rate": 0.3273
       },
       {
         "signal_date": "2026-04-20",
@@ -378,9 +361,9 @@
         "hiconv_n": null,
         "hiconv_hits": null,
         "hiconv_hit_rate": null,
-        "cumulative_n": 65,
-        "cumulative_hits": 21.0,
-        "cumulative_hit_rate": 0.3231
+        "cumulative_n": 60,
+        "cumulative_hits": 18.0,
+        "cumulative_hit_rate": 0.3
       },
       {
         "signal_date": "2026-04-21",
@@ -395,9 +378,9 @@
         "hiconv_n": null,
         "hiconv_hits": null,
         "hiconv_hit_rate": null,
-        "cumulative_n": 70,
-        "cumulative_hits": 22.0,
-        "cumulative_hit_rate": 0.3143
+        "cumulative_n": 65,
+        "cumulative_hits": 19.0,
+        "cumulative_hit_rate": 0.2923
       },
       {
         "signal_date": "2026-04-22",
@@ -405,22 +388,22 @@
         "hits": 1.0,
         "mae_pct": 10.193584789334189,
         "avg_pred_pct": 1.438242168974328,
-        "avg_real_pct": -7.703958851205378,
+        "avg_real_pct": -7.70395885120538,
         "hit_rate": 0.2,
         "gold_pct": 0.72,
         "gdx_pct": 1.59,
         "hiconv_n": 2.0,
         "hiconv_hits": 0.0,
         "hiconv_hit_rate": 0.0,
-        "cumulative_n": 75,
-        "cumulative_hits": 23.0,
-        "cumulative_hit_rate": 0.3067
+        "cumulative_n": 70,
+        "cumulative_hits": 20.0,
+        "cumulative_hit_rate": 0.2857
       },
       {
         "signal_date": "2026-04-23",
         "n": 5,
         "hits": 0.0,
-        "mae_pct": 9.126723308492515,
+        "mae_pct": 9.126723308492513,
         "avg_pred_pct": 0.33566255685762403,
         "avg_real_pct": -6.327759361074206,
         "hit_rate": 0.0,
@@ -429,9 +412,9 @@
         "hiconv_n": null,
         "hiconv_hits": null,
         "hiconv_hit_rate": null,
-        "cumulative_n": 80,
-        "cumulative_hits": 23.0,
-        "cumulative_hit_rate": 0.2875
+        "cumulative_n": 75,
+        "cumulative_hits": 20.0,
+        "cumulative_hit_rate": 0.2667
       },
       {
         "signal_date": "2026-04-24",
@@ -446,15 +429,15 @@
         "hiconv_n": 5.0,
         "hiconv_hits": 1.0,
         "hiconv_hit_rate": 0.2,
-        "cumulative_n": 85,
-        "cumulative_hits": 24.0,
-        "cumulative_hit_rate": 0.2824
+        "cumulative_n": 80,
+        "cumulative_hits": 21.0,
+        "cumulative_hit_rate": 0.2625
       },
       {
         "signal_date": "2026-04-27",
         "n": 5,
         "hits": 1.0,
-        "mae_pct": 10.629102531906861,
+        "mae_pct": 10.629102531906863,
         "avg_pred_pct": 0.974132236949006,
         "avg_real_pct": -6.660204874311498,
         "hit_rate": 0.2,
@@ -463,16 +446,16 @@
         "hiconv_n": null,
         "hiconv_hits": null,
         "hiconv_hit_rate": null,
-        "cumulative_n": 90,
-        "cumulative_hits": 25.0,
-        "cumulative_hit_rate": 0.2778
+        "cumulative_n": 85,
+        "cumulative_hits": 22.0,
+        "cumulative_hit_rate": 0.2588
       },
       {
         "signal_date": "2026-04-28",
         "n": 5,
         "hits": 0.0,
         "mae_pct": 7.168452495240402,
-        "avg_pred_pct": 0.24794128426085,
+        "avg_pred_pct": 0.24794128426085002,
         "avg_real_pct": -1.3857218960859363,
         "hit_rate": 0.0,
         "gold_pct": -1.81,
@@ -480,33 +463,33 @@
         "hiconv_n": null,
         "hiconv_hits": null,
         "hiconv_hit_rate": null,
-        "cumulative_n": 95,
-        "cumulative_hits": 25.0,
-        "cumulative_hit_rate": 0.2632
+        "cumulative_n": 90,
+        "cumulative_hits": 22.0,
+        "cumulative_hit_rate": 0.2444
       },
       {
         "signal_date": "2026-04-29",
         "n": 5,
         "hits": 0.0,
-        "mae_pct": 10.984000341129256,
-        "avg_pred_pct": 0.569195458121242,
-        "avg_real_pct": -6.164975653314544,
+        "mae_pct": 10.984000341129255,
+        "avg_pred_pct": 0.5691954581212421,
+        "avg_real_pct": -6.164975653314545,
         "hit_rate": 0.0,
         "gold_pct": -1.01,
         "gdx_pct": -2.66,
         "hiconv_n": null,
         "hiconv_hits": null,
         "hiconv_hit_rate": null,
-        "cumulative_n": 100,
-        "cumulative_hits": 25.0,
-        "cumulative_hit_rate": 0.25
+        "cumulative_n": 95,
+        "cumulative_hits": 22.0,
+        "cumulative_hit_rate": 0.2316
       },
       {
         "signal_date": "2026-04-30",
         "n": 5,
         "hits": 1.0,
-        "mae_pct": 11.473220571724895,
-        "avg_pred_pct": 1.205415490441382,
+        "mae_pct": 11.473220571724896,
+        "avg_pred_pct": 1.2054154904413819,
         "avg_real_pct": -7.013674845410414,
         "hit_rate": 0.2,
         "gold_pct": 1.52,
@@ -514,9 +497,9 @@
         "hiconv_n": 1.0,
         "hiconv_hits": 0.0,
         "hiconv_hit_rate": 0.0,
-        "cumulative_n": 105,
-        "cumulative_hits": 26.0,
-        "cumulative_hit_rate": 0.2476
+        "cumulative_n": 100,
+        "cumulative_hits": 23.0,
+        "cumulative_hit_rate": 0.23
       },
       {
         "signal_date": "2026-05-01",
@@ -531,15 +514,15 @@
         "hiconv_n": null,
         "hiconv_hits": null,
         "hiconv_hit_rate": null,
-        "cumulative_n": 110,
-        "cumulative_hits": 27.0,
-        "cumulative_hit_rate": 0.2455
+        "cumulative_n": 105,
+        "cumulative_hits": 24.0,
+        "cumulative_hit_rate": 0.2286
       },
       {
         "signal_date": "2026-05-04",
         "n": 5,
         "hits": 1.0,
-        "mae_pct": 12.003439341784121,
+        "mae_pct": 12.00343934178412,
         "avg_pred_pct": 2.2061395814893823,
         "avg_real_pct": -8.007272321671108,
         "hit_rate": 0.2,
@@ -548,31 +531,48 @@
         "hiconv_n": null,
         "hiconv_hits": null,
         "hiconv_hit_rate": null,
-        "cumulative_n": 115,
-        "cumulative_hits": 28.0,
-        "cumulative_hit_rate": 0.2435
+        "cumulative_n": 110,
+        "cumulative_hits": 25.0,
+        "cumulative_hit_rate": 0.2273
       },
       {
         "signal_date": "2026-05-05",
         "n": 5,
         "hits": 1.0,
-        "mae_pct": 11.506965891754565,
+        "mae_pct": 11.734841174177358,
         "avg_pred_pct": 0.6182719529596559,
-        "avg_real_pct": -7.531875784379554,
+        "avg_real_pct": -8.574989162040442,
         "hit_rate": 0.2,
         "gold_pct": 0.8,
         "gdx_pct": 0.19,
         "hiconv_n": null,
         "hiconv_hits": null,
         "hiconv_hit_rate": null,
+        "cumulative_n": 115,
+        "cumulative_hits": 26.0,
+        "cumulative_hit_rate": 0.2261
+      },
+      {
+        "signal_date": "2026-05-06",
+        "n": 5,
+        "hits": 0.0,
+        "mae_pct": 19.407132208123564,
+        "avg_pred_pct": 2.918830587451344,
+        "avg_real_pct": -16.488301620672217,
+        "hit_rate": 0.0,
+        "gold_pct": 2.73,
+        "gdx_pct": 7.44,
+        "hiconv_n": 5.0,
+        "hiconv_hits": 0.0,
+        "hiconv_hit_rate": 0.0,
         "cumulative_n": 120,
-        "cumulative_hits": 29.0,
-        "cumulative_hit_rate": 0.2417
+        "cumulative_hits": 26.0,
+        "cumulative_hit_rate": 0.2167
       }
     ],
     "cumulative": {
       "n": 120,
-      "hit_rate": 0.2417
+      "hit_rate": 0.2167
     },
     "by_miner": [
       {
@@ -580,45 +580,45 @@
         "n": 24,
         "hits": 2.0,
         "hit_rate": 0.0833,
-        "mae_pct": 10.6162
+        "mae_pct": 11.1514
       },
       {
         "miner": "GFI",
         "n": 24,
         "hits": 0.0,
         "hit_rate": 0.0,
-        "mae_pct": 13.4599
+        "mae_pct": 14.0815
       },
       {
         "miner": "HAR",
         "n": 24,
-        "hits": 13.0,
-        "hit_rate": 0.5417,
-        "mae_pct": 6.5093
+        "hits": 12.0,
+        "hit_rate": 0.5,
+        "mae_pct": 6.3838
       },
       {
         "miner": "PAN",
         "n": 24,
-        "hits": 5.0,
-        "hit_rate": 0.2083,
-        "mae_pct": 11.9029
+        "hits": 4.0,
+        "hit_rate": 0.1667,
+        "mae_pct": 13.0893
       },
       {
         "miner": "SSW",
         "n": 24,
-        "hits": 9.0,
-        "hit_rate": 0.375,
-        "mae_pct": 6.9699
+        "hits": 8.0,
+        "hit_rate": 0.3333,
+        "mae_pct": 7.6056
       }
     ],
     "forward_horizon_days": 22,
     "history_trading_days": 44,
-    "history_from": "2026-04-01",
+    "history_from": "2026-04-02",
     "excluded_miners": [
       "ANG"
     ]
   },
-  "audited_at_utc": "2026-06-04T13:11:44.114981+00:00",
+  "audited_at_utc": "2026-06-05T08:07:01.347683+00:00",
   "log_rows": 264,
   "scored_rows": 142
 }
