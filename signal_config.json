@@ -3,8 +3,8 @@
   "min_pred": 0.0,
   "skip_duplicate_same_day": true,
   "write_latest_snapshot": true,
-  "forward_horizon_days": 22,
-  "log_history_trading_days": 44,
+  "forward_horizon_days": 1,
+  "log_history_trading_days": 22,
   "log_exclude_miners": ["ANG"],
-  "comment": "forward_horizon_days = hold length modeled and audited. log_history_trading_days should be ~2x forward_horizon so ~1 month of completed holds appear on the dashboard."
+  "comment": "Daily dashboard: next JSE session (t+1). log_history_trading_days ~1 month of signal days on the site."
 }

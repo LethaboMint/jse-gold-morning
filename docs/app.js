@@ -166,7 +166,6 @@ function renderMeta(data) {
   document.getElementById("meta").innerHTML = `
     <span class="meta-label">US signal date</span>
     <strong>${data.signal_date || "—"}</strong>
-    ${data.forward_horizon_days ? `<span class="meta-label" style="margin-top:0.5rem">Hold</span><strong>${data.forward_horizon_label || data.forward_horizon_days + " sessions"}</strong>` : ""}
     <span class="meta-label" style="margin-top:0.75rem">Updated</span>
     <strong>${gen}</strong>
     <span class="meta-label" style="margin-top:0.5rem">${data.data_source || "yahoo_finance"}</span>
@@ -277,7 +276,7 @@ function renderAudit(audit) {
   const wrap = document.getElementById("audit-table-wrap");
   const body = document.getElementById("audit-body");
   if (!audit?.rows?.length) {
-    empty.textContent = "No audit rows yet — wait until full hold period is realized.";
+    empty.textContent = "No audit rows yet — check back after the next JSE close.";
     empty.hidden = false;
     wrap.hidden = true;
     return;

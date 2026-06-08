@@ -30,4 +30,6 @@ def pred_field() -> str:
 
 def horizon_label(days: int | None = None) -> str:
     d = days or forward_horizon_days()
+    if d <= 1:
+        return "next JSE session (t+1)"
     return f"{d} trading sessions (~1 month)" if d >= 15 else f"{d} trading sessions"

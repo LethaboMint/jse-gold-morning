@@ -148,6 +148,8 @@ def write_latest_snapshot(rows: list[dict], meta: dict, market: dict) -> None:
     payload = {
         "generated_at_utc": meta["fitted_at_utc"],
         "signal_date": meta["signal_date"],
+        "forward_horizon_days": meta.get("forward_horizon_days"),
+        "forward_horizon_label": meta.get("forward_horizon_label"),
         "rules_mode": meta.get("rules_mode"),
         "data_source": "yahoo_finance",
         "market": market,
@@ -320,10 +322,16 @@ def run_generation(
     wrote = append_log(log_rows, skip_duplicate=skip_duplicate)
     if write_latest:
         meta["drivers"] = drivers
-        meta["forecast_note"] = (
-            f"Forecast = cumulative return over the next {horizon} JSE sessions (~1 month hold) "
-            f"from OLS(gold, GDX on US signal day). Gold/GDX columns are that day's contributions."
-        )
+        if horizon <= 1:
+            meta["forecast_note"] = (
+                "Forecast = next JSE session log-return from OLS(gold, GDX). "
+                "Gold/GDX columns are today's contributions (can be negative even when price rose)."
+            )
+        else:
+            meta["forecast_note"] = (
+                f"Forecast = cumulative return over the next {horizon} JSE sessions "
+                f"from OLS(gold, GDX on US signal day). Gold/GDX columns are that day's contributions."
+            )
         write_latest_snapshot(log_rows, meta, market)
     if not quiet:
         if wrote:
