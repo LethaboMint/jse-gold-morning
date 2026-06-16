@@ -1,5 +1,5 @@
 {
-  "audited_at_utc": "2026-06-15T10:24:14.331545+00:00",
+  "audited_at_utc": "2026-06-16T09:27:00.596299+00:00",
   "excluded_miners": [
     "ANG"
   ],
@@ -127,7 +127,7 @@
       "signal_date": "2026-05-22",
       "n": 5,
       "hits": 0.0,
-      "mae_pct": 5.839455861235735,
+      "mae_pct": 5.839455861235734,
       "avg_pred_pct": -0.307712122497236,
       "avg_real_pct": 5.531743738738499,
       "hit_rate": 0.0,
@@ -145,7 +145,7 @@
       "n": 5,
       "hits": 0.0,
       "mae_pct": 4.010914380688256,
-      "avg_pred_pct": 2.4136987542497543,
+      "avg_pred_pct": 2.413698754249754,
       "avg_real_pct": -1.5972156264385018,
       "hit_rate": 0.0,
       "gold_pct": -0.46,
@@ -315,7 +315,7 @@
       "n": 5,
       "hits": 1.0,
       "mae_pct": 3.883786091888606,
-      "avg_pred_pct": 0.23060940451775197,
+      "avg_pred_pct": 0.23060940451775203,
       "avg_real_pct": -3.6531766873708533,
       "hit_rate": 0.2,
       "gold_pct": -1.77,
@@ -348,9 +348,9 @@
       "signal_date": "2026-06-12",
       "n": 5,
       "hits": 2.0,
-      "mae_pct": 7.624476663731497,
+      "mae_pct": 8.479668841784738,
       "avg_pred_pct": 0.12544738928396998,
-      "avg_real_pct": 7.749924053015467,
+      "avg_real_pct": 8.605116231068708,
       "hit_rate": 0.4,
       "gold_pct": 3.0,
       "gdx_pct": 2.93,
@@ -372,35 +372,35 @@
       "n": 21,
       "hits": 10.0,
       "hit_rate": 0.4762,
-      "mae_pct": 2.8179
+      "mae_pct": 2.8564
     },
     {
       "miner": "GFI",
       "n": 21,
       "hits": 9.0,
       "hit_rate": 0.4286,
-      "mae_pct": 3.2173
+      "mae_pct": 3.2594
     },
     {
       "miner": "HAR",
       "n": 21,
       "hits": 8.0,
       "hit_rate": 0.381,
-      "mae_pct": 3.9094
+      "mae_pct": 3.9771
     },
     {
       "miner": "PAN",
       "n": 21,
       "hits": 9.0,
       "hit_rate": 0.4286,
-      "mae_pct": 3.1334
+      "mae_pct": 3.2268
     },
     {
       "miner": "SSW",
       "n": 21,
       "hits": 10.0,
       "hit_rate": 0.4762,
-      "mae_pct": 3.6302
+      "mae_pct": 3.592
     }
   ],
   "forward_horizon_days": 1,
