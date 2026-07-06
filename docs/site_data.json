@@ -1,6 +1,6 @@
 {
   "signals": {
-    "generated_at_utc": "2026-07-03T07:19:56.203141+00:00",
+    "generated_at_utc": "2026-07-06T08:19:41.179213+00:00",
     "signal_date": "2026-07-02",
     "forward_horizon_days": 1,
     "forward_horizon_label": "next JSE session (t+1)",
@@ -8,7 +8,7 @@
     "data_source": "yahoo_finance",
     "market": {
       "data_source": "yahoo_finance",
-      "fetched_at_utc": "2026-07-03T07:19:54.109692+00:00",
+      "fetched_at_utc": "2026-07-06T08:19:39.415227+00:00",
       "signal_date": "2026-07-02",
       "gold": {
         "ticker": "GC=F",
@@ -95,7 +95,7 @@
     "return_zar_t": 0.001220671616331881,
     "signals": [
       {
-        "run_ts_utc": "2026-07-03T07:19:56.203379+00:00",
+        "run_ts_utc": "2026-07-06T08:19:41.179432+00:00",
         "signal_date": "2026-07-02",
         "rules_mode": "dashboard",
         "miner": "HAR",
@@ -121,7 +121,7 @@
         "pred_return_fwd": 0.021473199363923834
       },
       {
-        "run_ts_utc": "2026-07-03T07:19:56.203379+00:00",
+        "run_ts_utc": "2026-07-06T08:19:41.179432+00:00",
         "signal_date": "2026-07-02",
         "rules_mode": "dashboard",
         "miner": "GFI",
@@ -147,7 +147,7 @@
         "pred_return_fwd": 0.020865721452656923
       },
       {
-        "run_ts_utc": "2026-07-03T07:19:56.203379+00:00",
+        "run_ts_utc": "2026-07-06T08:19:41.179432+00:00",
         "signal_date": "2026-07-02",
         "rules_mode": "dashboard",
         "miner": "ANG",
@@ -173,7 +173,7 @@
         "pred_return_fwd": -0.0006315217151502509
       },
       {
-        "run_ts_utc": "2026-07-03T07:19:56.203379+00:00",
+        "run_ts_utc": "2026-07-06T08:19:41.179432+00:00",
         "signal_date": "2026-07-02",
         "rules_mode": "dashboard",
         "miner": "DRD",
@@ -199,7 +199,7 @@
         "pred_return_fwd": 0.01849990337572238
       },
       {
-        "run_ts_utc": "2026-07-03T07:19:56.203379+00:00",
+        "run_ts_utc": "2026-07-06T08:19:41.179432+00:00",
         "signal_date": "2026-07-02",
         "rules_mode": "dashboard",
         "miner": "PAN",
@@ -225,7 +225,7 @@
         "pred_return_fwd": 0.013039854067863385
       },
       {
-        "run_ts_utc": "2026-07-03T07:19:56.203379+00:00",
+        "run_ts_utc": "2026-07-06T08:19:41.179432+00:00",
         "signal_date": "2026-07-02",
         "rules_mode": "dashboard",
         "miner": "SSW",
@@ -253,7 +253,7 @@
     ]
   },
   "audit": {
-    "audited_at_utc": "2026-07-03T07:20:06.627014+00:00",
+    "audited_at_utc": "2026-07-06T08:19:54.761485+00:00",
     "overall_hit_rate": 0.56,
     "excluded_miners": [
       "ANG"
@@ -1689,9 +1689,9 @@
         "realized_date": "2026-07-03",
         "miner": "DRD",
         "pred_return_pct": 1.8499903375722297,
-        "realized_return_pct": 4.944751381215462,
-        "realized_day_high": 37.99,
-        "realized_day_high_pct": 4.94,
+        "realized_return_pct": 3.95027624309392,
+        "realized_day_high": 37.62,
+        "realized_day_high_pct": 3.92,
         "price_currency": "ZAR",
         "predicted_direction": "LONG",
         "actual_direction": "LONG",
@@ -1704,9 +1704,9 @@
         "realized_date": "2026-07-03",
         "miner": "GFI",
         "pred_return_pct": 2.08657214526569,
-        "realized_return_pct": 3.025227677169484,
-        "realized_day_high": 592.0,
-        "realized_day_high_pct": 3.28,
+        "realized_return_pct": 2.691999022994529,
+        "realized_day_high": 596.99,
+        "realized_day_high_pct": 4.15,
         "price_currency": "ZAR",
         "predicted_direction": "LONG",
         "actual_direction": "LONG",
@@ -1719,9 +1719,9 @@
         "realized_date": "2026-07-03",
         "miner": "HAR",
         "pred_return_pct": 2.14731993639238,
-        "realized_return_pct": 3.2676744541151326,
-        "realized_day_high": 270.52,
-        "realized_day_high_pct": 3.27,
+        "realized_return_pct": 5.016032982134666,
+        "realized_day_high": 277.5,
+        "realized_day_high_pct": 5.93,
         "price_currency": "ZAR",
         "predicted_direction": "LONG",
         "actual_direction": "LONG",
@@ -1734,9 +1734,9 @@
         "realized_date": "2026-07-03",
         "miner": "PAN",
         "pred_return_pct": 1.30398540678633,
-        "realized_return_pct": 1.8223234624145768,
-        "realized_day_high": 22.38,
-        "realized_day_high_pct": 1.96,
+        "realized_return_pct": 3.2801822323462515,
+        "realized_day_high": 22.84,
+        "realized_day_high_pct": 4.05,
         "price_currency": "ZAR",
         "predicted_direction": "LONG",
         "actual_direction": "LONG",
@@ -1749,7 +1749,7 @@
         "realized_date": "2026-07-03",
         "miner": "SSW",
         "pred_return_pct": 1.7621956749374699,
-        "realized_return_pct": 3.1728360701363867,
+        "realized_return_pct": 0.19482326746451673,
         "realized_day_high": 37.23,
         "realized_day_high_pct": 3.62,
         "price_currency": "ZAR",
@@ -1762,7 +1762,7 @@
     ]
   },
   "performance": {
-    "audited_at_utc": "2026-07-03T07:20:06.627014+00:00",
+    "audited_at_utc": "2026-07-06T08:19:54.761485+00:00",
     "excluded_miners": [
       "ANG"
     ],
@@ -1805,7 +1805,7 @@
         "signal_date": "2026-06-04",
         "n": 5,
         "hits": 0.0,
-        "mae_pct": 5.233024050775578,
+        "mae_pct": 5.233024050775579,
         "avg_pred_pct": 0.5024563025761839,
         "avg_real_pct": -4.730567748199395,
         "hit_rate": 0.0,
@@ -1907,7 +1907,7 @@
         "signal_date": "2026-06-16",
         "n": 5,
         "hits": 3.0,
-        "mae_pct": 0.9880811002369798,
+        "mae_pct": 0.9880811002369796,
         "avg_pred_pct": 1.234229832853234,
         "avg_real_pct": 0.9015623908197012,
         "hit_rate": 0.6,
@@ -2009,7 +2009,7 @@
         "signal_date": "2026-06-25",
         "n": 5,
         "hits": 5.0,
-        "mae_pct": 1.709231742206041,
+        "mae_pct": 1.7092317422060415,
         "avg_pred_pct": 0.344856169588714,
         "avg_real_pct": 2.0540879117947553,
         "hit_rate": 1.0,
@@ -2060,7 +2060,7 @@
         "signal_date": "2026-06-30",
         "n": 5,
         "hits": 1.0,
-        "mae_pct": 1.1252723017368984,
+        "mae_pct": 1.1252723017368982,
         "avg_pred_pct": -0.09045638583137801,
         "avg_real_pct": 1.0348159159055204,
         "hit_rate": 0.2,
@@ -2094,9 +2094,9 @@
         "signal_date": "2026-07-02",
         "n": 5,
         "hits": 5.0,
-        "mae_pct": 1.4165499088193885,
+        "mae_pct": 1.823599012405138,
         "avg_pred_pct": 1.8300127001908197,
-        "avg_real_pct": 3.2465626090102084,
+        "avg_real_pct": 3.0266627496067766,
         "hit_rate": 1.0,
         "gold_pct": 1.09,
         "gdx_pct": 4.38,
@@ -2118,35 +2118,35 @@
         "n": 20,
         "hits": 10.0,
         "hit_rate": 0.5,
-        "mae_pct": 2.7553
+        "mae_pct": 2.7056
       },
       {
         "miner": "GFI",
         "n": 20,
         "hits": 11.0,
         "hit_rate": 0.55,
-        "mae_pct": 2.9706
+        "mae_pct": 2.954
       },
       {
         "miner": "HAR",
         "n": 20,
         "hits": 10.0,
         "hit_rate": 0.5,
-        "mae_pct": 3.1469
+        "mae_pct": 3.2343
       },
       {
         "miner": "PAN",
         "n": 20,
         "hits": 14.0,
         "hit_rate": 0.7,
-        "mae_pct": 2.5763
+        "mae_pct": 2.6492
       },
       {
         "miner": "SSW",
         "n": 20,
         "hits": 11.0,
         "hit_rate": 0.55,
-        "mae_pct": 3.1494
+        "mae_pct": 3.1573
       }
     ],
     "forward_horizon_days": 1,
