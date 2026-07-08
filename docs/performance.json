@@ -1,26 +1,9 @@
 {
-  "audited_at_utc": "2026-07-07T07:37:09.406036+00:00",
+  "audited_at_utc": "2026-07-08T06:27:49.486734+00:00",
   "excluded_miners": [
     "ANG"
   ],
   "daily": [
-    {
-      "signal_date": "2026-06-03",
-      "n": 5,
-      "hits": 5.0,
-      "mae_pct": 0.47263669531414243,
-      "avg_pred_pct": -1.177924273291034,
-      "avg_real_pct": -1.0682008689690514,
-      "hit_rate": 1.0,
-      "gold_pct": -1.17,
-      "gdx_pct": -3.53,
-      "hiconv_n": null,
-      "hiconv_hits": null,
-      "hiconv_hit_rate": null,
-      "cumulative_n": 5,
-      "cumulative_hits": 5.0,
-      "cumulative_hit_rate": 1.0
-    },
     {
       "signal_date": "2026-06-04",
       "n": 5,
@@ -34,15 +17,15 @@
       "hiconv_n": 2.0,
       "hiconv_hits": 0.0,
       "hiconv_hit_rate": 0.0,
-      "cumulative_n": 10,
-      "cumulative_hits": 5.0,
-      "cumulative_hit_rate": 0.5
+      "cumulative_n": 5,
+      "cumulative_hits": 0.0,
+      "cumulative_hit_rate": 0.0
     },
     {
       "signal_date": "2026-06-05",
       "n": 5,
       "hits": 4.0,
-      "mae_pct": 1.4887200033375485,
+      "mae_pct": 1.4887200033375483,
       "avg_pred_pct": -3.1398331840284497,
       "avg_real_pct": -1.974195082552317,
       "hit_rate": 0.8,
@@ -51,15 +34,15 @@
       "hiconv_n": null,
       "hiconv_hits": null,
       "hiconv_hit_rate": null,
-      "cumulative_n": 15,
-      "cumulative_hits": 9.0,
-      "cumulative_hit_rate": 0.6
+      "cumulative_n": 10,
+      "cumulative_hits": 4.0,
+      "cumulative_hit_rate": 0.4
     },
     {
       "signal_date": "2026-06-08",
       "n": 5,
       "hits": 5.0,
-      "mae_pct": 1.923986056501191,
+      "mae_pct": 1.9239860565011913,
       "avg_pred_pct": -0.018230570304852006,
       "avg_real_pct": -1.8318549083019153,
       "hit_rate": 1.0,
@@ -68,9 +51,9 @@
       "hiconv_n": null,
       "hiconv_hits": null,
       "hiconv_hit_rate": null,
-      "cumulative_n": 20,
-      "cumulative_hits": 14.0,
-      "cumulative_hit_rate": 0.7
+      "cumulative_n": 15,
+      "cumulative_hits": 9.0,
+      "cumulative_hit_rate": 0.6
     },
     {
       "signal_date": "2026-06-09",
@@ -85,15 +68,15 @@
       "hiconv_n": null,
       "hiconv_hits": null,
       "hiconv_hit_rate": null,
-      "cumulative_n": 25,
-      "cumulative_hits": 15.0,
-      "cumulative_hit_rate": 0.6
+      "cumulative_n": 20,
+      "cumulative_hits": 10.0,
+      "cumulative_hit_rate": 0.5
     },
     {
       "signal_date": "2026-06-11",
       "n": 5,
       "hits": 5.0,
-      "mae_pct": 1.6816994672973498,
+      "mae_pct": 1.6816994672973493,
       "avg_pred_pct": 2.97868304808658,
       "avg_real_pct": 4.66038251538393,
       "hit_rate": 1.0,
@@ -102,15 +85,15 @@
       "hiconv_n": 5.0,
       "hiconv_hits": 5.0,
       "hiconv_hit_rate": 1.0,
-      "cumulative_n": 30,
-      "cumulative_hits": 20.0,
-      "cumulative_hit_rate": 0.6667
+      "cumulative_n": 25,
+      "cumulative_hits": 15.0,
+      "cumulative_hit_rate": 0.6
     },
     {
       "signal_date": "2026-06-12",
       "n": 5,
       "hits": 2.0,
-      "mae_pct": 8.479668841784736,
+      "mae_pct": 8.479668841784738,
       "avg_pred_pct": 0.12544738928396998,
       "avg_real_pct": 8.605116231068708,
       "hit_rate": 0.4,
@@ -119,9 +102,9 @@
       "hiconv_n": 1.0,
       "hiconv_hits": 1.0,
       "hiconv_hit_rate": 1.0,
-      "cumulative_n": 35,
-      "cumulative_hits": 22.0,
-      "cumulative_hit_rate": 0.6286
+      "cumulative_n": 30,
+      "cumulative_hits": 17.0,
+      "cumulative_hit_rate": 0.5667
     },
     {
       "signal_date": "2026-06-16",
@@ -136,9 +119,9 @@
       "hiconv_n": 5.0,
       "hiconv_hits": 3.0,
       "hiconv_hit_rate": 0.6,
-      "cumulative_n": 40,
-      "cumulative_hits": 25.0,
-      "cumulative_hit_rate": 0.625
+      "cumulative_n": 35,
+      "cumulative_hits": 20.0,
+      "cumulative_hit_rate": 0.5714
     },
     {
       "signal_date": "2026-06-17",
@@ -153,9 +136,9 @@
       "hiconv_n": null,
       "hiconv_hits": null,
       "hiconv_hit_rate": null,
-      "cumulative_n": 45,
-      "cumulative_hits": 30.0,
-      "cumulative_hit_rate": 0.6667
+      "cumulative_n": 40,
+      "cumulative_hits": 25.0,
+      "cumulative_hit_rate": 0.625
     },
     {
       "signal_date": "2026-06-18",
@@ -170,9 +153,9 @@
       "hiconv_n": null,
       "hiconv_hits": null,
       "hiconv_hit_rate": null,
-      "cumulative_n": 50,
-      "cumulative_hits": 31.0,
-      "cumulative_hit_rate": 0.62
+      "cumulative_n": 45,
+      "cumulative_hits": 26.0,
+      "cumulative_hit_rate": 0.5778
     },
     {
       "signal_date": "2026-06-22",
@@ -187,9 +170,9 @@
       "hiconv_n": null,
       "hiconv_hits": null,
       "hiconv_hit_rate": null,
-      "cumulative_n": 55,
-      "cumulative_hits": 36.0,
-      "cumulative_hit_rate": 0.6545
+      "cumulative_n": 50,
+      "cumulative_hits": 31.0,
+      "cumulative_hit_rate": 0.62
     },
     {
       "signal_date": "2026-06-23",
@@ -204,15 +187,15 @@
       "hiconv_n": null,
       "hiconv_hits": null,
       "hiconv_hit_rate": null,
-      "cumulative_n": 60,
-      "cumulative_hits": 41.0,
-      "cumulative_hit_rate": 0.6833
+      "cumulative_n": 55,
+      "cumulative_hits": 36.0,
+      "cumulative_hit_rate": 0.6545
     },
     {
       "signal_date": "2026-06-24",
       "n": 5,
       "hits": 0.0,
-      "mae_pct": 2.228445576535779,
+      "mae_pct": 2.2284455765357785,
       "avg_pred_pct": -0.391527742436844,
       "avg_real_pct": 1.8369178340989343,
       "hit_rate": 0.0,
@@ -221,9 +204,9 @@
       "hiconv_n": null,
       "hiconv_hits": null,
       "hiconv_hit_rate": null,
-      "cumulative_n": 65,
-      "cumulative_hits": 41.0,
-      "cumulative_hit_rate": 0.6308
+      "cumulative_n": 60,
+      "cumulative_hits": 36.0,
+      "cumulative_hit_rate": 0.6
     },
     {
       "signal_date": "2026-06-25",
@@ -238,9 +221,9 @@
       "hiconv_n": 1.0,
       "hiconv_hits": 1.0,
       "hiconv_hit_rate": 1.0,
-      "cumulative_n": 70,
-      "cumulative_hits": 46.0,
-      "cumulative_hit_rate": 0.6571
+      "cumulative_n": 65,
+      "cumulative_hits": 41.0,
+      "cumulative_hit_rate": 0.6308
     },
     {
       "signal_date": "2026-06-26",
@@ -255,9 +238,9 @@
       "hiconv_n": 1.0,
       "hiconv_hits": 0.0,
       "hiconv_hit_rate": 0.0,
-      "cumulative_n": 75,
-      "cumulative_hits": 46.0,
-      "cumulative_hit_rate": 0.6133
+      "cumulative_n": 70,
+      "cumulative_hits": 41.0,
+      "cumulative_hit_rate": 0.5857
     },
     {
       "signal_date": "2026-06-29",
@@ -272,15 +255,15 @@
       "hiconv_n": null,
       "hiconv_hits": null,
       "hiconv_hit_rate": null,
-      "cumulative_n": 80,
-      "cumulative_hits": 48.0,
-      "cumulative_hit_rate": 0.6
+      "cumulative_n": 75,
+      "cumulative_hits": 43.0,
+      "cumulative_hit_rate": 0.5733
     },
     {
       "signal_date": "2026-06-30",
       "n": 5,
       "hits": 1.0,
-      "mae_pct": 1.1252723017368984,
+      "mae_pct": 1.1252723017368982,
       "avg_pred_pct": -0.09045638583137801,
       "avg_real_pct": 1.0348159159055204,
       "hit_rate": 0.2,
@@ -289,9 +272,9 @@
       "hiconv_n": null,
       "hiconv_hits": null,
       "hiconv_hit_rate": null,
-      "cumulative_n": 85,
-      "cumulative_hits": 49.0,
-      "cumulative_hit_rate": 0.5765
+      "cumulative_n": 80,
+      "cumulative_hits": 44.0,
+      "cumulative_hit_rate": 0.55
     },
     {
       "signal_date": "2026-07-01",
@@ -306,16 +289,16 @@
       "hiconv_n": null,
       "hiconv_hits": null,
       "hiconv_hit_rate": null,
-      "cumulative_n": 90,
-      "cumulative_hits": 50.0,
-      "cumulative_hit_rate": 0.5556
+      "cumulative_n": 85,
+      "cumulative_hits": 45.0,
+      "cumulative_hit_rate": 0.5294
     },
     {
       "signal_date": "2026-07-02",
       "n": 5,
       "hits": 5.0,
-      "mae_pct": 1.823599012405138,
-      "avg_pred_pct": 1.8300127001908197,
+      "mae_pct": 1.8235990124051376,
+      "avg_pred_pct": 1.8300127001908202,
       "avg_real_pct": 3.0266627496067766,
       "hit_rate": 1.0,
       "gold_pct": 1.09,
@@ -323,70 +306,53 @@
       "hiconv_n": 5.0,
       "hiconv_hits": 5.0,
       "hiconv_hit_rate": 1.0,
-      "cumulative_n": 95,
-      "cumulative_hits": 55.0,
-      "cumulative_hit_rate": 0.5789
-    },
-    {
-      "signal_date": "2026-07-06",
-      "n": 5,
-      "hits": 4.0,
-      "mae_pct": 3.9871407069652234,
-      "avg_pred_pct": -0.20561395080065398,
-      "avg_real_pct": -4.192754657765878,
-      "hit_rate": 0.8,
-      "gold_pct": 1.03,
-      "gdx_pct": 0.39,
-      "hiconv_n": null,
-      "hiconv_hits": null,
-      "hiconv_hit_rate": null,
-      "cumulative_n": 100,
-      "cumulative_hits": 59.0,
-      "cumulative_hit_rate": 0.59
+      "cumulative_n": 90,
+      "cumulative_hits": 50.0,
+      "cumulative_hit_rate": 0.5556
     }
   ],
   "cumulative": {
-    "n": 100,
-    "hit_rate": 0.59
+    "n": 90,
+    "hit_rate": 0.5556
   },
   "by_miner": [
     {
       "miner": "DRD",
-      "n": 20,
-      "hits": 11.0,
-      "hit_rate": 0.55,
-      "mae_pct": 2.9397
+      "n": 18,
+      "hits": 9.0,
+      "hit_rate": 0.5,
+      "mae_pct": 2.906
     },
     {
       "miner": "GFI",
-      "n": 20,
-      "hits": 11.0,
-      "hit_rate": 0.55,
-      "mae_pct": 3.1807
+      "n": 18,
+      "hits": 9.0,
+      "hit_rate": 0.5,
+      "mae_pct": 3.2249
     },
     {
       "miner": "HAR",
-      "n": 20,
-      "hits": 11.0,
-      "hit_rate": 0.55,
-      "mae_pct": 3.357
+      "n": 18,
+      "hits": 9.0,
+      "hit_rate": 0.5,
+      "mae_pct": 3.4415
     },
     {
       "miner": "PAN",
-      "n": 20,
-      "hits": 14.0,
-      "hit_rate": 0.7,
-      "mae_pct": 2.7858
+      "n": 18,
+      "hits": 13.0,
+      "hit_rate": 0.7222,
+      "mae_pct": 2.8879
     },
     {
       "miner": "SSW",
-      "n": 20,
-      "hits": 12.0,
-      "hit_rate": 0.6,
-      "mae_pct": 2.9468
+      "n": 18,
+      "hits": 10.0,
+      "hit_rate": 0.5556,
+      "mae_pct": 3.201
     }
   ],
   "forward_horizon_days": 1,
   "history_trading_days": 22,
-  "history_from": "2026-06-03"
+  "history_from": "2026-06-04"
 }
