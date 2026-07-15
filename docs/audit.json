@@ -1,6 +1,6 @@
 {
-  "audited_at_utc": "2026-07-14T06:10:28.445063+00:00",
-  "overall_hit_rate": 0.5888888888888889,
+  "audited_at_utc": "2026-07-15T06:13:02.999977+00:00",
+  "overall_hit_rate": 0.5578947368421052,
   "excluded_miners": [
     "ANG"
   ],
@@ -1354,6 +1354,81 @@
       "predicted_direction_hiconv": "LONG",
       "direction_match": 1.0,
       "hit_high_conv": 1.0
+    },
+    {
+      "signal_date": "2026-07-10",
+      "realized_date": "2026-07-13",
+      "miner": "DRD",
+      "pred_return_pct": 0.24071905399849,
+      "realized_return_pct": -0.688468158347677,
+      "realized_day_high": 34.81,
+      "realized_day_high_pct": -0.14,
+      "price_currency": "ZAR",
+      "predicted_direction": "LONG",
+      "actual_direction": "SHORT",
+      "predicted_direction_hiconv": "FLAT",
+      "direction_match": 0.0,
+      "hit_high_conv": null
+    },
+    {
+      "signal_date": "2026-07-10",
+      "realized_date": "2026-07-13",
+      "miner": "GFI",
+      "pred_return_pct": 0.30746761403995,
+      "realized_return_pct": -0.9035714285714258,
+      "realized_day_high": 560.62,
+      "realized_day_high_pct": 0.11,
+      "price_currency": "ZAR",
+      "predicted_direction": "LONG",
+      "actual_direction": "SHORT",
+      "predicted_direction_hiconv": "FLAT",
+      "direction_match": 0.0,
+      "hit_high_conv": null
+    },
+    {
+      "signal_date": "2026-07-10",
+      "realized_date": "2026-07-13",
+      "miner": "HAR",
+      "pred_return_pct": 0.27863198278887996,
+      "realized_return_pct": -0.18914242021811356,
+      "realized_day_high": 250.0,
+      "realized_day_high_pct": 0.61,
+      "price_currency": "ZAR",
+      "predicted_direction": "LONG",
+      "actual_direction": "SHORT",
+      "predicted_direction_hiconv": "FLAT",
+      "direction_match": 0.0,
+      "hit_high_conv": null
+    },
+    {
+      "signal_date": "2026-07-10",
+      "realized_date": "2026-07-13",
+      "miner": "PAN",
+      "pred_return_pct": 0.11471787732503,
+      "realized_return_pct": -2.254196642685846,
+      "realized_day_high": 20.82,
+      "realized_day_high_pct": -0.14,
+      "price_currency": "ZAR",
+      "predicted_direction": "LONG",
+      "actual_direction": "SHORT",
+      "predicted_direction_hiconv": "FLAT",
+      "direction_match": 0.0,
+      "hit_high_conv": null
+    },
+    {
+      "signal_date": "2026-07-10",
+      "realized_date": "2026-07-13",
+      "miner": "SSW",
+      "pred_return_pct": 0.12014099238081,
+      "realized_return_pct": -0.3759398496240629,
+      "realized_day_high": 35.19,
+      "realized_day_high_pct": 1.76,
+      "price_currency": "ZAR",
+      "predicted_direction": "LONG",
+      "actual_direction": "SHORT",
+      "predicted_direction_hiconv": "FLAT",
+      "direction_match": 0.0,
+      "hit_high_conv": null
     }
   ]
 }
