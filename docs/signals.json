@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-08-03T07:23:57.049523+00:00",
+  "generated_at_utc": "2026-08-04T06:26:47.882558+00:00",
   "signal_date": "2026-07-31",
   "forward_horizon_days": 1,
   "forward_horizon_label": "next JSE session (t+1)",
@@ -7,7 +7,7 @@
   "data_source": "yahoo_finance",
   "market": {
     "data_source": "yahoo_finance",
-    "fetched_at_utc": "2026-08-03T07:23:55.719897+00:00",
+    "fetched_at_utc": "2026-08-04T06:26:46.881965+00:00",
     "signal_date": "2026-07-31",
     "gold": {
       "ticker": "GC=F",
@@ -94,7 +94,7 @@
   "return_zar_t": -0.009676120335795346,
   "signals": [
     {
-      "run_ts_utc": "2026-08-03T07:23:57.049726+00:00",
+      "run_ts_utc": "2026-08-04T06:26:47.882781+00:00",
       "signal_date": "2026-07-31",
       "rules_mode": "dashboard",
       "miner": "HAR",
@@ -120,7 +120,7 @@
       "pred_return_fwd": -0.01390805532035663
     },
     {
-      "run_ts_utc": "2026-08-03T07:23:57.049726+00:00",
+      "run_ts_utc": "2026-08-04T06:26:47.882781+00:00",
       "signal_date": "2026-07-31",
       "rules_mode": "dashboard",
       "miner": "GFI",
@@ -146,7 +146,7 @@
       "pred_return_fwd": -0.012990114692258137
     },
     {
-      "run_ts_utc": "2026-08-03T07:23:57.049726+00:00",
+      "run_ts_utc": "2026-08-04T06:26:47.882781+00:00",
       "signal_date": "2026-07-31",
       "rules_mode": "dashboard",
       "miner": "ANG",
@@ -172,7 +172,7 @@
       "pred_return_fwd": 0.001409008774141269
     },
     {
-      "run_ts_utc": "2026-08-03T07:23:57.049726+00:00",
+      "run_ts_utc": "2026-08-04T06:26:47.882781+00:00",
       "signal_date": "2026-07-31",
       "rules_mode": "dashboard",
       "miner": "DRD",
@@ -198,7 +198,7 @@
       "pred_return_fwd": -0.01176845373395961
     },
     {
-      "run_ts_utc": "2026-08-03T07:23:57.049726+00:00",
+      "run_ts_utc": "2026-08-04T06:26:47.882781+00:00",
       "signal_date": "2026-07-31",
       "rules_mode": "dashboard",
       "miner": "PAN",
@@ -224,7 +224,7 @@
       "pred_return_fwd": -0.006955749426101044
     },
     {
-      "run_ts_utc": "2026-08-03T07:23:57.049726+00:00",
+      "run_ts_utc": "2026-08-04T06:26:47.882781+00:00",
       "signal_date": "2026-07-31",
       "rules_mode": "dashboard",
       "miner": "SSW",
