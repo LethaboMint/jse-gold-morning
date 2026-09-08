@@ -1,6 +1,6 @@
 {
   "signals": {
-    "generated_at_utc": "2026-09-07T08:56:51.181767+00:00",
+    "generated_at_utc": "2026-09-08T08:37:46.650461+00:00",
     "signal_date": "2026-09-04",
     "forward_horizon_days": 1,
     "forward_horizon_label": "next JSE session (t+1)",
@@ -8,7 +8,7 @@
     "data_source": "yahoo_finance",
     "market": {
       "data_source": "yahoo_finance",
-      "fetched_at_utc": "2026-09-07T08:56:50.309853+00:00",
+      "fetched_at_utc": "2026-09-08T08:37:43.689764+00:00",
       "signal_date": "2026-09-04",
       "gold": {
         "ticker": "GC=F",
@@ -95,7 +95,7 @@
     "return_zar_t": -0.005322744211027519,
     "signals": [
       {
-        "run_ts_utc": "2026-09-07T08:56:51.181964+00:00",
+        "run_ts_utc": "2026-09-08T08:37:46.650687+00:00",
         "signal_date": "2026-09-04",
         "rules_mode": "dashboard",
         "miner": "HAR",
@@ -121,7 +121,7 @@
         "pred_return_fwd": -0.004210852411088654
       },
       {
-        "run_ts_utc": "2026-09-07T08:56:51.181964+00:00",
+        "run_ts_utc": "2026-09-08T08:37:46.650687+00:00",
         "signal_date": "2026-09-04",
         "rules_mode": "dashboard",
         "miner": "GFI",
@@ -147,7 +147,7 @@
         "pred_return_fwd": -0.0035694921018740843
       },
       {
-        "run_ts_utc": "2026-09-07T08:56:51.181964+00:00",
+        "run_ts_utc": "2026-09-08T08:37:46.650687+00:00",
         "signal_date": "2026-09-04",
         "rules_mode": "dashboard",
         "miner": "ANG",
@@ -173,7 +173,7 @@
         "pred_return_fwd": 0.00163891646631734
       },
       {
-        "run_ts_utc": "2026-09-07T08:56:51.181964+00:00",
+        "run_ts_utc": "2026-09-08T08:37:46.650687+00:00",
         "signal_date": "2026-09-04",
         "rules_mode": "dashboard",
         "miner": "DRD",
@@ -199,7 +199,7 @@
         "pred_return_fwd": -0.003618491271477819
       },
       {
-        "run_ts_utc": "2026-09-07T08:56:51.181964+00:00",
+        "run_ts_utc": "2026-09-08T08:37:46.650687+00:00",
         "signal_date": "2026-09-04",
         "rules_mode": "dashboard",
         "miner": "PAN",
@@ -225,7 +225,7 @@
         "pred_return_fwd": -0.003484848698049838
       },
       {
-        "run_ts_utc": "2026-09-07T08:56:51.181964+00:00",
+        "run_ts_utc": "2026-09-08T08:37:46.650687+00:00",
         "signal_date": "2026-09-04",
         "rules_mode": "dashboard",
         "miner": "SSW",
@@ -253,8 +253,8 @@
     ]
   },
   "audit": {
-    "audited_at_utc": "2026-09-07T08:57:02.862758+00:00",
-    "overall_hit_rate": 0.5368421052631579,
+    "audited_at_utc": "2026-09-08T08:38:05.904149+00:00",
+    "overall_hit_rate": 0.5473684210526316,
     "excluded_miners": [
       "ANG"
     ],
@@ -1611,12 +1611,12 @@
       },
       {
         "signal_date": "2026-09-04",
-        "realized_date": "2026-09-07",
+        "realized_date": "2026-09-08",
         "miner": "DRD",
         "pred_return_pct": -0.36184912714778,
-        "realized_return_pct": -2.4015577672003463,
-        "realized_day_high": 45.74,
-        "realized_day_high_pct": -1.04,
+        "realized_return_pct": -2.4231934227607055,
+        "realized_day_high": 45.18,
+        "realized_day_high_pct": -2.25,
         "price_currency": "ZAR",
         "predicted_direction": "SHORT",
         "actual_direction": "SHORT",
@@ -1626,27 +1626,27 @@
       },
       {
         "signal_date": "2026-09-04",
-        "realized_date": "2026-09-07",
+        "realized_date": "2026-09-08",
         "miner": "GFI",
         "pred_return_pct": -0.3569492101874,
-        "realized_return_pct": 0.23214867949135076,
-        "realized_day_high": 774.16,
-        "realized_day_high_pct": 0.97,
+        "realized_return_pct": -1.133355070101072,
+        "realized_day_high": 772.03,
+        "realized_day_high_pct": 0.69,
         "price_currency": "ZAR",
         "predicted_direction": "SHORT",
-        "actual_direction": "LONG",
+        "actual_direction": "SHORT",
         "predicted_direction_hiconv": "FLAT",
-        "direction_match": 0.0,
+        "direction_match": 1.0,
         "hit_high_conv": null
       },
       {
         "signal_date": "2026-09-04",
-        "realized_date": "2026-09-07",
+        "realized_date": "2026-09-08",
         "miner": "HAR",
         "pred_return_pct": -0.42108524110886,
-        "realized_return_pct": -0.2530864197530902,
-        "realized_day_high": 325.42,
-        "realized_day_high_pct": 0.44,
+        "realized_return_pct": -1.3919753086419795,
+        "realized_day_high": 325.55,
+        "realized_day_high_pct": 0.48,
         "price_currency": "ZAR",
         "predicted_direction": "SHORT",
         "actual_direction": "SHORT",
@@ -1656,12 +1656,12 @@
       },
       {
         "signal_date": "2026-09-04",
-        "realized_date": "2026-09-07",
+        "realized_date": "2026-09-08",
         "miner": "PAN",
         "pred_return_pct": -0.34848486980498,
-        "realized_return_pct": -0.8460236886632777,
-        "realized_day_high": 29.48,
-        "realized_day_high_pct": -0.24,
+        "realized_return_pct": -0.9137055837563413,
+        "realized_day_high": 29.79,
+        "realized_day_high_pct": 0.81,
         "price_currency": "ZAR",
         "predicted_direction": "SHORT",
         "actual_direction": "SHORT",
@@ -1671,12 +1671,12 @@
       },
       {
         "signal_date": "2026-09-04",
-        "realized_date": "2026-09-07",
+        "realized_date": "2026-09-08",
         "miner": "SSW",
         "pred_return_pct": -0.45502503131527006,
-        "realized_return_pct": 1.157407407407418,
-        "realized_day_high": 52.77,
-        "realized_day_high_pct": 1.79,
+        "realized_return_pct": 0.36651234567901536,
+        "realized_day_high": 53.32,
+        "realized_day_high_pct": 2.85,
         "price_currency": "ZAR",
         "predicted_direction": "SHORT",
         "actual_direction": "LONG",
@@ -1687,7 +1687,7 @@
     ]
   },
   "performance": {
-    "audited_at_utc": "2026-09-07T08:57:02.862758+00:00",
+    "audited_at_utc": "2026-09-08T08:38:05.904149+00:00",
     "excluded_miners": [
       "ANG"
     ],
@@ -1730,7 +1730,7 @@
         "signal_date": "2026-08-10",
         "n": 5,
         "hits": 2.0,
-        "mae_pct": 1.5203567891497562,
+        "mae_pct": 1.5203567891497565,
         "avg_pred_pct": 0.190166856050048,
         "avg_real_pct": 0.3941577212757008,
         "hit_rate": 0.4,
@@ -2001,24 +2001,24 @@
       {
         "signal_date": "2026-09-04",
         "n": 5,
-        "hits": 3.0,
-        "mae_pct": 0.9813553217336144,
+        "hits": 4.0,
+        "mae_pct": 1.0390796628010728,
         "avg_pred_pct": -0.388678695912858,
-        "avg_real_pct": -0.42222235774358907,
-        "hit_rate": 0.6,
+        "avg_real_pct": -1.0991434079162166,
+        "hit_rate": 0.8,
         "gold_pct": -1.39,
         "gdx_pct": -2.22,
         "hiconv_n": null,
         "hiconv_hits": null,
         "hiconv_hit_rate": null,
         "cumulative_n": 95,
-        "cumulative_hits": 51.0,
-        "cumulative_hit_rate": 0.5368
+        "cumulative_hits": 52.0,
+        "cumulative_hit_rate": 0.5474
       }
     ],
     "cumulative": {
       "n": 95,
-      "hit_rate": 0.5368
+      "hit_rate": 0.5474
     },
     "by_miner": [
       {
@@ -2026,35 +2026,35 @@
         "n": 19,
         "hits": 11.0,
         "hit_rate": 0.5789,
-        "mae_pct": 2.4581
+        "mae_pct": 2.4593
       },
       {
         "miner": "GFI",
         "n": 19,
-        "hits": 10.0,
-        "hit_rate": 0.5263,
-        "mae_pct": 2.3942
+        "hits": 11.0,
+        "hit_rate": 0.5789,
+        "mae_pct": 2.404
       },
       {
         "miner": "HAR",
         "n": 19,
         "hits": 8.0,
         "hit_rate": 0.4211,
-        "mae_pct": 2.7914
+        "mae_pct": 2.8337
       },
       {
         "miner": "PAN",
         "n": 19,
         "hits": 15.0,
         "hit_rate": 0.7895,
-        "mae_pct": 2.9954
+        "mae_pct": 2.999
       },
       {
         "miner": "SSW",
         "n": 19,
         "hits": 7.0,
         "hit_rate": 0.3684,
-        "mae_pct": 3.0056
+        "mae_pct": 2.9639
       }
     ],
     "forward_horizon_days": 1,

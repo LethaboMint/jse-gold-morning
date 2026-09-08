@@ -1,5 +1,5 @@
 {
-  "audited_at_utc": "2026-09-07T08:57:02.862758+00:00",
+  "audited_at_utc": "2026-09-08T08:38:05.904149+00:00",
   "excluded_miners": [
     "ANG"
   ],
@@ -42,7 +42,7 @@
       "signal_date": "2026-08-10",
       "n": 5,
       "hits": 2.0,
-      "mae_pct": 1.5203567891497562,
+      "mae_pct": 1.5203567891497565,
       "avg_pred_pct": 0.190166856050048,
       "avg_real_pct": 0.3941577212757008,
       "hit_rate": 0.4,
@@ -313,24 +313,24 @@
     {
       "signal_date": "2026-09-04",
       "n": 5,
-      "hits": 3.0,
-      "mae_pct": 0.9813553217336144,
+      "hits": 4.0,
+      "mae_pct": 1.0390796628010728,
       "avg_pred_pct": -0.388678695912858,
-      "avg_real_pct": -0.42222235774358907,
-      "hit_rate": 0.6,
+      "avg_real_pct": -1.0991434079162166,
+      "hit_rate": 0.8,
       "gold_pct": -1.39,
       "gdx_pct": -2.22,
       "hiconv_n": null,
       "hiconv_hits": null,
       "hiconv_hit_rate": null,
       "cumulative_n": 95,
-      "cumulative_hits": 51.0,
-      "cumulative_hit_rate": 0.5368
+      "cumulative_hits": 52.0,
+      "cumulative_hit_rate": 0.5474
     }
   ],
   "cumulative": {
     "n": 95,
-    "hit_rate": 0.5368
+    "hit_rate": 0.5474
   },
   "by_miner": [
     {
@@ -338,35 +338,35 @@
       "n": 19,
       "hits": 11.0,
       "hit_rate": 0.5789,
-      "mae_pct": 2.4581
+      "mae_pct": 2.4593
     },
     {
       "miner": "GFI",
       "n": 19,
-      "hits": 10.0,
-      "hit_rate": 0.5263,
-      "mae_pct": 2.3942
+      "hits": 11.0,
+      "hit_rate": 0.5789,
+      "mae_pct": 2.404
     },
     {
       "miner": "HAR",
       "n": 19,
       "hits": 8.0,
       "hit_rate": 0.4211,
-      "mae_pct": 2.7914
+      "mae_pct": 2.8337
     },
     {
       "miner": "PAN",
       "n": 19,
       "hits": 15.0,
       "hit_rate": 0.7895,
-      "mae_pct": 2.9954
+      "mae_pct": 2.999
     },
     {
       "miner": "SSW",
       "n": 19,
       "hits": 7.0,
       "hit_rate": 0.3684,
-      "mae_pct": 3.0056
+      "mae_pct": 2.9639
     }
   ],
   "forward_horizon_days": 1,
