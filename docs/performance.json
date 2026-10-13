@@ -1,5 +1,5 @@
 {
-  "audited_at_utc": "2026-10-12T11:40:43.385709+00:00",
+  "audited_at_utc": "2026-10-13T11:26:17.170747+00:00",
   "excluded_miners": [
     "ANG"
   ],
@@ -42,7 +42,7 @@
       "signal_date": "2026-09-14",
       "n": 5,
       "hits": 5.0,
-      "mae_pct": 0.31946642577185586,
+      "mae_pct": 0.3194664257718559,
       "avg_pred_pct": -0.88133360145874,
       "avg_real_pct": -0.7997994606352177,
       "hit_rate": 1.0,
@@ -76,7 +76,7 @@
       "signal_date": "2026-09-16",
       "n": 5,
       "hits": 0.0,
-      "mae_pct": 3.1967873045287756,
+      "mae_pct": 3.196787304528775,
       "avg_pred_pct": -1.257785052296968,
       "avg_real_pct": 1.9390022522318073,
       "hit_rate": 0.0,
@@ -330,60 +330,60 @@
     {
       "signal_date": "2026-10-09",
       "n": 5,
-      "hits": 0.0,
-      "mae_pct": 1.3988122721226481,
+      "hits": 5.0,
+      "mae_pct": 1.228324536798261,
       "avg_pred_pct": 0.885403002445354,
-      "avg_real_pct": -0.5134092696772941,
-      "hit_rate": 0.0,
+      "avg_real_pct": 2.113727539243615,
+      "hit_rate": 1.0,
       "gold_pct": 1.42,
       "gdx_pct": 2.91,
       "hiconv_n": 5.0,
-      "hiconv_hits": 0.0,
-      "hiconv_hit_rate": 0.0,
+      "hiconv_hits": 5.0,
+      "hiconv_hit_rate": 1.0,
       "cumulative_n": 100,
-      "cumulative_hits": 48.0,
-      "cumulative_hit_rate": 0.48
+      "cumulative_hits": 53.0,
+      "cumulative_hit_rate": 0.53
     }
   ],
   "cumulative": {
     "n": 100,
-    "hit_rate": 0.48
+    "hit_rate": 0.53
   },
   "by_miner": [
     {
       "miner": "DRD",
       "n": 20,
-      "hits": 11.0,
-      "hit_rate": 0.55,
-      "mae_pct": 1.6875
+      "hits": 12.0,
+      "hit_rate": 0.6,
+      "mae_pct": 1.6753
     },
     {
       "miner": "GFI",
       "n": 20,
-      "hits": 9.0,
-      "hit_rate": 0.45,
-      "mae_pct": 2.0942
+      "hits": 10.0,
+      "hit_rate": 0.5,
+      "mae_pct": 2.0918
     },
     {
       "miner": "HAR",
       "n": 20,
-      "hits": 10.0,
-      "hit_rate": 0.5,
-      "mae_pct": 2.2283
+      "hits": 11.0,
+      "hit_rate": 0.55,
+      "mae_pct": 2.2097
     },
     {
       "miner": "PAN",
       "n": 20,
-      "hits": 9.0,
-      "hit_rate": 0.45,
-      "mae_pct": 2.3294
+      "hits": 10.0,
+      "hit_rate": 0.5,
+      "mae_pct": 2.3112
     },
     {
       "miner": "SSW",
       "n": 20,
-      "hits": 9.0,
-      "hit_rate": 0.45,
-      "mae_pct": 1.8594
+      "hits": 10.0,
+      "hit_rate": 0.5,
+      "mae_pct": 1.8683
     }
   ],
   "forward_horizon_days": 1,
