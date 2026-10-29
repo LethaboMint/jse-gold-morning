@@ -1,5 +1,5 @@
 {
-  "audited_at_utc": "2026-10-28T10:21:59.187276+00:00",
+  "audited_at_utc": "2026-10-29T10:43:16.944941+00:00",
   "excluded_miners": [
     "ANG"
   ],
@@ -42,8 +42,8 @@
       "signal_date": "2026-10-01",
       "n": 5,
       "hits": 4.0,
-      "mae_pct": 0.24640051608209848,
-      "avg_pred_pct": -0.7214052321653599,
+      "mae_pct": 0.2464005160820985,
+      "avg_pred_pct": -0.72140523216536,
       "avg_real_pct": -0.5658128645349048,
       "hit_rate": 0.8,
       "gold_pct": 0.37,
@@ -77,7 +77,7 @@
       "n": 5,
       "hits": 3.0,
       "mae_pct": 0.6714673647134506,
-      "avg_pred_pct": -0.06894623576058201,
+      "avg_pred_pct": -0.06894623576058198,
       "avg_real_pct": -0.6802049325856885,
       "hit_rate": 0.6,
       "gold_pct": -0.13,
@@ -93,7 +93,7 @@
       "signal_date": "2026-10-06",
       "n": 5,
       "hits": 0.0,
-      "mae_pct": 2.9195391817867775,
+      "mae_pct": 2.919539181786778,
       "avg_pred_pct": 0.195495991194582,
       "avg_real_pct": -2.7240431905921954,
       "hit_rate": 0.0,
@@ -144,7 +144,7 @@
       "signal_date": "2026-10-09",
       "n": 4,
       "hits": 0.0,
-      "mae_pct": 1.2820469201319349,
+      "mae_pct": 1.282046920131935,
       "avg_pred_pct": 0.8854030024453541,
       "avg_real_pct": -0.396643917686581,
       "hit_rate": 0.0,
@@ -212,9 +212,9 @@
       "signal_date": "2026-10-16",
       "n": 5,
       "hits": 0.0,
-      "mae_pct": 3.571985912208656,
+      "mae_pct": 3.571985912208657,
       "avg_pred_pct": 0.355364483744242,
-      "avg_real_pct": -3.216621428464414,
+      "avg_real_pct": -3.216621428464415,
       "hit_rate": 0.0,
       "gold_pct": 0.26,
       "gdx_pct": 0.79,
@@ -330,60 +330,77 @@
     {
       "signal_date": "2026-10-27",
       "n": 5,
-      "hits": 4.0,
-      "mae_pct": 0.7841006313809785,
-      "avg_pred_pct": 0.9964973606825881,
-      "avg_real_pct": 0.39395051866361275,
-      "hit_rate": 0.8,
+      "hits": 2.0,
+      "mae_pct": 1.4808495068322216,
+      "avg_pred_pct": 0.9964973606825882,
+      "avg_real_pct": -0.2045424000202556,
+      "hit_rate": 0.4,
       "gold_pct": 0.89,
       "gdx_pct": 2.64,
       "hiconv_n": 5.0,
-      "hiconv_hits": 4.0,
-      "hiconv_hit_rate": 0.8,
+      "hiconv_hits": 2.0,
+      "hiconv_hit_rate": 0.4,
       "cumulative_n": 99,
-      "cumulative_hits": 48.0,
-      "cumulative_hit_rate": 0.4848
+      "cumulative_hits": 46.0,
+      "cumulative_hit_rate": 0.4646
+    },
+    {
+      "signal_date": "2026-10-28",
+      "n": 5,
+      "hits": 5.0,
+      "mae_pct": 0.9293430850603661,
+      "avg_pred_pct": 0.8126590878152404,
+      "avg_real_pct": 0.8460346874078617,
+      "hit_rate": 1.0,
+      "gold_pct": -0.57,
+      "gdx_pct": 0.91,
+      "hiconv_n": 4.0,
+      "hiconv_hits": 4.0,
+      "hiconv_hit_rate": 1.0,
+      "cumulative_n": 104,
+      "cumulative_hits": 51.0,
+      "cumulative_hit_rate": 0.4904
     }
   ],
   "cumulative": {
-    "n": 99,
-    "hit_rate": 0.4848
+    "n": 104,
+    "hit_rate": 0.4904
   },
   "by_miner": [
     {
       "miner": "DRD",
-      "n": 19,
-      "hits": 11.0,
-      "hit_rate": 0.5789,
-      "mae_pct": 1.6333
+      "n": 20,
+      "hits": 12.0,
+      "hit_rate": 0.6,
+      "mae_pct": 1.5946
     },
     {
       "miner": "GFI",
-      "n": 20,
-      "hits": 9.0,
-      "hit_rate": 0.45,
-      "mae_pct": 1.6068
+      "n": 21,
+      "hits": 11.0,
+      "hit_rate": 0.5238,
+      "mae_pct": 1.5495
     },
     {
       "miner": "HAR",
-      "n": 20,
+      "n": 21,
       "hits": 10.0,
-      "hit_rate": 0.5,
-      "mae_pct": 1.7132
+      "hit_rate": 0.4762,
+      "mae_pct": 1.7403
     },
     {
       "miner": "PAN",
-      "n": 20,
+      "n": 21,
       "hits": 8.0,
-      "hit_rate": 0.4,
-      "mae_pct": 1.6253
+      "hit_rate": 0.381,
+      "mae_pct": 1.6338
     },
     {
       "miner": "SSW",
-      "n": 20,
+      "n": 21,
       "hits": 10.0,
-      "hit_rate": 0.5,
-      "mae_pct": 1.9041
+      "hit_rate": 0.4762,
+      "mae_pct": 1.9478
     }
   ],
   "forward_horizon_days": 1,
